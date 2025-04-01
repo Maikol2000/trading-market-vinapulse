@@ -1,0 +1,57 @@
+.tickers-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.tickers-table th,
+.tickers-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tickers-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+.tickers-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.remove-button {
+  padding: 5px 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #d32f2f;
+}
+
+.positive {
+  color: #4CAF50;
+}
+
+.negative {
+  color: #f44336;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #888;
+}
+
+@media (max-width: 768px) {
+  .tickers-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

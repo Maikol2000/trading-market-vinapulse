@@ -1,0 +1,42 @@
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-white border border-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th
+          *ngFor="let column of columns"
+          [ngClass]="{ 'cursor-pointer hover:bg-gray-100': column.sortable }"
+          (click)="onSort(column)"
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
+          <div class="flex items-center space-x-1">
+            <span>{{ column.label }}</span>
+            <span *ngIf="column.sortable" class="text-gray-400">
+              {{ getSortIcon(column) }}
+            </span>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <tr
+        *ngFor="let row of data"
+        class="hover:bg-gray-50 transition-colors duration-150"
+      >
+        <td
+          *ngFor="let column of columns"
+          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+        >
+          {{ row[column.key] }}
+        </td>
+      </tr>
+      <tr *ngIf="data.length === 0">
+        <td
+          [attr.colspan]="columns.length"
+          class="px-6 py-4 text-center text-sm text-gray-500"
+        >
+          No data available
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

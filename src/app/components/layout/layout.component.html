@@ -1,0 +1,16 @@
+<div class="min-h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <app-side-bar [class.collapsed]="isSidebarCollapsed"></app-side-bar>
+
+  <!-- Main Content -->
+  <main class="transition-all duration-300 ease-in-out ml-64">
+    <!-- Top Navigation Bar -->
+    <app-topbar></app-topbar>
+    <!-- Page Content -->
+    <div class="py-6">
+      <div class="max-w-7xl p-4 sm:p-6 lg:px-8">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </main>
+</div>

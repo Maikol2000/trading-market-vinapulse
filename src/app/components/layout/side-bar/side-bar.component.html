@@ -1,0 +1,36 @@
+<div class="h-screen w-64 bg-white shadow-lg fixed left-0 top-0">
+  <!-- Logo Section -->
+  <div class="flex items-center justify-center h-16 border-b">
+    <h1 class="text-xl font-bold text-blue-500">Your Logo</h1>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="mt-6">
+    <div class="px-4 space-y-2">
+      <ng-container *ngFor="let item of menuItems">
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="bg-blue-500 text-white"
+          class="flex items-center px-4 py-3 text-gray-600 transition-colors duration-200 hover:bg-blue-500 hover:text-white rounded-lg"
+        >
+          <!-- <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              [attr.d]="getIconPath(item.icon)"
+            ></path>
+          </svg> -->
+          <fa-icon [icon]="item.icon"></fa-icon>
+          <span class="mx-4 text-sm font-medium">{{ item.label }}</span>
+        </a>
+      </ng-container>
+    </div>
+  </nav>
+</div>
