@@ -21,8 +21,12 @@ import {
 export class SideBarComponent {
   menuItems = [
     { icon: faHome, label: 'Trang chủ', route: AppRouter.Dashboard.Home },
-    { icon: faUser, label: "Tỉ giá Cchứng khoáng", route: '/products' },
-    { icon: faUser, label: 'Tỉ giá Coin', route: '/customers' },
+    { icon: faUser, label: 'Tỉ giá Cchứng khoáng', route: '/products' },
+    {
+      icon: faUser,
+      label: 'Tỉ giá Coin',
+      route: AppRouter.Dashboard.TradeMarket('usd'),
+    },
     { icon: faUser, label: 'Thông tin chi tiết', route: '/customers' },
     { icon: faUser, label: 'Vào lệnh', route: '/customers' },
     { icon: faUser, label: 'AI dự đoán', route: '/customers' },

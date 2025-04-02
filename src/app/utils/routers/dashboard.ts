@@ -2,7 +2,7 @@ export class dashboardRoute {
   //layout
   Layout = 'app';
   layoutComponent = () =>
-    import('@app/components/layout/layout.component').then(
+    import('@app/layout/layout/layout.component').then(
       (m) => m.LayoutComponent
     );
 
@@ -13,5 +13,11 @@ export class dashboardRoute {
       (m) => m.HomeComponent
     );
 
-  //
+  //trade market
+  TradeMarket = (instId: string) =>
+    this.Layout + `/trade-market/${instId ? instId : ':instId'}`;
+  tradeMarketComponent = () =>
+    import('@app/pages/dashboard/trade-market/trade-market.component').then(
+      (m) => m.TradeMarketComponent
+    );
 }

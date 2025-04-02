@@ -2,7 +2,7 @@ export class authRoute {
   //auth
   AuthLayout = 'auth';
   authLayoutComponent = () =>
-    import('@app/components/auth-layout/auth-layout.component').then(
+    import('@app/layout/auth-layout/auth-layout.component').then(
       (m) => m.AuthLayoutComponent
     );
 

@@ -1,0 +1,108 @@
+<div class="w-full">
+  <div class="overflow-x-auto">
+    <table
+      class="min-w-full bg-white border border-gray-200 shadow-md rounded-lg"
+    >
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-2 text-left text-gray-700 font-medium border-b">
+            Mã
+          </th>
+          <th class="px-4 py-2 text-right text-gray-700 font-medium border-b">
+            Trần
+          </th>
+          <th class="px-4 py-2 text-right text-gray-700 font-medium border-b">
+            Sàn
+          </th>
+          <th
+            class="px-4 py-2 text-center text-gray-700 font-medium border-b"
+            colspan="2"
+          >
+            Mua
+          </th>
+          <th
+            class="px-4 py-2 text-center text-gray-700 font-medium border-b"
+            colspan="2"
+          >
+            Bán
+          </th>
+          <th
+            class="px-4 py-2 text-center text-gray-700 font-medium border-b"
+            colspan="2"
+          >
+            Khớp lệnh
+          </th>
+        </tr>
+        <tr class="bg-gray-50">
+          <th class="px-4 py-1 border-b"></th>
+          <th class="px-4 py-1 border-b"></th>
+          <th class="px-4 py-1 border-b"></th>
+          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
+            Giá
+          </th>
+          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
+            KL
+          </th>
+          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
+            Giá
+          </th>
+          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
+            KL
+          </th>
+          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
+            Giá
+          </th>
+          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
+            KL
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let currencyCrypto of currenciesSignal()"
+          class="hover:bg-gray-50 transition-colors duration-150 ease-in-out cursor-pointer"
+          (click)="redirectToDetail(currencyCrypto.symbol)"
+        >
+          <td class="px-4 py-2 border-b font-medium">
+            {{ currencyCrypto.symbol }}
+          </td>
+          <td class="px-4 py-2 border-b text-right">
+            {{
+              formatNumber(currencyCrypto.ceiling)
+            }}
+          </td>
+          <td class="px-4 py-2 border-b text-right">
+            {{ formatNumber(currencyCrypto.floor) }}
+          </td>
+
+          <!-- Buy trade -->
+          <td class="px-2 py-2 border-b text-right font-medium">
+            {{ formatNumber(currencyCrypto.buyTrade.price) }}
+          </td>
+          <td class="px-2 py-2 border-b text-right">
+            {{ formatNumber(currencyCrypto.buyTrade.volume) }}
+          </td>
+
+          <!-- Sell trade -->
+          <td class="px-2 py-2 border-b text-right font-medium">
+            {{ formatNumber(currencyCrypto.sellTrade.price) }}
+          </td>
+          <td class="px-2 py-2 border-b text-right">
+            {{ formatNumber(currencyCrypto.sellTrade.volume) }}
+          </td>
+
+          <!-- Matched trade -->
+          <td class="px-2 py-2 border-b text-right font-medium">
+            {{ formatNumber(currencyCrypto.matchedTrade.price) }}
+          </td>
+          <td class="px-2 py-2 border-b text-right">
+            {{ formatNumber(currencyCrypto.matchedTrade.volume) }}
+          </td>
+        </tr>
+        <tr *ngIf="currenciesSignal().length === 0">
+          <td colspan="7" class="text-center font-bold">Không có dữ liệu</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

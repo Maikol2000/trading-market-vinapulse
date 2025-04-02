@@ -33,11 +33,15 @@ export const routes: Routes = [
         loadComponent: AppRouter.Dashboard.homeComponent,
         // canActivate: [AuthGuard],
       },
+      {
+        path: AppRouter.Dashboard.TradeMarket(''),
+        loadComponent: AppRouter.Dashboard.tradeMarketComponent,
+      },
     ],
   },
   {
     path: '**',
     redirectTo: AppRouter.Dashboard.Home,
-    pathMatch: "full"
-  }
+    pathMatch: 'full',
+  },
 ];

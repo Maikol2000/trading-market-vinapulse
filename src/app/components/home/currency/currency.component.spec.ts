@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OkxComponent } from './okx.component';
+import { CurrencyComponent } from './currency.component';
 
-describe('OkxComponent', () => {
-  let component: OkxComponent;
-  let fixture: ComponentFixture<OkxComponent>;
+describe('CurrencyComponent', () => {
+  let component: CurrencyComponent;
+  let fixture: ComponentFixture<CurrencyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OkxComponent]
+      imports: [CurrencyComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(OkxComponent);
+    fixture = TestBed.createComponent(CurrencyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

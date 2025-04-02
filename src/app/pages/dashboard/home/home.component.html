@@ -1,35 +1,4 @@
 <div class="container mx-auto p-4">
-  <table class="tickers-table">
-    <thead>
-      <tr>
-        <th *ngFor="let h of headerTable">{{ h.label }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let ticker of tickers"
-        [ngClass]="{
-          positive: getPriceChangePercent(ticker) > 0,
-          negative: getPriceChangePercent(ticker) < 0
-        }"
-      >
-        <td>{{ ticker.instId }}</td>
-        <td>{{ ticker.last }}</td>
-        <td
-          [ngClass]="{
-            positive: getPriceChangePercent(ticker) > 0,
-            negative: getPriceChangePercent(ticker) < 0
-          }"
-        >
-          {{ getPriceChangePercent(ticker).toFixed(2) }}%
-        </td>
-        <td>{{ ticker.high24h }}</td>
-        <td>{{ ticker.low24h }}</td>
-        <td>{{ ticker.vol24h }}</td>
-      </tr>
-      <tr *ngIf="tickers.length === 0">
-        <td colspan="7" class="no-data">Không có dữ liệu</td>
-      </tr>
-    </tbody>
-  </table>
+  <h2 class="text-2xl font-bold mb-4">Dữ liệu giao dịch tiền điện tử</h2>
+  <app-currency></app-currency>
 </div>
