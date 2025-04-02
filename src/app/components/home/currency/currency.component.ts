@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { OKXCurrencyService } from '@app/core/services/oks-currency.service';
-import { ICurrencyData } from '@app/type/currency';
+import { ICurrencyData } from '@app/core/models';
+import { OKXCurrencyService } from '@app/core/services';
 import { AppRouter } from '@app/utils/routers';
 import { debounceTime, Subscription } from 'rxjs';
 

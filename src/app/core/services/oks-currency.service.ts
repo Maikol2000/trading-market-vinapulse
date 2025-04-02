@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ICurrencyData } from '@app/type/currency';
-import { WSMessage } from '@app/type/ws-message';
+import { ICurrencyData } from '@app/core/models';
+import { WSMessage } from '@app/core/models/ws-message';
 import { environment } from '@env/environment';
 import { BehaviorSubject } from 'rxjs';
 
@@ -8,13 +8,12 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class OKXCurrencyService {
-  private wsUrl = environment.wsUrl;
+  private wsUrl = environment.wsUrl + '/public';
 
   private socket: WebSocket | null = null;
   private currenciesSubject = new BehaviorSubject<ICurrencyData[]>([]);
 
   private readonly pingInterval = 30000; // 30 giây
-  private timer: any;
 
   currencies$ = this.currenciesSubject.asObservable();
 
@@ -136,10 +135,6 @@ export class OKXCurrencyService {
     if (this.socket) {
       this.socket.close();
       this.socket = null;
-    }
-    if (this.timer) {
-      clearInterval(this.timer);
-      this.timer = null;
     }
   }
 }

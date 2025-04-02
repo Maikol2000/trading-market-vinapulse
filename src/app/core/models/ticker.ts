@@ -1,4 +1,4 @@
-export interface IOkxTicker {
+export interface IOKXTicker {
   instId: string;
   last: string;
   lastSz: string;
@@ -11,7 +11,7 @@ export interface IOkxTicker {
   low24h: string;
   volCcy24h: string;
   vol24h: string;
+  ts: string;
   sodUtc0: string;
   sodUtc8: string;
-  ts: string;
 }
