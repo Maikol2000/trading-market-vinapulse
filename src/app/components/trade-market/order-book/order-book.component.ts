@@ -1,6 +1,6 @@
 // order-book.component.ts
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   ApexAxisChartSeries,
@@ -17,10 +17,11 @@ import {
 } from 'ng-apexcharts';
 
 import { IOrderBook } from '@app/core/models';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
 import { OrderBookService } from '@app/core/services/order-book.service';
+import { Router } from '@angular/router';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -42,14 +43,23 @@ export type ChartOptions = {
 })
 export class OrderBookComponent implements OnInit {
   public orderBook: IOrderBook | null = null;
-  public selectedSymbol = 'BTC-USDT';
   public chartOptions: Partial<ApexOptions> | null = null;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private orderBookService: OrderBookService) {}
+  public symbol = signal<string>('BTC-USDT');
+
+  private subscription = new Subscription();
+
+  constructor(
+    private orderBookService: OrderBookService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    const path = this.router.url.split('/');
+    this.symbol.set(path[path.length - 1]);
+
     this.orderBookService.orderBook$
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
@@ -59,20 +69,13 @@ export class OrderBookComponent implements OnInit {
         }
       });
 
-    this.orderBookService.startStreaming(this.selectedSymbol);
+    this.orderBookService.startStreaming(this.symbol());
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
     this.orderBookService.stopStreaming();
-  }
-
-  changeSymbol(symbol: string): void {
-    if (this.selectedSymbol !== symbol) {
-      this.selectedSymbol = symbol;
-      this.orderBookService.changeSymbol(symbol);
-    }
   }
 
   private updateChart(): void {

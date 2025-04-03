@@ -77,7 +77,7 @@ export class FinancialChartComponent {
   };
 
   public series = signal<ICandleData[]>([]);
-  public instId = signal<string>('BTC-USDT');
+  public symbol = signal<string>('BTC-USDT');
 
   private subscription: Subscription | null = null;
 
@@ -99,9 +99,9 @@ export class FinancialChartComponent {
 
   ngOnInit(): void {
     const path = this.router.url.split('/');
-    this.instId.set(path[path.length - 1]);
+    this.symbol.set(path[path.length - 1]);
 
-    this.candlestickService.connectWebSocket(this.instId(), 'candle1m');
+    this.candlestickService.connectWebSocket(this.symbol(), 'candle1m');
     this.candlestickService.setTimer(500);
 
     this.subscription = this.candlestickService.series$.subscribe((data) => {
@@ -126,7 +126,7 @@ export class FinancialChartComponent {
 
   getHistoryCandles() {
     this.candlestickService
-      .getHistoryCandles(this.instId())
+      .getHistoryCandles(this.symbol())
       .subscribe((data) => {
         this.series.update((s) => [...s, ...(data ?? [])]);
       });

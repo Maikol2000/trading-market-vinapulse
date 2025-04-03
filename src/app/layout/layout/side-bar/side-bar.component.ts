@@ -3,14 +3,10 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AppRouter } from '@app/utils/routers';
 import {
-  FontAwesomeModule,
   FaIconLibrary,
+  FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
-import {
-  faHome,
-  faUser,
-  faProcedures,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-side-bar',
@@ -25,7 +21,7 @@ export class SideBarComponent {
     {
       icon: faUser,
       label: 'Tỉ giá Coin',
-      route: AppRouter.Dashboard.TradeMarket('usd'),
+      route: AppRouter.Dashboard.TradeMarket('BTC-USDT'),
     },
     { icon: faUser, label: 'Thông tin chi tiết', route: '/customers' },
     { icon: faUser, label: 'Vào lệnh', route: '/customers' },

@@ -22,7 +22,7 @@ export class CandlestickService {
   constructor(private okxService: ApiOKSService) {}
 
   // socket
-  connectWebSocket(instId?: string, timeframe?: subscribeChannelsCandleType) {
+  connectWebSocket(symbol?: string, timeframe?: subscribeChannelsCandleType) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       return;
     }
@@ -30,7 +30,7 @@ export class CandlestickService {
     this.socket = new WebSocket(this.wsUrl);
 
     this.socket.onopen = () => {
-      this.subscribeToCandlestick(instId, timeframe);
+      this.subscribeToCandlestick(symbol, timeframe);
     };
 
     this.socket.onmessage = (event) => {

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { BehaviorSubject, Observable, timer } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
+import { map, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { IOrderBook, OrderBookLevel } from '../models';
 
 @Injectable({
@@ -13,11 +13,18 @@ export class OrderBookService {
   private readonly MAX_LEVELS = 10; // Number of price levels to display
   private readonly REFRESH_INTERVAL = 5000; // Refresh every second
 
-  private orderBookSubject = new BehaviorSubject<IOrderBook | null>(null);
-  public orderBook$ = this.orderBookSubject.asObservable();
+  private destroy$ = new Subject<void>();
+
+  public orderBookSubject = new BehaviorSubject<IOrderBook | null>(null);
 
   private currentSymbol = 'BTC-USDT';
   private isStreamingActive = false;
+
+  private timeoutId!: ReturnType<typeof setTimeout>;
+
+  public get orderBook$(): Observable<IOrderBook | null> {
+    return this.orderBookSubject.asObservable();
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -28,20 +35,59 @@ export class OrderBookService {
 
     this.currentSymbol = symbol;
     this.isStreamingActive = true;
+    this.pollOrderBook();
+  }
 
-    // Setup polling with RxJS timer
-    timer(0, this.REFRESH_INTERVAL)
-      .pipe(
-        switchMap(() => this.fetchOrderBook(this.currentSymbol)),
-        tap((orderBook) => this.orderBookSubject.next(orderBook)),
-        shareReplay(1)
-      )
-      .subscribe();
+  // public startStreaming(symbol: string = 'BTC-USDT'): void {
+  //   if (this.isStreamingActive) {
+  //     this.stopStreaming();
+  //   }
+
+  //   this.currentSymbol = symbol;
+  //   this.isStreamingActive = true;
+
+  //   timer(0, this.REFRESH_INTERVAL)
+  //     .pipe(
+  //       takeUntil(this.destroy$),
+  //       switchMap(() => this.fetchOrderBook(this.currentSymbol)),
+  //       tap((orderBook) => this.orderBookSubject.next(orderBook)),
+  //       shareReplay(1)
+  //     )
+  //     .subscribe();
+  // }
+
+  private pollOrderBook(): void {
+    if (!this.isStreamingActive) return;
+
+    this.fetchOrderBook(this.currentSymbol)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (orderBook) => {
+          this.orderBookSubject.next(orderBook);
+          this.timeoutId = setTimeout(
+            () => this.pollOrderBook(),
+            this.REFRESH_INTERVAL
+          );
+        },
+        error: (error) => {
+          console.error('Error fetching order book:', error);
+          this.timeoutId = setTimeout(
+            () => this.pollOrderBook(),
+            this.REFRESH_INTERVAL
+          );
+        },
+      });
   }
 
   public stopStreaming(): void {
     this.isStreamingActive = false;
-    // No need to unsubscribe as we're not storing the subscription
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+    this.destroy$.next();
+    this.destroy$.complete();
+    // Don't unsubscribe from BehaviorSubject, just complete it if needed
+    // this.orderBookSubject.complete();
   }
 
   public changeSymbol(symbol: string): void {
