@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NagativeValuesComponent } from './nagative-values.component';
+import { TraddingVolumeComponent } from './tradding-volume.component';
 
-describe('NagativeValuesComponent', () => {
-  let component: NagativeValuesComponent;
-  let fixture: ComponentFixture<NagativeValuesComponent>;
+describe('TraddingVolumeComponent', () => {
+  let component: TraddingVolumeComponent;
+  let fixture: ComponentFixture<TraddingVolumeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NagativeValuesComponent]
+      imports: [TraddingVolumeComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NagativeValuesComponent);
+    fixture = TestBed.createComponent(TraddingVolumeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

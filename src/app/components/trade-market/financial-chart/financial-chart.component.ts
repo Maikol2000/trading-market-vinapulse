@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, signal, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ICandleData } from '@app/core/models/candle';
 import { CandlestickService } from '@app/core/services';
 import {
@@ -12,10 +13,16 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { Subscription } from 'rxjs';
+import { TraddingVolumeComponent } from './tradding-volume/tradding-volume.component';
 
 @Component({
   selector: 'app-financial-chart',
-  imports: [CommonModule, NgApexchartsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    NgApexchartsModule,
+    ReactiveFormsModule,
+    TraddingVolumeComponent,
+  ],
   templateUrl: './financial-chart.component.html',
   styleUrl: './financial-chart.component.scss',
 })
@@ -43,15 +50,16 @@ export class FinancialChartComponent {
       type: 'candlestick',
       height: 400,
       toolbar: {
-        autoSelected: 'pan',
         show: false,
       },
       zoom: {
         autoScaleYaxis: false,
+        enabled: false,
       },
       animations: {
         enabled: false,
       },
+      redrawOnParentResize: true,
     },
     xaxis: {
       type: 'datetime',
@@ -69,20 +77,31 @@ export class FinancialChartComponent {
   };
 
   public series = signal<ICandleData[]>([]);
+  public instId = signal<string>('BTC-USDT');
 
   private subscription: Subscription | null = null;
 
-  constructor(private candlestickService: CandlestickService) {
+  constructor(
+    private candlestickService: CandlestickService,
+    private router: Router
+  ) {
     this.getHistoryCandles();
     effect(() => {
       if (this.series().length > 0) {
-        this.chart.updateSeries([{ data: this.series() }]);
+        this.chartOptions.series = [
+          {
+            data: this.series(),
+          },
+        ];
       }
     });
   }
 
   ngOnInit(): void {
-    this.candlestickService.connectWebSocket();
+    const path = this.router.url.split('/');
+    this.instId.set(path[path.length - 1]);
+
+    this.candlestickService.connectWebSocket(this.instId(), 'candle1m');
     this.candlestickService.setTimer(500);
 
     this.subscription = this.candlestickService.series$.subscribe((data) => {
@@ -106,9 +125,11 @@ export class FinancialChartComponent {
   }
 
   getHistoryCandles() {
-    this.candlestickService.getHistoryCandles('BTC-USDT').subscribe((data) => {
-      this.series.update((s) => [...s, ...(data ?? [])]);
-    });
+    this.candlestickService
+      .getHistoryCandles(this.instId())
+      .subscribe((data) => {
+        this.series.update((s) => [...s, ...(data ?? [])]);
+      });
   }
 
   ngOnDestroy(): void {

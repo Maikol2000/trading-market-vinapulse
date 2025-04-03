@@ -3,7 +3,10 @@ import { environment } from '@env/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ICandleData } from '../models/candle';
 import { HttpClient } from '@angular/common/http';
-import { OKSModelResponse } from '@app/shared/models';
+import {
+  OKSModelResponse,
+  subscribeChannelsCandleType,
+} from '@app/shared/models';
 import { ApiOKSService } from '@app/shared/services';
 
 @Injectable({
@@ -12,6 +15,7 @@ import { ApiOKSService } from '@app/shared/services';
 export class CandlestickService {
   private wsUrl = environment.wsUrl + '/business';
   private timer!: ReturnType<typeof setInterval>;
+  private timerConnect!: ReturnType<typeof setTimeout>;
 
   public series$ = new BehaviorSubject<Partial<ICandleData>>({});
   private socket: WebSocket | null = null;
@@ -19,7 +23,7 @@ export class CandlestickService {
   constructor(private okxService: ApiOKSService) {}
 
   // socket
-  connectWebSocket() {
+  connectWebSocket(instId?: string, timeframe?: subscribeChannelsCandleType) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       return;
     }
@@ -27,7 +31,7 @@ export class CandlestickService {
     this.socket = new WebSocket(this.wsUrl);
 
     this.socket.onopen = () => {
-      this.subscribeToCandlestick('BTC-USDT', '1m');
+      this.subscribeToCandlestick(instId, timeframe);
     };
 
     this.socket.onmessage = (event) => {
@@ -40,9 +44,9 @@ export class CandlestickService {
     };
 
     this.socket.onclose = () => {
-      setTimeout(() => {
+      this.timerConnect = setTimeout(() => {
         this.connectWebSocket();
-      }, 1000);
+      }, 5000);
     };
   }
 
@@ -62,13 +66,16 @@ export class CandlestickService {
     this.series$.next(formattedData);
   }
 
-  subscribeToCandlestick(instId: string, timeframe: string) {
+  subscribeToCandlestick(
+    instId?: string,
+    timeframe?: subscribeChannelsCandleType
+  ) {
     const message = {
       op: 'subscribe',
       args: [
         {
-          channel: 'candle1m',
-          instId: 'BTC-USDT',
+          channel: timeframe ?? 'candle1m',
+          instId: instId ?? 'BTC-USDT',
         },
       ],
     };
@@ -99,9 +106,8 @@ export class CandlestickService {
       this.socket.close();
       this.socket = null;
     }
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
+    if (this.timer) clearInterval(this.timer);
+    if (this.timerConnect) clearTimeout(this.timerConnect);
   }
 
   // history-candles
