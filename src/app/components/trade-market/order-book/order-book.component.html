@@ -1,0 +1,80 @@
+<div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+  <h1 class="text-2xl font-bold text-gray-800 mb-4">
+    Order Book: {{ selectedSymbol }}
+  </h1>
+
+  <div *ngIf="orderBook" class="grid grid-cols-12 gap-2">
+    <!-- Spread -->
+    <div class="col-span-12 py-2 my-2 border-y border-gray-700 text-center">
+      <span class="text-gray-400">Spread: </span>
+      <span
+        >{{ orderBook.spread | number : "1.2-2" }} ({{
+          orderBook.spreadPercentage | number : "1.2-2"
+        }}%)</span
+      >
+    </div>
+    <!-- Bids (Buy Orders) -->
+    <div class="col-span-6">
+      <div class="flex justify-between text-xs text-gray-400 mb-1">
+        <span>Price</span>
+        <span>Size</span>
+        <span>Total</span>
+      </div>
+      <div class="space-y-1">
+        <div
+          *ngFor="let bid of orderBook.bids"
+          class="flex justify-between relative"
+        >
+          <div
+            class="absolute right-0 h-full bg-green-900/30"
+            [style.width]="bid.percentage + '%'"
+          ></div>
+          <span class="z-10 text-green-500">{{
+            bid.price | number : "1.2-2"
+          }}</span>
+          <span class="z-10">{{ bid.size | number : "1.2-2" }}</span>
+          <span class="z-10">{{ bid.total | number : "1.2-2" }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Asks (Sell Orders) -->
+    <div class="col-span-6">
+      <div class="flex justify-between text-xs text-gray-400 mb-1">
+        <span>Price</span>
+        <span>Size</span>
+        <span>Total</span>
+      </div>
+      <div class="space-y-1">
+        <div
+          *ngFor="let ask of orderBook.asks"
+          class="flex justify-between relative"
+        >
+          <div
+            class="absolute left-0 h-full bg-red-900/30"
+            [style.width]="ask.percentage + '%'"
+          ></div>
+          <span class="z-10 text-red-500">{{
+            ask.price | number : "1.2-2"
+          }}</span>
+          <span class="z-10">{{ ask.size | number : "1.2-2" }}</span>
+          <span class="z-10">{{ ask.total | number : "1.2-2" }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Container -->
+    <div class="col-span-12 h-64 mt-4" *ngIf="chartOptions">
+      <apx-chart
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [colors]="chartOptions.colors!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [stroke]="chartOptions.stroke!"
+        [xaxis]="chartOptions.xaxis!"
+        [yaxis]="chartOptions.yaxis!"
+        [title]="chartOptions.title!"
+      ></apx-chart>
+    </div>
+  </div>
+</div>

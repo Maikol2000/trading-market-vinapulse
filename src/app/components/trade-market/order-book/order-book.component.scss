@@ -1,0 +1,72 @@
+/* order-book.component.css */
+:host {
+    display: block;
+}
+
+/* Custom scrollbar for the order book tables */
+.max-h-72::-webkit-scrollbar {
+    width: 6px;
+}
+
+.max-h-72::-webkit-scrollbar-track {
+    background: #1f2937;
+    border-radius: 3px;
+}
+
+.max-h-72::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 3px;
+}
+
+.max-h-72::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+/* Depth chart styles */
+::ng-deep .apexcharts-tooltip {
+    background: #1f2937 !important;
+    color: white !important;
+    border: 1px solid #4b5563 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+::ng-deep .apexcharts-tooltip-title {
+    background: #374151 !important;
+    border-bottom: 1px solid #4b5563 !important;
+}
+
+::ng-deep .apexcharts-xaxis-label,
+::ng-deep .apexcharts-yaxis-label {
+    fill: #9ca3af !important;
+}
+
+::ng-deep .apexcharts-grid-borders line {
+    stroke: #4b5563 !important;
+    stroke-opacity: 0.1 !important;
+}
+
+/* Style for bids and asks series */
+::ng-deep .apexcharts-series[seriesName="Bids"] path.apexcharts-area-path {
+    fill: rgba(16, 185, 129, 0.2) !important;
+    stroke: rgb(16, 185, 129) !important;
+}
+
+::ng-deep .apexcharts-series[seriesName="Asks"] path.apexcharts-area-path {
+    fill: rgba(239, 68, 68, 0.2) !important;
+    stroke: rgb(239, 68, 68) !important;
+}
+
+/* Animation for refresh button */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+button:active svg {
+    animation: spin 1s linear;
+}

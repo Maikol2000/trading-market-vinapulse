@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { environment } from '@env/environment';
-import { BehaviorSubject, map, Observable } from 'rxjs';
-import { ICandleData } from '../models/candle';
-import { HttpClient } from '@angular/common/http';
 import {
   OKSModelResponse,
   subscribeChannelsCandleType,
 } from '@app/shared/models';
 import { ApiOKSService } from '@app/shared/services';
+import { environment } from '@env/environment';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { ICandleData } from '../models/candle';
 
 @Injectable({
   providedIn: 'root',

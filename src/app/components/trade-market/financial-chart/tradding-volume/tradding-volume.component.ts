@@ -87,7 +87,6 @@ export class TraddingVolumeComponent implements OnChanges {
           Number(candle.y[3]) >= Number(candle.y[0]) ? '#26a69a' : '#ef5350',
       }));
 
-      console.log(volumeData);
       this.chartOptions.series = [
         {
           name: 'Volume',
