@@ -1,9 +1,11 @@
 <div class="volume-chart">
+  <p>Vol</p>
   <apx-chart
     #volumeChart
     [series]="chartOptions!.series!"
     [chart]="chartOptions!.chart!"
     [xaxis]="chartOptions!.xaxis!"
     [yaxis]="chartOptions!.yaxis!"
+    [dataLabels]="chartOptions.dataLabels!"
   ></apx-chart>
 </div>

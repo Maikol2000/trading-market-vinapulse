@@ -61,6 +61,7 @@ export class CandlestickService {
         parseFloat(candle[3]), // Low
         parseFloat(candle[4]), // Close
       ],
+      vol: parseFloat(candle[6]),
     };
 
     this.series$.next(formattedData);
@@ -126,6 +127,7 @@ export class CandlestickService {
               parseFloat(d[3]), // Low
               parseFloat(d[4]), // Close
             ],
+            vol: parseFloat(d[6]),
           }))
         )
       );

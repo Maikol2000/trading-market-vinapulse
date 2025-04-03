@@ -10,6 +10,9 @@ import { ICandleData } from '@app/core/models/candle';
 import {
   ApexAxisChartSeries,
   ApexChart,
+  ApexDataLabels,
+  ApexFill,
+  ApexStroke,
   ApexXAxis,
   ApexYAxis,
   ChartComponent,
@@ -21,6 +24,9 @@ export type VolumeChartOptions = {
   chart: ApexChart;
   xaxis: ApexXAxis;
   yaxis: ApexYAxis;
+  fill: ApexFill;
+  dataLabels: ApexDataLabels;
+  stroke: ApexStroke;
 };
 
 @Component({
@@ -50,27 +56,24 @@ export class TraddingVolumeComponent implements OnChanges {
       animations: {
         enabled: false,
       },
-      zoom: {
-        enabled: false,
-      },
+    },
+    fill: {
+      opacity: 1,
+      colors: ['#4ade80', '#f87171'],
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 2
     },
     xaxis: {
       type: 'datetime',
-      labels: {
-        show: true,
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
     },
     yaxis: {
       labels: {
-        // formatter: (value) => {
-        //   return this.formatVolume(value);
-        // },
+        formatter: (value) => this.formatVolume(value),
       },
     },
   };
@@ -79,11 +82,12 @@ export class TraddingVolumeComponent implements OnChanges {
     if (changes['series'] && this.series) {
       const volumeData = this.series.map((candle) => ({
         x: candle.x,
-        y: candle.y,
+        y: candle.vol,
         fillColor:
           Number(candle.y[3]) >= Number(candle.y[0]) ? '#26a69a' : '#ef5350',
       }));
 
+      console.log(volumeData);
       this.chartOptions.series = [
         {
           name: 'Volume',
@@ -95,10 +99,10 @@ export class TraddingVolumeComponent implements OnChanges {
 
   private formatVolume(value: number): string {
     if (value >= 1000000) {
-      return (value / 1000000).toFixed(2) + 'M';
+      return (value / 1000000).toFixed(1) + 'M';
     }
     if (value >= 1000) {
-      return (value / 1000).toFixed(2) + 'K';
+      return (value / 1000).toFixed(1) + 'K';
     }
     return value.toString();
   }
