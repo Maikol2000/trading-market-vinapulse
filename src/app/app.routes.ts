@@ -37,6 +37,10 @@ export const routes: Routes = [
         path: AppRouter.Dashboard.TradeMarket(''),
         loadComponent: AppRouter.Dashboard.tradeMarketComponent,
       },
+      {
+        path: AppRouter.Dashboard.OrderForm(''),
+        loadComponent: AppRouter.Dashboard.orderFormComponent,
+      },
     ],
   },
   {

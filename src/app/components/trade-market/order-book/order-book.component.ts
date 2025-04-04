@@ -1,4 +1,3 @@
-// order-book.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';

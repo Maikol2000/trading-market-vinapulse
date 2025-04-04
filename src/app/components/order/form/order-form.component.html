@@ -1,0 +1,205 @@
+<div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+  <h1 class="text-2xl font-bold text-gray-800 mb-4">
+    Cryptocurrency Order Form
+  </h1>
+
+  <!-- Market Data Section -->
+  <div class="p-4 mb-6">
+    <h3 class="text-lg font-semibold mb-2 text-gray-700">Market Data</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="flex flex-col">
+        <span class="text-sm text-gray-500 dark:text-gray-400"
+          >Current Price</span
+        >
+        <span class="text-lg font-bold text-blue-600 dark:text-blue-400">{{
+          currentPrice | currency : "USD" : "symbol" : "1.2-2"
+        }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm text-gray-500 dark:text-gray-400"
+          >Floor Price (24h Low)</span
+        >
+        <span class="text-lg font-bold text-red-600 dark:text-red-400">{{
+          floorPrice | currency : "USD" : "symbol" : "1.2-2"
+        }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm text-gray-500 dark:text-gray-400"
+          >Average Price (24h)</span
+        >
+        <span class="text-lg font-bold text-green-600 dark:text-green-400">{{
+          averagePrice | currency : "USD" : "symbol" : "1.2-2"
+        }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm text-gray-500 dark:text-gray-400"
+          >Ceiling Price (24h High)</span
+        >
+        <span class="text-lg font-bold text-purple-600 dark:text-purple-400">{{
+          ceilingPrice | currency : "USD" : "symbol" : "1.2-2"
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Form -->
+  <form [formGroup]="orderForm" (ngSubmit)="submitOrder()" class="space-y-4">
+    <!-- Order Side (Buy/Sell) - Switch Button -->
+    <div>
+      <label
+        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+        >Side</label
+      >
+      <div class="flex w-full rounded-lg overflow-hidden">
+        <button
+          type="button"
+          [ngClass]="{
+            'bg-green-500 text-white': orderForm.get('side')?.value === 'buy',
+            'bg-gray-200 text-gray-700 ': orderForm.get('side')?.value !== 'buy'
+          }"
+          class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
+          (click)="orderForm.get('side')?.setValue('buy')"
+        >
+          BUY
+        </button>
+        <button
+          type="button"
+          [ngClass]="{
+            'bg-red-500 text-white': orderForm.get('side')?.value === 'sell',
+            'bg-gray-200 text-gray-700 ':
+              orderForm.get('side')?.value !== 'sell'
+          }"
+          class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
+          (click)="orderForm.get('side')?.setValue('sell')"
+        >
+          SELL
+        </button>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Symbol Selection -->
+      <div>
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Symbol</label
+        >
+        <select
+          formControlName="symbol"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="BTC-USDT">BTC-USDT</option>
+          <option value="ETH-USDT">ETH-USDT</option>
+          <option value="SOL-USDT">SOL-USDT</option>
+        </select>
+      </div>
+
+      <!-- Order Type -->
+      <div>
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Order Type</label
+        >
+        <select
+          formControlName="orderType"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option *ngFor="let type of orderTypes" [value]="type">
+            {{ type | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Quantity -->
+      <div>
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Quantity</label
+        >
+        <input
+          type="number"
+          formControlName="quantity"
+          step="0.0001"
+          min="0.0001"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        />
+        <div
+          *ngIf="
+            orderForm.get('quantity')?.invalid &&
+            orderForm.get('quantity')?.touched
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          Valid quantity is required
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div>
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Price (USDT)</label
+        >
+        <input
+          type="number"
+          formControlName="price"
+          step="0.01"
+          min="0"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        />
+        <div
+          *ngIf="
+            orderForm.get('price')?.invalid && orderForm.get('price')?.touched
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          Valid price is required
+        </div>
+      </div>
+
+      <!-- Max Price -->
+      <div>
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >Max Price (USDT)</label
+        >
+        <input
+          type="number"
+          formControlName="maxPrice"
+          step="0.01"
+          min="0"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+    </div>
+
+    <!-- Order Total (calculated) -->
+    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+      <div class="flex justify-between items-center">
+        <span class="text-gray-700 dark:text-gray-300">Total Cost:</span>
+        <span class="text-lg font-bold text-gray-900 dark:text-white">
+          {{
+            orderForm.get("quantity")?.value * orderForm.get("price")?.value
+              | currency : "USD" : "symbol" : "1.2-2"
+          }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-end">
+      <button
+        type="submit"
+        [disabled]="orderForm.invalid"
+        [ngClass]="{
+          'bg-green-600 hover:bg-green-700':
+            orderForm.get('side')?.value === 'buy',
+          'bg-red-600 hover:bg-red-700': orderForm.get('side')?.value === 'sell'
+        }"
+        class="w-full md:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200"
+      >
+        {{ orderForm.get("side")?.value === "buy" ? "Buy" : "Sell" }}
+        {{ selectedSymbol.split("-")[0] }}
+      </button>
+    </div>
+  </form>
+</div>
