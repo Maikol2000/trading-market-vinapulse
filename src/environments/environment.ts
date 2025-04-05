@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  baseUrl: '',
   okxAPI: 'https://www.okx.com/api/v5',
   wsUrl: 'wss://ws.okx.com:8443/ws/v5',
   apiKey: '848bb3c9-842a-4957-bce0-4f4ab296ae39',

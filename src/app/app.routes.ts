@@ -4,6 +4,11 @@ import { AppRouter } from './utils/routers';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: AppRouter.Dashboard.Home,
+    pathMatch: 'full',
+  },
+  {
     path: AppRouter.Dashboard.Layout,
     redirectTo: AppRouter.Dashboard.Home,
     pathMatch: 'full',

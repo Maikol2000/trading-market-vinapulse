@@ -24,6 +24,7 @@
     "apexcharts": "^4.5.0",
     "crypto-js": "^4.2.0",
     "ng-apexcharts": "^1.15.0",
+    "ngx-device-detector": "^9.0.0",
     "postcss": "^8.5.3",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.0.17",

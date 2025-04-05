@@ -5153,6 +5153,13 @@ ng-apexcharts@^1.15.0:
   dependencies:
     tslib "^2.0.0"
 
+ngx-device-detector@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-device-detector/-/ngx-device-detector-9.0.0.tgz#ac0b14d02a03492689c3825b0ddad9c726d6fac4"
+  integrity sha512-zpio/wqH1GnxIpWCdA7cp5fmWf7YLycgzfXzQHmB9vaS7eAcqpBF5mxDS65IhE7TzNTJziDrYJCT+9tVqBcsDg==
+  dependencies:
+    tslib "^2.0.0"
+
 node-addon-api@^6.1.0:
   version "6.1.0"
   resolved "https://registry.npmjs.org/node-addon-api/-/node-addon-api-6.1.0.tgz"
