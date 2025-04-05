@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { CurrencyComponent } from '@app/components/home';
+import { CurrencyComponent } from '@app/components/dashboard/home';
 
 @Component({
   selector: 'app-home',

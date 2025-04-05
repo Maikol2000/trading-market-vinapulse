@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FinancialChartComponent, OrderBookComponent } from '@app/components/trade-market';
+import {
+  FinancialChartComponent,
+  OrderBookComponent,
+} from '@app/components/dashboard/trade-market';
 
 @Component({
   selector: 'app-trade-market',
