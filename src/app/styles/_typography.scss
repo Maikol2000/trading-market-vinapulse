@@ -1,0 +1,31 @@
+span {
+    @apply text-sm text-gray-300 font-medium;
+}
+
+p {
+    @apply text-gray-300;
+}
+
+h1 {
+    @apply text-3xl font-bold text-gray-300;
+}
+
+h2 {
+    @apply text-2xl font-bold text-gray-300;
+}
+
+h3 {
+    @apply text-xl font-bold text-gray-300;
+}
+
+h4 {
+    @apply text-lg font-bold text-gray-300;
+}
+
+h5 {
+    @apply text-base font-bold text-gray-300;
+}
+
+th, tr {
+    @apply text-sm font-bold text-gray-300;
+}

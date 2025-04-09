@@ -1,12 +1,10 @@
-<div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-  <h1 class="text-2xl font-bold text-gray-800 mb-4">
-    Order Book: {{ symbol() }}
-  </h1>
+<div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold text-gray-800 mb-4">Sổ lệnh: {{ symbol() }}</h1>
 
   <div *ngIf="orderBook" class="grid grid-cols-12 gap-2">
     <!-- Spread -->
     <div class="col-span-12 py-2 my-2 border-y border-gray-700 text-center">
-      <span class="text-gray-400">Spread: </span>
+      <span class="text-gray-400">Độ chênh lệch: </span>
       <span
         >{{ orderBook.spread | number : "1.2-2" }} ({{
           orderBook.spreadPercentage | number : "1.2-2"
@@ -16,9 +14,9 @@
     <!-- Bids (Buy Orders) -->
     <div class="col-span-6">
       <div class="flex justify-between text-xs text-gray-400 mb-1">
-        <span>Price</span>
-        <span>Size</span>
-        <span>Total</span>
+        <span>Giá</span>
+        <span>Số Lượng</span>
+        <span>Tổng</span>
       </div>
       <div class="space-y-1">
         <div
@@ -26,7 +24,7 @@
           class="flex justify-between relative"
         >
           <div
-            class="absolute right-0 h-full bg-green-900/30"
+            class="absolute right-0 h-full bg-green-900/50"
             [style.width]="bid.percentage + '%'"
           ></div>
           <span class="z-10 text-green-500">{{
@@ -41,9 +39,9 @@
     <!-- Asks (Sell Orders) -->
     <div class="col-span-6">
       <div class="flex justify-between text-xs text-gray-400 mb-1">
-        <span>Price</span>
-        <span>Size</span>
-        <span>Total</span>
+        <span>Giá</span>
+        <span>Số Lượng</span>
+        <span>Tổng</span>
       </div>
       <div class="space-y-1">
         <div
@@ -51,7 +49,7 @@
           class="flex justify-between relative"
         >
           <div
-            class="absolute left-0 h-full bg-red-900/30"
+            class="absolute left-0 h-full bg-red-900/50"
             [style.width]="ask.percentage + '%'"
           ></div>
           <span class="z-10 text-red-500">{{

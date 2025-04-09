@@ -16,11 +16,11 @@ export class TechnicalGaugeChartComponent {
 
   signalCount = { sell: 0, neutral: 0, buy: 0 };
   indicators = [
-    { name: 'SMA', signal: 'Buy' },
-    { name: 'RSI', signal: 'Buy' },
-    { name: 'MACD', signal: 'Buy' },
-    { name: 'LMN (GPT)', signal: 'Neutral' },
-    { name: 'LSTM', signal: 'Buy' },
+    { name: 'SMA', signal: 'Mua' },
+    { name: 'RSI', signal: 'Mua' },
+    { name: 'MACD', signal: 'Mua' },
+    { name: 'LMN (GPT)', signal: 'Chung lập' },
+    { name: 'LSTM', signal: 'Mua' },
   ];
 
   ngOnInit() {
@@ -86,6 +86,7 @@ export class TechnicalGaugeChartComponent {
     };
   }
 
+  // TODO: Implement this function to fetch real-time price data and calculate SMA/RSI/MACD
   initRealtimePriceStream() {
     const socket = webSocket('wss://ws.okx.com:8443/ws/v5/public');
     socket.next({

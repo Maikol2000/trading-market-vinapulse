@@ -3,17 +3,15 @@ import { ApiOKSService } from '@app/shared/services';
 import { BehaviorSubject, Observable, interval } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { IOKXTicker } from '../models';
-
-export interface TickerResponse {
-  code: string;
-  msg: string;
-  data: IOKXTicker[];
-}
+import { OKSModelResponse } from '@app/shared/models';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
+  private readonly OKX_API_URL = environment.wsUrl + '/public';
+
   private tickerSubject = new BehaviorSubject<IOKXTicker | null>(null);
   public ticker$ = this.tickerSubject.asObservable();
   private webSocket: WebSocket | null = null;
@@ -21,8 +19,10 @@ export class OrderService {
   constructor(private http: ApiOKSService) {}
 
   // Get initial ticker data
-  getTickerData(symbol: string): Observable<TickerResponse> {
-    return this.http.getOKX<TickerResponse>(`/market/ticker?instId=${symbol}`);
+  getTickerData(symbol: string): Observable<OKSModelResponse<IOKXTicker[]>> {
+    return this.http.getOKX<OKSModelResponse<IOKXTicker[]>>(
+      `/market/ticker?instId=${symbol}`
+    );
   }
 
   // Connect to WebSocket for real-time updates
@@ -31,7 +31,7 @@ export class OrderService {
       this.webSocket.close();
     }
 
-    this.webSocket = new WebSocket('wss://ws.okx.com:8443/ws/v5/public');
+    this.webSocket = new WebSocket(this.OKX_API_URL);
 
     this.webSocket.onopen = () => {
       const subscribeMsg = {

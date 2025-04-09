@@ -1,106 +1,65 @@
-<div class="w-full">
+<div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
+  <h2 class="mb-4">Dữ liệu giao dịch tiền điện tử</h2>
+
   <div class="overflow-x-auto">
-    <table
-      class="min-w-full bg-white border border-gray-200 shadow-md rounded-lg"
-    >
+    <table class="min-w-full">
       <thead>
-        <tr class="bg-gray-100">
-          <th class="px-4 py-2 text-left text-gray-700 font-medium border-b">
-            Mã
-          </th>
-          <th class="px-4 py-2 text-right text-gray-700 font-medium border-b">
-            Trần
-          </th>
-          <th class="px-4 py-2 text-right text-gray-700 font-medium border-b">
-            Sàn
-          </th>
-          <th
-            class="px-4 py-2 text-center text-gray-700 font-medium border-b"
-            colspan="2"
-          >
-            Mua
-          </th>
-          <th
-            class="px-4 py-2 text-center text-gray-700 font-medium border-b"
-            colspan="2"
-          >
-            Bán
-          </th>
-          <th
-            class="px-4 py-2 text-center text-gray-700 font-medium border-b"
-            colspan="2"
-          >
-            Khớp lệnh
-          </th>
-        </tr>
-        <tr class="bg-gray-50">
-          <th class="px-4 py-1 border-b"></th>
-          <th class="px-4 py-1 border-b"></th>
-          <th class="px-4 py-1 border-b"></th>
-          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
-            Giá
-          </th>
-          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
-            KL
-          </th>
-          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
-            Giá
-          </th>
-          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
-            KL
-          </th>
-          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
-            Giá
-          </th>
-          <th class="px-2 py-1 text-right text-xs text-gray-500 border-b">
-            KL
-          </th>
+        <tr>
+          <th class="px-4 py-1 border-b">Mã</th>
+          <th class="px-4 py-1 border-b">Trần</th>
+          <th class="px-4 py-1 border-b">Sàn</th>
+          <th class="px-2 py-1 border-b">Giá (Mua)</th>
+          <th class="px-2 py-1 border-b">KL (Mua)</th>
+          <th class="px-2 py-1 border-b">Giá (Bán)</th>
+          <th class="px-2 py-1 border-b">KL (Bán)</th>
+          <th class="px-2 py-1 border-b">Giá (Khớp lệnh)</th>
+          <th class="px-2 py-1 border-b">KL (Khớp lệnh)</th>
         </tr>
       </thead>
       <tbody>
         <tr
           *ngFor="let currencyCrypto of currenciesSignal()"
-          class="hover:bg-gray-50 transition-colors duration-150 ease-in-out cursor-pointer"
-          (click)="redirectToDetail(currencyCrypto.symbol)"
+          class="hover:bg-gray-700 duration-150 ease-in-out cursor-pointer hover:rounded-xl"
+          (click)="redirectToDetail(currencyCrypto.instId)"
         >
-          <td class="px-4 py-2 border-b font-medium">
-            {{ currencyCrypto.symbol }}
+          <td class="px-4 py-2 font-medium">
+            {{ currencyCrypto.instId }}
           </td>
-          <td class="px-4 py-2 border-b text-right">
-            {{
-              formatNumber(currencyCrypto.ceiling)
-            }}
+          <td class="px-4 py-2 text-right">
+            {{ formatNumber(+currencyCrypto.high24h) }}
           </td>
-          <td class="px-4 py-2 border-b text-right">
-            {{ formatNumber(currencyCrypto.floor) }}
+          <td class="px-4 py-2 text-right">
+            {{ formatNumber(+currencyCrypto.low24h) }}
           </td>
 
           <!-- Buy trade -->
-          <td class="px-2 py-2 border-b text-right font-medium">
-            {{ formatNumber(currencyCrypto.buyTrade.price) }}
+          <td class="px-2 py-2 text-right font-medium">
+            {{ formatNumber(+currencyCrypto.bidPx) }}
           </td>
-          <td class="px-2 py-2 border-b text-right">
-            {{ formatNumber(currencyCrypto.buyTrade.volume) }}
+          <td class="px-2 py-2 text-right">
+            {{ formatNumber(+currencyCrypto.bidSz) }}
           </td>
 
           <!-- Sell trade -->
-          <td class="px-2 py-2 border-b text-right font-medium">
-            {{ formatNumber(currencyCrypto.sellTrade.price) }}
+          <td class="px-2 py-2 text-right font-medium">
+            {{ formatNumber(+currencyCrypto.askPx) }}
           </td>
-          <td class="px-2 py-2 border-b text-right">
-            {{ formatNumber(currencyCrypto.sellTrade.volume) }}
+          <td class="px-2 py-2 text-right">
+            {{ formatNumber(+currencyCrypto.askSz) }}
           </td>
 
           <!-- Matched trade -->
-          <td class="px-2 py-2 border-b text-right font-medium">
-            {{ formatNumber(currencyCrypto.matchedTrade.price) }}
+          <td class="px-2 py-2 text-right font-medium">
+            {{ formatNumber(+currencyCrypto.last) }}
           </td>
-          <td class="px-2 py-2 border-b text-right">
-            {{ formatNumber(currencyCrypto.matchedTrade.volume) }}
+          <td class="px-2 py-2 text-right">
+            {{ formatNumber(+currencyCrypto.volCcy24h) }}
           </td>
         </tr>
         <tr *ngIf="currenciesSignal().length === 0">
-          <td colspan="7" class="text-center font-bold">Không có dữ liệu</td>
+          <td colspan="12" class="text-center font-bold pt-4">
+            Không có dữ liệu
+          </td>
         </tr>
       </tbody>
     </table>

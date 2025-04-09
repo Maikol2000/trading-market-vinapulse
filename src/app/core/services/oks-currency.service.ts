@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ICurrencyData } from '@app/core/models';
+import { IOKXTicker } from '@app/core/models';
 import { WSMessage } from '@app/core/models/ws-message';
+import { OKSModelResponse } from '@app/shared/models';
+import { ApiOKSService } from '@app/shared/services';
 import { environment } from '@env/environment';
 import { BehaviorSubject } from 'rxjs';
 
@@ -11,13 +13,12 @@ export class OKXCurrencyService {
   private wsUrl = environment.wsUrl + '/public';
 
   private socket: WebSocket | null = null;
-  private currenciesSubject = new BehaviorSubject<ICurrencyData[]>([]);
+  private currenciesSubject = new BehaviorSubject<IOKXTicker[]>([]);
+  currencies$ = this.currenciesSubject.asObservable();
 
   private readonly pingInterval = 30000; // 30 giây
 
-  currencies$ = this.currenciesSubject.asObservable();
-
-  constructor() {}
+  constructor(private http: ApiOKSService) {}
 
   /**
    * Kết nối tới WebSocket OKX
@@ -44,13 +45,13 @@ export class OKXCurrencyService {
       console.error('Lỗi WebSocket:', error);
     };
 
-    this.socket.onclose = () => {
-      console.log('WebSocket đã đóng');
-      // Kết nối lại sau 5 giây
-      setTimeout(() => {
-        this.connect([]);
-      }, this.pingInterval);
-    };
+    // this.socket.onclose = () => {
+    //   console.log('WebSocket đã đóng');
+    //   // Kết nối lại sau 5 giây
+    //   setTimeout(() => {
+    //     this.connect([]);
+    //   }, this.pingInterval);
+    // };
   }
 
   /**
@@ -92,12 +93,12 @@ export class OKXCurrencyService {
       const newTicker = message.data[0];
 
       const existingIndex = currentTickers.findIndex(
-        (t) => t.symbol === newTicker.instId
+        (t) => t.instId === newTicker.instId
       );
       if (existingIndex >= 0) {
-        currentTickers[existingIndex] = this.mapToCurrencyData(newTicker);
+        currentTickers[existingIndex] = newTicker;
       } else {
-        currentTickers.push(this.mapToCurrencyData(newTicker));
+        currentTickers.push(newTicker);
       }
 
       this.currenciesSubject.next(currentTickers);
@@ -107,25 +108,35 @@ export class OKXCurrencyService {
   /**
    * Chuyển đổi dữ liệu từ API sang định dạng ứng dụng
    */
-  private mapToCurrencyData(item: any): ICurrencyData {
-    return {
-      symbol: item.instId,
-      ceiling: parseFloat(item.high24h),
-      floor: parseFloat(item.low24h),
-      buyTrade: {
-        price: parseFloat(item.bidPx),
-        volume: parseFloat(item.bidSz),
-      },
-      sellTrade: {
-        price: parseFloat(item.askPx),
-        volume: parseFloat(item.askSz),
-      },
-      matchedTrade: {
-        price: parseFloat(item.last),
-        volume: parseFloat(item.volCcy24h),
-      },
-      lastUpdate: new Date(),
-    };
+  // private mapToCurrencyData(item: IOKXTicker): ICurrencyData {
+  //   return {
+  //     symbol: item.instId,
+  //     ceiling: parseFloat(item.high24h),
+  //     floor: parseFloat(item.low24h),
+  //     buyTrade: {
+  //       price: parseFloat(item.bidPx),
+  //       volume: parseFloat(item.bidSz),
+  //     },
+  //     sellTrade: {
+  //       price: parseFloat(item.askPx),
+  //       volume: parseFloat(item.askSz),
+  //     },
+  //     matchedTrade: {
+  //       price: parseFloat(item.last),
+  //       volume: parseFloat(item.volCcy24h),
+  //     },
+  //     lastUpdate: new Date(),
+  //   };
+  // }
+
+  getInitialTickers(instType: string = 'SWAP'): void {
+    // Gọi API để lấy dữ liệu ban đầu
+    const resp = this.http.getOKX<OKSModelResponse<IOKXTicker[]>>(
+      `/market/tickers?instType=${instType}&uly=BTC-USD`
+    );
+    resp.subscribe((res) => {
+      this.currenciesSubject.next(res.data);
+    });
   }
 
   /**
