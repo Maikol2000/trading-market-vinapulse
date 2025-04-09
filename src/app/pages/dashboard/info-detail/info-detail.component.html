@@ -1,23 +1,6 @@
-<!-- Loading State -->
-<div *ngIf="loading" class="flex justify-center items-center h-64">
-  <div
-    class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"
-  ></div>
-</div>
-
-<!-- Error State -->
-<div
-  *ngIf="error"
-  class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-  role="alert"
->
-  <span class="block sm:inline">{{ error }}</span>
-</div>
-
-<!-- Content when data is loaded -->
-<div *ngIf="!loading && !error && cryptoDetail" class="space-y-6">
+<div *ngIf="cryptoDetail" class="space-y-4">
   <!-- Header Section -->
-  <div class="bg-white rounded-lg shadow-md p-6">
+  <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md mb-4">
     <div
       class="flex flex-col md:flex-row justify-between items-start md:items-center"
     >
@@ -27,13 +10,12 @@
           <h1 class="text-2xl font-bold">
             {{ cryptoDetail.name }} ({{ cryptoDetail.symbol }})
           </h1>
-          <p class="text-gray-500">Cập nhật thời gian thực</p>
         </div>
       </div>
       <div class="flex flex-col items-end">
-        <div class="text-3xl font-bold">
+        <h3>
           {{ formatCurrency(cryptoDetail.price) }}
-        </div>
+        </h3>
         <div
           [ngClass]="
             cryptoDetail.priceChangePercent >= 0
@@ -53,7 +35,7 @@
   <!-- Chi tiết thông tin -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Thông tin cơ bản -->
-    <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">
         Thông tin cơ bản
       </h2>
@@ -86,7 +68,7 @@
     </div>
 
     <!-- Thông tin giá -->
-    <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
       <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">
         Thông tin giá (24h)
       </h2>
@@ -132,7 +114,7 @@
   </div>
 
   <!-- Biểu đồ có thể thêm ở đây -->
-  <div class="bg-white rounded-lg shadow-md p-6">
+  <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md mb-4">
     <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">
       Góc nhìn kỹ thuật
     </h2>

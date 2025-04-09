@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TechnicalGaugeChartComponent } from '@app/components/dashboard/info-detail';
 import { ICrypto } from '@app/core/models';
 import { OrderService } from '@app/core/services';
-import { Subscription } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-info-detail',
@@ -15,8 +15,6 @@ import { Subscription } from 'rxjs';
 export class InfoDetailComponent {
   symbol: string = '';
   cryptoDetail: ICrypto | null = null;
-  loading: boolean = true;
-  error: string | null = null;
   websocketSubscription: Subscription | null = null;
   httpSubscription: Subscription | null = null;
 
@@ -33,8 +31,8 @@ export class InfoDetailComponent {
     // Tải dữ liệu ban đầu qua HTTP
     this.loadInitialData();
 
-    this.websocketSubscription = this.ticketService.ticker$.subscribe({
-      next: (tickerData: any) => {
+    this.websocketSubscription = this.ticketService.ticker$.pipe(debounceTime(100)).subscribe({
+      next: (tickerData) => {
         if (tickerData) {
           this.updateCryptoDetailFromWebSocket(tickerData);
         }
@@ -63,16 +61,12 @@ export class InfoDetailComponent {
       .getTickerData(this.symbol)
       .subscribe({
         next: (data: any) => {
-          console.log('Initial data:', data);
           this.cryptoDetail = this.processTickerData(data);
-          this.loading = false;
 
           // Sau khi đã có dữ liệu ban đầu, bắt đầu kết nối WebSocket
           this.ticketService.connectWebSocket(this.symbol);
         },
         error: (err: any) => {
-          this.error = 'Không thể tải dữ liệu. Vui lòng thử lại sau.';
-          this.loading = false;
           console.error('Error fetching initial crypto data:', err);
         },
       });

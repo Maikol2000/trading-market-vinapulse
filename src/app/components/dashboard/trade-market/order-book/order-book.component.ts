@@ -137,7 +137,7 @@ export class OrderBookComponent implements OnInit {
         },
       },
       title: {
-        text: 'Order Book Depth',
+        text: 'Độ sâu của sổ lệnh',
         align: 'center',
         style: {
           color: '#F9FAFB',

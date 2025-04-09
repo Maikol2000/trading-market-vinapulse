@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ICurrencyData } from '@app/core/models';
+import { IOKXTicker } from '@app/core/models';
 import { OKXCurrencyService } from '@app/core/services';
 import { AppRouter } from '@app/utils/routers';
 import { debounceTime, Subscription } from 'rxjs';
@@ -13,12 +13,10 @@ import { debounceTime, Subscription } from 'rxjs';
   styleUrl: './currency.component.scss',
 })
 export class CurrencyComponent {
-  currenciesSignal = signal<ICurrencyData[]>([]);
+  currenciesSignal = signal<IOKXTicker[]>([]);
   isLoading = true;
   error: string | null = null;
   private subscription: Subscription | null = null;
-
-  setTimer = false;
 
   watchedInstruments: string[] = [
     'BTC-USDT',
@@ -42,11 +40,9 @@ export class CurrencyComponent {
 
   ngOnInit(): void {
     this.currencyService.connect(this.watchedInstruments);
-
     this.subscription = this.currencyService.currencies$
       .pipe(debounceTime(100))
       .subscribe((data) => {
-        this.setTimer = true;
         this.currenciesSignal.set(data);
       });
   }

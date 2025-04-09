@@ -1,1 +1,7 @@
-@import url("tailwindcss");
+@use "tailwindcss";
+@use "./app/styles/_typography.scss";
+
+button,
+a {
+    @apply cursor-pointer;
+}

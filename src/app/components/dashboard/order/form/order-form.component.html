@@ -1,15 +1,13 @@
-<div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-  <h1 class="text-2xl font-bold text-gray-800 mb-4">
-    Cryptocurrency Order Form
-  </h1>
+<div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
+  <h2 class="mb-4">Biểu mẫu đặt hàng tiền điện tử</h2>
 
   <!-- Market Data Section -->
   <div class="p-4 mb-6">
-    <h3 class="text-lg font-semibold mb-2 text-gray-700">Market Data</h3>
+    <h3 class="text-lg font-semibold mb-2 text-gray-700">Dữ liệu thị trường</h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="flex flex-col">
         <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Current Price</span
+          >Giá hiện tại</span
         >
         <span class="text-lg font-bold text-blue-600 dark:text-blue-400">{{
           currentPrice | currency : "USD" : "symbol" : "1.2-2"
@@ -17,7 +15,7 @@
       </div>
       <div class="flex flex-col">
         <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Floor Price (24h Low)</span
+          >Giá sàn (Thấp nhất 24h)</span
         >
         <span class="text-lg font-bold text-red-600 dark:text-red-400">{{
           floorPrice | currency : "USD" : "symbol" : "1.2-2"
@@ -25,7 +23,7 @@
       </div>
       <div class="flex flex-col">
         <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Average Price (24h)</span
+          >Giá trung bình (24h)</span
         >
         <span class="text-lg font-bold text-green-600 dark:text-green-400">{{
           averagePrice | currency : "USD" : "symbol" : "1.2-2"
@@ -33,7 +31,7 @@
       </div>
       <div class="flex flex-col">
         <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Ceiling Price (24h High)</span
+          >Giá trần (Cao nhất 24h)</span
         >
         <span class="text-lg font-bold text-purple-600 dark:text-purple-400">{{
           ceilingPrice | currency : "USD" : "symbol" : "1.2-2"
@@ -46,33 +44,33 @@
   <form [formGroup]="orderForm" (ngSubmit)="submitOrder()" class="space-y-4">
     <!-- Order Side (Buy/Sell) - Switch Button -->
     <div>
-      <label
+      <!-- <label
         class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >Side</label
-      >
+      > -->
       <div class="flex w-full rounded-lg overflow-hidden">
         <button
           type="button"
           [ngClass]="{
             'bg-green-500 text-white': orderForm.get('side')?.value === 'buy',
-            'bg-gray-200 text-gray-700 ': orderForm.get('side')?.value !== 'buy'
+            'bg-gray-600 text-gray-400 ': orderForm.get('side')?.value !== 'buy'
           }"
           class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
           (click)="orderForm.get('side')?.setValue('buy')"
         >
-          BUY
+          Mua
         </button>
         <button
           type="button"
           [ngClass]="{
             'bg-red-500 text-white': orderForm.get('side')?.value === 'sell',
-            'bg-gray-200 text-gray-700 ':
+            'bg-gray-600 text-gray-400 ':
               orderForm.get('side')?.value !== 'sell'
           }"
           class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
           (click)="orderForm.get('side')?.setValue('sell')"
         >
-          SELL
+          Bán
         </button>
       </div>
     </div>
@@ -81,11 +79,11 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Symbol</label
+          >Mã Token</label
         >
         <select
           formControlName="symbol"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="BTC-USDT">BTC-USDT</option>
           <option value="ETH-USDT">ETH-USDT</option>
@@ -97,11 +95,11 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Order Type</label
+          >Loại đơn hàng</label
         >
         <select
           formControlName="orderType"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          class="w-full px-3 bg-white py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option *ngFor="let type of orderTypes" [value]="type">
             {{ type | titlecase }}
@@ -113,14 +111,14 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Quantity</label
+          >Số Lượng</label
         >
         <input
           type="number"
           formControlName="quantity"
           step="0.0001"
           min="0.0001"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
         <div
           *ngIf="
@@ -129,7 +127,7 @@
           "
           class="text-red-500 text-sm mt-1"
         >
-          Valid quantity is required
+          SỐ lượng là bắt buộc
         </div>
       </div>
 
@@ -137,14 +135,14 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Price (USDT)</label
+          >Giá (USDT)</label
         >
         <input
           type="number"
           formControlName="price"
           step="0.01"
           min="0"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
         <div
           *ngIf="
@@ -152,7 +150,7 @@
           "
           class="text-red-500 text-sm mt-1"
         >
-          Valid price is required
+          Giá là bắt buộc
         </div>
       </div>
 
@@ -160,14 +158,14 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Max Price (USDT)</label
+          >Giá tối đa (USDT)</label
         >
         <input
           type="number"
           formControlName="maxPrice"
           step="0.01"
           min="0"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
     </div>
@@ -175,7 +173,7 @@
     <!-- Order Total (calculated) -->
     <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
       <div class="flex justify-between items-center">
-        <span class="text-gray-700 dark:text-gray-300">Total Cost:</span>
+        <span class="text-gray-300">Tổng phí:</span>
         <span class="text-lg font-bold text-gray-900 dark:text-white">
           {{
             orderForm.get("quantity")?.value * orderForm.get("price")?.value
@@ -197,7 +195,7 @@
         }"
         class="w-full md:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200"
       >
-        {{ orderForm.get("side")?.value === "buy" ? "Buy" : "Sell" }}
+        {{ orderForm.get("side")?.value === "buy" ? "Mua" : "Bán" }}
         {{ selectedSymbol.split("-")[0] }}
       </button>
     </div>

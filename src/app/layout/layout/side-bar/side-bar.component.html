@@ -1,4 +1,4 @@
-<div class="h-screen w-64 bg-white shadow-lg fixed left-0 top-0">
+<div class="h-screen w-50 bg-neutral-900 shadow-lg fixed left-0 top-0">
   <!-- Logo Section -->
   <div class="flex items-center justify-center h-16 border-b">
     <h1 class="text-xl font-bold text-blue-500">Your Logo</h1>
@@ -6,15 +6,15 @@
 
   <!-- Navigation Menu -->
   <nav class="mt-6">
-    <div class="px-4 space-y-2">
+    <div class="px-1 space-y-1">
       <ng-container *ngFor="let item of menuItems">
         <a
           [routerLink]="item.route"
           routerLinkActive="bg-blue-500 text-white"
-          class="flex items-center px-4 py-3 text-gray-600 transition-colors duration-200 hover:bg-blue-500 hover:text-white rounded-lg"
+          class="flex items-center px-2 py-3 text-gray-600 transition-colors duration-200 hover:bg-blue-500 hover:text-white rounded-lg"
         >
           <fa-icon [icon]="item.icon"></fa-icon>
-          <span class="mx-4 text-sm font-medium">{{ item.label }}</span>
+          <span class="mx-2 text-sm font-medium">{{ item.label }}</span>
         </a>
       </ng-container>
     </div>
