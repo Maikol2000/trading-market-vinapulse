@@ -28,4 +28,12 @@ export class dashboardRoute {
     import('@app/pages/dashboard/order/order.component').then(
       (m) => m.OrderComponent
     );
+
+  // Infomation detail
+  InfoDetail = (instId: string) =>
+    this.Layout + `/info-detail/${instId ? instId : ':instId'}`;
+  infoDetailComponent = () =>
+    import('@app/pages/dashboard/info-detail/info-detail.component').then(
+      (m) => m.InfoDetailComponent
+    );
 }

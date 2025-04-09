@@ -6,7 +6,14 @@ import {
   FaIconLibrary,
   FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
-import { faHome, faUser, faCoins, faMoneyBillTrendUp, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBitcoinSign,
+  faCoins,
+  faHome,
+  faMoneyBillTrendUp,
+  faMoneyCheckDollar,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-side-bar',
@@ -17,13 +24,21 @@ import { faHome, faUser, faCoins, faMoneyBillTrendUp, faMoneyCheckDollar } from 
 export class SideBarComponent {
   menuItems = [
     { icon: faHome, label: 'Trang chủ', route: AppRouter.Dashboard.Home },
-    { icon: faMoneyBillTrendUp, label: 'Tỉ giá Chứng khoáng', route: '/products' },
+    {
+      icon: faMoneyBillTrendUp,
+      label: 'Tỉ giá Chứng khoáng',
+      route: '/products',
+    },
     {
       icon: faCoins,
       label: 'Tỉ giá Coin',
       route: AppRouter.Dashboard.TradeMarket('BTC-USDT'),
     },
-    { icon: faUser, label: 'Thông tin chi tiết', route: '/customers' },
+    {
+      icon: faBitcoinSign,
+      label: 'Thông tin chi tiết',
+      route: AppRouter.Dashboard.InfoDetail('BTC-USDT'),
+    },
     {
       icon: faMoneyCheckDollar,
       label: 'Vào lệnh',

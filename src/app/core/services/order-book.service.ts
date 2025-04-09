@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { BehaviorSubject, Observable, Subject, timer } from 'rxjs';
-import { map, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { IOrderBook, OrderBookLevel } from '../models';
 
 @Injectable({

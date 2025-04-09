@@ -1,23 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiOKSService } from '@app/shared/services';
-import { environment } from '@env/environment';
 import { BehaviorSubject, Observable, interval } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { IOKXTicker } from '../models';
-
-// export interface TickerData {
-//   instId: string;
-//   last: string;
-//   askPx: string;
-//   bidPx: string;
-//   open24h: string;
-//   high24h: string;
-//   low24h: string;
-//   volCcy24h: string;
-//   vol24h: string;
-//   sodUtc0: string;
-//   sodUtc8: string;
-// }
 
 export interface TickerResponse {
   code: string;
@@ -29,7 +14,6 @@ export interface TickerResponse {
   providedIn: 'root',
 })
 export class OrderService {
-  private baseUrl = environment.okxAPI;
   private tickerSubject = new BehaviorSubject<IOKXTicker | null>(null);
   public ticker$ = this.tickerSubject.asObservable();
   private webSocket: WebSocket | null = null;

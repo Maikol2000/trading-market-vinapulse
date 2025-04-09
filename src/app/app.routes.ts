@@ -46,6 +46,10 @@ export const routes: Routes = [
         path: AppRouter.Dashboard.OrderForm(''),
         loadComponent: AppRouter.Dashboard.orderFormComponent,
       },
+      {
+        path: AppRouter.Dashboard.InfoDetail(''),
+        loadComponent: AppRouter.Dashboard.infoDetailComponent,
+      },
     ],
   },
   {
