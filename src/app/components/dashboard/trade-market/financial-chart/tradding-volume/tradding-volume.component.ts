@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ICandleData } from '@app/core/models/candle';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -32,7 +33,7 @@ export type VolumeChartOptions = {
 @Component({
   selector: 'app-tradding-volume',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule, TranslateModule],
   templateUrl: './tradding-volume.component.html',
   styleUrl: './tradding-volume.component.scss',
 })
@@ -66,7 +67,7 @@ export class TraddingVolumeComponent implements OnChanges {
     },
     stroke: {
       show: true,
-      width: 2
+      width: 2,
     },
     xaxis: {
       type: 'datetime',

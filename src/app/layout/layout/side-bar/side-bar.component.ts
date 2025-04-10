@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { LanguageService } from '@app/shared/services';
 import { AppRouter } from '@app/utils/routers';
 import {
   FaIconLibrary,
@@ -14,43 +15,48 @@ import {
   faMoneyCheckDollar,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-side-bar',
-  imports: [CommonModule, RouterModule, FontAwesomeModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, TranslateModule],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss',
 })
 export class SideBarComponent {
   menuItems = [
-    { icon: faHome, label: 'Trang chủ', route: AppRouter.Dashboard.Home },
+    { icon: faHome, label: 'SIDEBAR.HOME', route: AppRouter.Dashboard.Home },
     {
       icon: faMoneyBillTrendUp,
-      label: 'Tỉ giá Chứng khoáng',
+      label: 'SIDEBAR.STOCK_RATE',
       route: '/products',
     },
     {
       icon: faCoins,
-      label: 'Tỉ giá Coin',
+      label: 'SIDEBAR.COIN_RATE',
       route: AppRouter.Dashboard.TradeMarket('BTC-USDT'),
     },
     {
       icon: faBitcoinSign,
-      label: 'Thông tin chi tiết',
+      label: 'SIDEBAR.DETAIL_INFO',
       route: AppRouter.Dashboard.InfoDetail('BTC-USDT'),
     },
     {
       icon: faMoneyCheckDollar,
-      label: 'Vào lệnh',
+      label: 'SIDEBAR.PLACE_ORDER',
       route: AppRouter.Dashboard.OrderForm('BTC-USDT'),
     },
-    { icon: faUser, label: 'AI dự đoán', route: '/customers' },
-    { icon: faUser, label: 'AI tranding Boot', route: '/customers' },
-    { icon: faUser, label: 'AI Chat Boot', route: '/customers' },
-    { icon: faUser, label: 'Tin tức', route: '/customers' },
+    { icon: faUser, label: 'SIDEBAR.AI_PREDICT', route: '/customers' },
+    { icon: faUser, label: 'SIDEBAR.AI_TRADING_BOT', route: '/customers' },
+    { icon: faUser, label: 'SIDEBAR.AI_CHAT_BOT', route: '/customers' },
+    { icon: faUser, label: 'SIDEBAR.NEWS', route: '/customers' },
   ];
 
-  constructor(private router: Router, library: FaIconLibrary) {
+  constructor(
+    private router: Router,
+    library: FaIconLibrary,
+    private translate: LanguageService
+  ) {
     library.addIcons();
   }
 

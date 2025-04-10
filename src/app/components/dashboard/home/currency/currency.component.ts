@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { IOKXTicker } from '@app/core/models';
 import { OKXCurrencyService } from '@app/core/services';
 import { AppRouter } from '@app/utils/routers';
+import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-currency',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './currency.component.html',
   styleUrl: './currency.component.scss',
 })

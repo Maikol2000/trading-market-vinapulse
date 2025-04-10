@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { TechnicalGaugeChartComponent } from '@app/components/dashboard/info-detail';
 import { ICrypto } from '@app/core/models';
 import { OrderService } from '@app/core/services';
+import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-info-detail',
-  imports: [CommonModule, TechnicalGaugeChartComponent],
+  imports: [CommonModule, TechnicalGaugeChartComponent, TranslateModule],
   templateUrl: './info-detail.component.html',
   styleUrl: './info-detail.component.scss',
 })
@@ -31,13 +32,15 @@ export class InfoDetailComponent {
     // Tải dữ liệu ban đầu qua HTTP
     this.loadInitialData();
 
-    this.websocketSubscription = this.ticketService.ticker$.pipe(debounceTime(100)).subscribe({
-      next: (tickerData) => {
-        if (tickerData) {
-          this.updateCryptoDetailFromWebSocket(tickerData);
-        }
-      },
-    });
+    this.websocketSubscription = this.ticketService.ticker$
+      .pipe(debounceTime(100))
+      .subscribe({
+        next: (tickerData) => {
+          if (tickerData) {
+            this.updateCryptoDetailFromWebSocket(tickerData);
+          }
+        },
+      });
   }
 
   ngOnDestroy(): void {

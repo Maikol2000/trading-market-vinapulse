@@ -8,11 +8,12 @@ import {
 } from '@angular/forms';
 import { IOKXTicker } from '@app/core/models';
 import { OrderService } from '@app/core/services';
+import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-form',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule],
   templateUrl: './order-form.component.html',
   styleUrl: './order-form.component.scss',
 })

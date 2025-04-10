@@ -1,0 +1,134 @@
+{
+    "COMMONS": {
+        "CANCEL": "Hủy",
+        "CONFIRM": "Xác nhận",
+        "YES": "Có",
+        "NO": "Không",
+        "CLOSE": "Đóng",
+        "SAVE": "Lưu",
+        "EDIT": "Chỉnh sửa",
+        "DELETE": "Xóa",
+        "ADD": "Thêm",
+        "SEARCH": "Tìm kiếm",
+        "RESET": "Đặt lại",
+        "SELECT_ALL": "Chọn tất cả",
+        "SELECT_NONE": "Bỏ chọn tất cả",
+        "NO_DATA": "Không có dữ liệu",
+        "VIETNAMESE": "Tiếng Việt",
+        "ENGLISH": "Tiếng Anh",
+        "LANGUAGE": "Ngôn ngữ",
+        "LOADING": "Đang tải..."
+    },
+    "HOME": {
+        "CRYPTO_TRADE_DATA": "Dữ liệu giao dịch tiền điện tử",
+        "SYMBOL": "Mã",
+        "HIGH": "Trần",
+        "LOW": "Sàn",
+        "BUY_PRICE": "Giá (Mua)",
+        "BUY_VOLUME": "KL (Mua)",
+        "SELL_PRICE": "Giá (Bán)",
+        "SELL_VOLUME": "KL (Bán)",
+        "MATCHED_PRICE": "Giá (Khớp lệnh)",
+        "MATCHED_VOLUME": "KL (Khớp lệnh)"
+    },
+    "AUTH": {
+        "LOGIN": "Đăng nhập",
+        "LOGOUT": "Đăng xuất",
+        "REGISTER": "Đăng ký",
+        "RESET_PASSWORD": "Đặt lại mật khẩu",
+        "EMAIL": "Email",
+        "PASSWORD": "Mật khẩu",
+        "USERNAME": "Tên người dùng",
+        "NAME": "Tên",
+        "PHONE_NUMBER": "Số điện thoại",
+        "REMEMBER_ME": "Ghi nhớ đăng nhập",
+        "FORGOT_PASSWORD": "Quên mật khẩu?",
+        "OR_LOGIN_WITH": "Hoặc đăng nhập với",
+        "LOGIN_WITH_GOOGLE": "Đăng nhập với Google",
+        "NO_ACCOUNT": "Chưa có tài khoản?",
+        "REGISTER_NOW": "Đăng ký ngay",
+        "ERROR": {
+            "EMAIL_ALREADY_EXISTS": "Email đã tồn tại",
+            "WEAK_PASSWORD": "Mật khẩu quá yếu",
+            "INVALID_EMAIL": "Email không hợp lệ",
+            "PASSWORD_ERROR": "Mật khẩu phải có ít nhất 6 ký tự"
+        }
+    },
+    "TRADE": {
+        "CHART": {
+            "TITLE": "Biểu đồ tài chính"
+        },
+        "VOLUME": {
+            "TITLE": "Khối lượng"
+        },
+        "ORDER_BOOK": {
+            "TITLE": "Sổ lệnh",
+            "SPREAD": "Độ chênh lệch",
+            "COLUMNS": {
+                "PRICE": "Giá",
+                "QUANTITY": "Số Lượng",
+                "TOTAL": "Tổng"
+            },
+            "BIDS": "Lệnh mua",
+            "ASKS": "Lệnh bán",
+            "DEPTH_CHART": "Độ sâu của sổ lệnh",
+            "SIZE": "Khối lượng"
+        }
+    },
+    "CRYPTO": {
+        "DETAIL": {
+            "BASIC_INFO": "Thông tin cơ bản",
+            "PRICE_INFO": "Thông tin giá (24h)",
+            "TECHNICAL_VIEW": "Góc nhìn kỹ thuật",
+            "FIELDS": {
+                "MARKET_CAP": "Vốn hóa thị trường",
+                "CURRENT_RATE": "Tỷ giá hiện tại",
+                "CIRCULATING_SUPPLY": "Khối lượng lưu hành",
+                "TRADING_VOLUME_24H": "Khối lượng giao dịch (24h)",
+                "HIGHEST_PRICE": "Giá cao nhất",
+                "LOWEST_PRICE": "Giá thấp nhất",
+                "AVERAGE_PRICE": "Giá trung bình",
+                "OPEN_PRICE": "Giá mở cửa",
+                "CLOSE_PRICE": "Giá đóng cửa",
+                "VOLUME_24H": "Volume (24h)"
+            }
+        }
+    },
+    "ORDER": {
+        "FORM": {
+            "TITLE": "Biểu mẫu đặt hàng tiền điện tử",
+            "MARKET_DATA": {
+                "TITLE": "Dữ liệu thị trường",
+                "CURRENT_PRICE": "Giá hiện tại",
+                "FLOOR_PRICE": "Giá sàn (Thấp nhất 24h)",
+                "AVERAGE_PRICE": "Giá trung bình (24h)",
+                "CEILING_PRICE": "Giá trần (Cao nhất 24h)"
+            },
+            "ORDER_TYPE": {
+                "BUY": "Mua",
+                "SELL": "Bán"
+            },
+            "FIELDS": {
+                "TOKEN": "Mã Token",
+                "ORDER_TYPE": "Loại đơn hàng",
+                "QUANTITY": "Số Lượng",
+                "QUANTITY_ERROR": "Số lượng là bắt buộc",
+                "PRICE": "Giá (USDT)",
+                "PRICE_ERROR": "Giá là bắt buộc",
+                "MAX_PRICE": "Giá tối đa (USDT)",
+                "TOTAL_FEE": "Tổng phí"
+            }
+        }
+    },
+    "SIDEBAR": {
+        "HOME": "Trang chủ",
+        "STOCK_RATE": "Tỉ giá Chứng khoán",
+        "COIN_RATE": "Tỉ giá Coin",
+        "DETAIL_INFO": "Thông tin chi tiết",
+        "PLACE_ORDER": "Vào lệnh",
+        "AI_PREDICT": "AI dự đoán",
+        "AI_TRADING_BOT": "AI Trading Bot",
+        "AI_CHAT_BOT": "AI Chat Bot",
+        "NEWS": "Tin tức"
+    }
+}

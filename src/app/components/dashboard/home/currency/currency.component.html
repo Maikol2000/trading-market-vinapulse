@@ -1,19 +1,29 @@
 <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
-  <h2 class="mb-4">Dữ liệu giao dịch tiền điện tử</h2>
+  <h2 class="mb-4">{{ "HOME.CRYPTO_TRADE_DATA" | translate }}</h2>
 
   <div class="overflow-x-auto">
     <table class="min-w-full">
       <thead>
         <tr>
-          <th class="px-4 py-1 border-b">Mã</th>
-          <th class="px-4 py-1 border-b">Trần</th>
-          <th class="px-4 py-1 border-b">Sàn</th>
-          <th class="px-2 py-1 border-b">Giá (Mua)</th>
-          <th class="px-2 py-1 border-b">KL (Mua)</th>
-          <th class="px-2 py-1 border-b">Giá (Bán)</th>
-          <th class="px-2 py-1 border-b">KL (Bán)</th>
-          <th class="px-2 py-1 border-b">Giá (Khớp lệnh)</th>
-          <th class="px-2 py-1 border-b">KL (Khớp lệnh)</th>
+          <th class="px-4 py-1 border-b">{{ "HOME.SYMBOL" | translate }}</th>
+          <th class="px-4 py-1 border-b">{{ "HOME.HIGH" | translate }}</th>
+          <th class="px-4 py-1 border-b">{{ "HOME.LOW" | translate }}</th>
+          <th class="px-2 py-1 border-b">{{ "HOME.BUY_PRICE" | translate }}</th>
+          <th class="px-2 py-1 border-b">
+            {{ "HOME.BUY_VOLUME" | translate }}
+          </th>
+          <th class="px-2 py-1 border-b">
+            {{ "HOME.SELL_PRICE" | translate }}
+          </th>
+          <th class="px-2 py-1 border-b">
+            {{ "HOME.SELL_VOLUME" | translate }}
+          </th>
+          <th class="px-2 py-1 border-b">
+            {{ "HOME.MATCHED_PRICE" | translate }}
+          </th>
+          <th class="px-2 py-1 border-b">
+            {{ "HOME.MATCHED_VOLUME" | translate }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -58,7 +68,7 @@
         </tr>
         <tr *ngIf="currenciesSignal().length === 0">
           <td colspan="12" class="text-center font-bold pt-4">
-            Không có dữ liệu
+            {{ "COMMONS.NO_DATA" | translate }}
           </td>
         </tr>
       </tbody>

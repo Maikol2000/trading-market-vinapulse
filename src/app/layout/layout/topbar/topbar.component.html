@@ -1,14 +1,17 @@
-<!-- Top Navigation Bar -->
 <nav class="bg-neutral-900">
   <div class="mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
       <div class="flex items-center"></div>
       <!-- Right side navigation items -->
       <div class="flex items-center">
-        <!-- User Profile -->
-        <div class="ml-3 relative">
-          <button
-            class="flex items-center space-x-2 text-gray-200 hover:text-gray-800"
+        <!-- User Profile with Dropdown -->
+        <div class="ml-3 relative" #toogleBar>
+          <div
+            (click)="toggleDropdown()"
+            class="flex items-center space-x-2 text-gray-200 hover:text-gray-300"
+            [clickOutsideExceptions]="[toogleBar]"
+            appClickOutside
+            (clickOutside)="onClose()"
           >
             <img
               class="h-8 w-8 rounded-full"
@@ -16,7 +19,61 @@
               alt="User avatar"
             />
             <span class="font-medium">John Doe</span>
-          </button>
+          </div>
+
+          <!-- Dropdown Menu -->
+          <div
+            *ngIf="isDropdownOpen"
+            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-neutral-800 ring-1 ring-black ring-opacity-5"
+          >
+            <div class="py-1" role="menu">
+              <!-- Language Toggle -->
+              <div class="px-4 py-2 text-sm text-gray-200">
+                <span class="block text-xs text-gray-400">{{
+                  "COMMONS.LANGUAGE" | translate
+                }}</span>
+                <div class="flex items-center space-x-2 mt-1">
+                  <app-select-lang></app-select-lang>
+                  <!-- <button
+                    (click)="switchLanguage('vi')"
+                    [class.text-blue-500]="currentLang === 'vi'"
+                    class="px-2 py-1 rounded hover:bg-neutral-700"
+                  >
+                    Tiếng Việt
+                  </button>
+                  <button
+                    (click)="switchLanguage('en')"
+                    [class.text-blue-500]="currentLang === 'en'"
+                    class="px-2 py-1 rounded hover:bg-neutral-700"
+                  >
+                    English
+                  </button> -->
+                </div>
+              </div>
+              <!-- Other menu items -->
+              <!-- <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-200 hover:bg-neutral-700"
+                role="menuitem"
+              >
+                {{ "AUTH.PROFILE" | translate }}
+              </a>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-200 hover:bg-neutral-700"
+                role="menuitem"
+              >
+                {{ "AUTH.SETTINGS" | translate }}
+              </a>
+              <a
+                (click)="logout()"
+                class="block px-4 py-2 text-sm text-gray-200 hover:bg-neutral-700 cursor-pointer"
+                role="menuitem"
+              >
+                {{ "AUTH.LOGOUT" | translate }}
+              </a> -->
+            </div>
+          </div>
         </div>
       </div>
     </div>

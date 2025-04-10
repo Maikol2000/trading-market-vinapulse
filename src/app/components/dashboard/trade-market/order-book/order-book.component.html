@@ -1,10 +1,14 @@
 <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
-  <h1 class="text-2xl font-bold text-gray-800 mb-4">Sổ lệnh: {{ symbol() }}</h1>
+  <h1 class="text-2xl font-bold text-gray-800 mb-4">
+    {{ "TRADE.ORDER_BOOK.TITLE" | translate }}: {{ symbol() }}
+  </h1>
 
   <div *ngIf="orderBook" class="grid grid-cols-12 gap-2">
     <!-- Spread -->
     <div class="col-span-12 py-2 my-2 border-y border-gray-700 text-center">
-      <span class="text-gray-400">Độ chênh lệch: </span>
+      <span class="text-gray-400"
+        >{{ "TRADE.ORDER_BOOK.SPREAD" | translate }}:</span
+      >
       <span
         >{{ orderBook.spread | number : "1.2-2" }} ({{
           orderBook.spreadPercentage | number : "1.2-2"
@@ -14,9 +18,9 @@
     <!-- Bids (Buy Orders) -->
     <div class="col-span-6">
       <div class="flex justify-between text-xs text-gray-400 mb-1">
-        <span>Giá</span>
-        <span>Số Lượng</span>
-        <span>Tổng</span>
+        <span>{{ "TRADE.ORDER_BOOK.COLUMNS.PRICE" | translate }}</span>
+        <span>{{ "TRADE.ORDER_BOOK.COLUMNS.QUANTITY" | translate }}</span>
+        <span>{{ "TRADE.ORDER_BOOK.COLUMNS.TOTAL" | translate }}</span>
       </div>
       <div class="space-y-1">
         <div
@@ -39,9 +43,9 @@
     <!-- Asks (Sell Orders) -->
     <div class="col-span-6">
       <div class="flex justify-between text-xs text-gray-400 mb-1">
-        <span>Giá</span>
-        <span>Số Lượng</span>
-        <span>Tổng</span>
+        <span>{{ "TRADE.ORDER_BOOK.COLUMNS.PRICE" | translate }}</span>
+        <span>{{ "TRADE.ORDER_BOOK.COLUMNS.QUANTITY" | translate }}</span>
+        <span>{{ "TRADE.ORDER_BOOK.COLUMNS.TOTAL" | translate }}</span>
       </div>
       <div class="space-y-1">
         <div

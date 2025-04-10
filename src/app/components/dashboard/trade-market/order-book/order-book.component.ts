@@ -16,11 +16,13 @@ import {
 } from 'ng-apexcharts';
 
 import { IOrderBook } from '@app/core/models';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
-import { takeUntil } from 'rxjs/operators';
-import { OrderBookService } from '@app/core/services/order-book.service';
 import { Router } from '@angular/router';
+import { OrderBookService } from '@app/core/services/order-book.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { takeUntil } from 'rxjs/operators';
+import { LanguageService } from '@app/shared/services';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -36,7 +38,7 @@ export type ChartOptions = {
 
 @Component({
   selector: 'app-order-book',
-  imports: [CommonModule, FormsModule, NgApexchartsModule],
+  imports: [CommonModule, FormsModule, NgApexchartsModule, TranslateModule],
   templateUrl: './order-book.component.html',
   styleUrls: ['./order-book.component.scss'],
 })
@@ -48,11 +50,10 @@ export class OrderBookComponent implements OnInit {
 
   public symbol = signal<string>('BTC-USDT');
 
-  private subscription = new Subscription();
-
   constructor(
     private orderBookService: OrderBookService,
-    private router: Router
+    private router: Router,
+    private translate: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -88,12 +89,12 @@ export class OrderBookComponent implements OnInit {
     this.chartOptions = {
       series: [
         {
-          name: 'Bids',
+          name: this.translate.getInstantLang('TRADE.ORDER_BOOK.BIDS'),
           type: 'bar',
           data: bidSizes,
         },
         {
-          name: 'Asks',
+          name: this.translate.getInstantLang('TRADE.ORDER_BOOK.ASKS'),
           type: 'bar',
           data: askSizes,
         },
@@ -125,7 +126,7 @@ export class OrderBookComponent implements OnInit {
       },
       yaxis: {
         title: {
-          text: 'Size',
+          text: this.translate.getInstantLang('TRADE.ORDER_BOOK.SIZE'),
           style: {
             color: '#9CA3AF',
           },
@@ -137,7 +138,7 @@ export class OrderBookComponent implements OnInit {
         },
       },
       title: {
-        text: 'Độ sâu của sổ lệnh',
+        text: this.translate.getInstantLang('TRADE.ORDER_BOOK.DEPTH_CHART'),
         align: 'center',
         style: {
           color: '#F9FAFB',

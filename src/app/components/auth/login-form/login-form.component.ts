@@ -6,24 +6,25 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '@app/core/services';
-import { AppRouter } from '@app/utils/routers';
+import { SelectLangComponent } from '@app/shared/components';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    TranslateModule,
+    SelectLangComponent,
+  ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
 export class LoginFormComponent {
   loginForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private service: AuthService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private service: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],

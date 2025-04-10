@@ -1,38 +1,40 @@
 <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
-  <h2 class="mb-4">Biểu mẫu đặt hàng tiền điện tử</h2>
+  <h2 class="mb-4">{{ "ORDER.FORM.TITLE" | translate }}</h2>
 
   <!-- Market Data Section -->
   <div class="p-4 mb-6">
-    <h3 class="text-lg font-semibold mb-2 text-gray-700">Dữ liệu thị trường</h3>
+    <h3 class="text-lg font-semibold mb-2 text-gray-700">
+      {{ "ORDER.FORM.MARKET_DATA.TITLE" | translate }}
+    </h3>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="flex flex-col">
-        <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Giá hiện tại</span
-        >
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{
+          "ORDER.FORM.MARKET_DATA.CURRENT_PRICE" | translate
+        }}</span>
         <span class="text-lg font-bold text-blue-600 dark:text-blue-400">{{
           currentPrice | currency : "USD" : "symbol" : "1.2-2"
         }}</span>
       </div>
       <div class="flex flex-col">
-        <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Giá sàn (Thấp nhất 24h)</span
-        >
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{
+          "ORDER.FORM.MARKET_DATA.FLOOR_PRICE" | translate
+        }}</span>
         <span class="text-lg font-bold text-red-600 dark:text-red-400">{{
           floorPrice | currency : "USD" : "symbol" : "1.2-2"
         }}</span>
       </div>
       <div class="flex flex-col">
-        <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Giá trung bình (24h)</span
-        >
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{
+          "ORDER.FORM.MARKET_DATA.AVERAGE_PRICE" | translate
+        }}</span>
         <span class="text-lg font-bold text-green-600 dark:text-green-400">{{
           averagePrice | currency : "USD" : "symbol" : "1.2-2"
         }}</span>
       </div>
       <div class="flex flex-col">
-        <span class="text-sm text-gray-500 dark:text-gray-400"
-          >Giá trần (Cao nhất 24h)</span
-        >
+        <span class="text-sm text-gray-500 dark:text-gray-400">{{
+          "ORDER.FORM.MARKET_DATA.CEILING_PRICE" | translate
+        }}</span>
         <span class="text-lg font-bold text-purple-600 dark:text-purple-400">{{
           ceilingPrice | currency : "USD" : "symbol" : "1.2-2"
         }}</span>
@@ -58,7 +60,7 @@
           class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
           (click)="orderForm.get('side')?.setValue('buy')"
         >
-          Mua
+          {{ "ORDER.FORM.ORDER_TYPE.BUY" | translate }}
         </button>
         <button
           type="button"
@@ -70,7 +72,7 @@
           class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
           (click)="orderForm.get('side')?.setValue('sell')"
         >
-          Bán
+          {{ "ORDER.FORM.ORDER_TYPE.SELL" | translate }}
         </button>
       </div>
     </div>
@@ -79,7 +81,7 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Mã Token</label
+          >{{ "ORDER.FORM.FIELDS.TOKEN" | translate }}</label
         >
         <select
           formControlName="symbol"
@@ -95,7 +97,7 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Loại đơn hàng</label
+          >{{ "ORDER.FORM.FIELDS.ORDER_TYPE" | translate }}</label
         >
         <select
           formControlName="orderType"
@@ -111,7 +113,7 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Số Lượng</label
+          >{{ "ORDER.FORM.FIELDS.QUANTITY" | translate }}</label
         >
         <input
           type="number"
@@ -127,7 +129,7 @@
           "
           class="text-red-500 text-sm mt-1"
         >
-          SỐ lượng là bắt buộc
+          {{ "ORDER.FORM.FIELDS.QUANTITY_ERROR" | translate }}
         </div>
       </div>
 
@@ -135,7 +137,8 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Giá (USDT)</label
+        >
+          {{ "ORDER.FORM.FIELDS.PRICE" | translate }}</label
         >
         <input
           type="number"
@@ -150,7 +153,7 @@
           "
           class="text-red-500 text-sm mt-1"
         >
-          Giá là bắt buộc
+          {{ "ORDER.FORM.FIELDS.PRICE_ERROR" | translate }}
         </div>
       </div>
 
@@ -158,8 +161,9 @@
       <div>
         <label
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >Giá tối đa (USDT)</label
         >
+          {{ "ORDER.FORM.FIELDS.MAX_PRICE" | translate }}
+        </label>
         <input
           type="number"
           formControlName="maxPrice"
@@ -173,7 +177,9 @@
     <!-- Order Total (calculated) -->
     <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
       <div class="flex justify-between items-center">
-        <span class="text-gray-300">Tổng phí:</span>
+        <span class="text-gray-300">{{
+          "ORDER.FORM.FIELDS.TOTAL_FEE" | translate
+        }}</span>
         <span class="text-lg font-bold text-gray-900 dark:text-white">
           {{
             orderForm.get("quantity")?.value * orderForm.get("price")?.value
@@ -195,7 +201,11 @@
         }"
         class="w-full md:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200"
       >
-        {{ orderForm.get("side")?.value === "buy" ? "Mua" : "Bán" }}
+        {{
+          "ORDER.FORM.ORDER_TYPE." +
+            (orderForm.get("side")?.value === "buy" ? "BUY" : "SELL")
+            | translate
+        }}
         {{ selectedSymbol.split("-")[0] }}
       </button>
     </div>

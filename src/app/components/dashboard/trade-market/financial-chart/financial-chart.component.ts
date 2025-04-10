@@ -14,6 +14,7 @@ import {
 } from 'ng-apexcharts';
 import { Subscription } from 'rxjs';
 import { TraddingVolumeComponent } from './tradding-volume/tradding-volume.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-financial-chart',
@@ -22,6 +23,7 @@ import { TraddingVolumeComponent } from './tradding-volume/tradding-volume.compo
     NgApexchartsModule,
     ReactiveFormsModule,
     TraddingVolumeComponent,
+    TranslateModule,
   ],
   templateUrl: './financial-chart.component.html',
   styleUrl: './financial-chart.component.scss',
