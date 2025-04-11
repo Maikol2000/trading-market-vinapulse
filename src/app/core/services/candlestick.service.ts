@@ -7,6 +7,7 @@ import { ApiOKSService } from '@app/shared/services';
 import { environment } from '@env/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ICandleData } from '../models/candle';
+import { CandlestickData, Time } from 'lightweight-charts';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class CandlestickService {
   private timer!: ReturnType<typeof setInterval>;
   private timerConnect!: ReturnType<typeof setTimeout>;
 
-  public series$ = new BehaviorSubject<Partial<ICandleData>>({});
+  public series$ = new BehaviorSubject<Partial<CandlestickData>>({});
   private socket: WebSocket | null = null;
 
   constructor(private okxService: ApiOKSService) {}
@@ -52,15 +53,12 @@ export class CandlestickService {
   updateCandlestick(candleData: any) {
     if (!candleData || candleData.length === 0) return;
     const candle = candleData[0];
-    const formattedData = {
-      x: new Date(+candle[0]),
-      y: [
-        parseFloat(candle[1]), // Open
-        parseFloat(candle[2]), // High
-        parseFloat(candle[3]), // Low
-        parseFloat(candle[4]), // Close
-      ],
-      vol: parseFloat(candle[6]),
+    const formattedData: Partial<CandlestickData> = {
+      time: (new Date(+candle[0]).getTime() / 1000) as Time,
+      open: parseFloat(candle[1]),
+      high: parseFloat(candle[2]),
+      low: parseFloat(candle[3]),
+      close: parseFloat(candle[4]),
     };
 
     this.series$.next(formattedData);
@@ -111,22 +109,20 @@ export class CandlestickService {
   }
 
   // history-candles
-  getHistoryCandles(instId: string): Observable<ICandleData[]> {
+  getHistoryCandles(instId: string): Observable<CandlestickData[]> {
     return this.okxService
       .getOKX<OKSModelResponse<string[][]>>(
         `/market/history-candles?instId=${instId}`
       )
       .pipe(
         map(({ data }) =>
-          data.map((d: string[]) => ({
-            x: new Date(+d[0]),
-            y: [
-              parseFloat(d[1]), // Open
-              parseFloat(d[2]), // High
-              parseFloat(d[3]), // Low
-              parseFloat(d[4]), // Close
-            ],
-            vol: parseFloat(d[6]),
+          data.map((candle: string[]) => ({
+            time: (new Date(+candle[0]).getTime() / 1000) as Time,
+            open: parseFloat(candle[1]),
+            high: parseFloat(candle[2]),
+            low: parseFloat(candle[3]),
+            close: parseFloat(candle[4]),
+            value: parseFloat(candle[6]), // volume
           }))
         )
       );

@@ -6,18 +6,7 @@
   <div class="mb-6">
     <!-- <div class="flex-1"></div> -->
 
-    <div id="chart" *ngIf="chartOptions">
-      <apx-chart
-        #chart
-        [series]="chartOptions.series!"
-        [chart]="chartOptions.chart!"
-        [xaxis]="chartOptions.xaxis!"
-        [title]="chartOptions.title!"
-        [tooltip]="chartOptions.tooltip!"
-        [dataLabels]="chartOptions.dataLabels!"
-        [stroke]="chartOptions.stroke!"
-      ></apx-chart>
-      <app-tradding-volume [series]="series()"></app-tradding-volume>
-    </div>
+    <div class="chart-container w-full" #chartContainer></div>
+    <!-- <app-tradding-volume [series]="series()"></app-tradding-volume> -->
   </div>
 </div>
