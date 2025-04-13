@@ -5,9 +5,13 @@ import {
 } from '@app/shared/models';
 import { ApiOKSService } from '@app/shared/services';
 import { environment } from '@env/environment';
+import { CandlestickData, HistogramData, Time } from 'lightweight-charts';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { ICandleData } from '../models/candle';
-import { CandlestickData, Time } from 'lightweight-charts';
+
+export interface DataMarket {
+  candles: CandlestickData[];
+  volumes: HistogramData[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +31,6 @@ export class CandlestickService {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       return;
     }
-
     this.socket = new WebSocket(this.wsUrl);
 
     this.socket.onopen = () => {
@@ -109,22 +112,36 @@ export class CandlestickService {
   }
 
   // history-candles
-  getHistoryCandles(instId: string): Observable<CandlestickData[]> {
+  getHistoryMarkets(instId: string): Observable<DataMarket> {
     return this.okxService
       .getOKX<OKSModelResponse<string[][]>>(
         `/market/history-candles?instId=${instId}`
       )
       .pipe(
-        map(({ data }) =>
-          data.map((candle: string[]) => ({
+        map((data) => {
+          return data.data.sort((a, b) => Number(a[0]) - Number(b[0]));
+        }),
+        map((data) => {
+          const candles: CandlestickData[] = data.map((candle: string[]) => ({
             time: (new Date(+candle[0]).getTime() / 1000) as Time,
             open: parseFloat(candle[1]),
             high: parseFloat(candle[2]),
             low: parseFloat(candle[3]),
             close: parseFloat(candle[4]),
-            value: parseFloat(candle[6]), // volume
-          }))
-        )
+          }));
+          const volumes: HistogramData[] = data.map((candle: string[]) => ({
+            time: (new Date(+candle[0]).getTime() / 1000) as Time,
+            value: parseFloat(candle[6]), // volume,
+            color:
+              parseFloat(candle[4]) >= parseFloat(candle[1]) // close >= open
+                ? 'rgba(38, 166, 154, 0.5)'
+                : 'rgba(239, 83, 80, 0.5)',
+          }));
+          return {
+            candles,
+            volumes,
+          };
+        })
       );
   }
 }

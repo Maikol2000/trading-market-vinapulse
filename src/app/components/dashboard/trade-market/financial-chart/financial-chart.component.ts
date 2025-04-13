@@ -1,14 +1,7 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  effect,
-  ElementRef,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ICandleData } from '@app/core/models/candle';
 import { CandlestickService } from '@app/core/services';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -16,20 +9,16 @@ import {
   CandlestickData,
   CandlestickSeries,
   ChartOptions,
-  ColorType,
   createChart,
   CrosshairMode,
+  DeepPartial,
   HistogramData,
   HistogramSeries,
   IChartApi,
-  IRange,
   ISeriesApi,
-  PriceScaleMode,
   Time,
 } from 'lightweight-charts';
 import { Subscription } from 'rxjs';
-import { TraddingVolumeComponent } from './tradding-volume/tradding-volume.component';
-import { Options } from 'highcharts';
 
 @Component({
   selector: 'app-financial-chart',
@@ -51,6 +40,8 @@ export class FinancialChartComponent {
   private candleSeries: ISeriesApi<'Candlestick'> | null = null;
   private volumeSeries: ISeriesApi<'Histogram'> | null = null;
 
+  private resizeObserver: ResizeObserver | null = null;
+
   constructor(
     private candlestickService: CandlestickService,
     private router: Router
@@ -60,6 +51,7 @@ export class FinancialChartComponent {
 
   ngOnInit(): void {
     this.initChart();
+    this.setupResizeObserver();
     const path = this.router.url.split('/');
     this.symbol.set(path[path.length - 1]);
 
@@ -91,30 +83,33 @@ export class FinancialChartComponent {
 
   getHistoryCandles() {
     this.candlestickService
-      .getHistoryCandles(this.symbol())
+      .getHistoryMarkets(this.symbol())
       .subscribe((data) => {
-        if (this.candleSeries && data.length > 0) {
-          const sortedData = data.sort(
-            (a, b) => Number(a.time) - Number(b.time)
-          );
-          this.candleSeries.setData(sortedData);
+        if (this.candleSeries && this.volumeSeries && data.candles.length > 0) {
+          this.candleSeries.setData(data.candles);
+          this.volumeSeries.setData(data.volumes);
         }
       });
   }
 
   private initChart(): void {
     const container = this.chartContainer.nativeElement;
-    const options: any = {
+    const options: DeepPartial<ChartOptions> = {
       width: container.width,
       height: container.height,
       layout: {
-        background: '#131722',
+        background: {
+          color: '#131722',
+        },
         textColor: '#d1d4dc',
         attributionLogo: false,
       },
       grid: {
-        vertLines: '#1f2937',
-        horzLines: '#1f2937',
+        vertLines: {
+          color: '#1f2937',
+          visible: true,
+        },
+        horzLines: { color: '#1f2937' },
       },
       crosshair: {
         mode: CrosshairMode.Normal,
@@ -168,8 +163,30 @@ export class FinancialChartComponent {
     });
   }
 
+  private setupResizeObserver(): void {
+    const container = this.chartContainer.nativeElement;
+
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.chart) {
+        const { width, height } = container.getBoundingClientRect();
+        this.chart.resize(width, height);
+      }
+    });
+
+    this.resizeObserver.observe(container);
+  }
+
   ngOnDestroy(): void {
     this.candlestickService.clearTimer();
     this.subscription?.unsubscribe();
+
+    if (this.chart) {
+      this.chart.remove();
+      this.chart = null;
+    }
+
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 }
