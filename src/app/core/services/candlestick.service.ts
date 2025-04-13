@@ -21,20 +21,33 @@ export class CandlestickService {
   private timer!: ReturnType<typeof setInterval>;
   private timerConnect!: ReturnType<typeof setTimeout>;
 
-  public series$ = new BehaviorSubject<Partial<CandlestickData>>({});
+  public serries$ = new BehaviorSubject<
+    Partial<{ candles: CandlestickData; volumes: HistogramData }>
+  >({});
+  // public volumes$ = new BehaviorSubject<Partial<HistogramData>>({});
   private socket: WebSocket | null = null;
+
+  private symbol: string = '';
+  private timeframe: subscribeChannelsCandleType = '1m';
 
   constructor(private okxService: ApiOKSService) {}
 
   // socket
-  connectWebSocket(symbol?: string, timeframe?: subscribeChannelsCandleType) {
+  connectWebSocket(
+    symbol?: string,
+    timeframe: subscribeChannelsCandleType = '1m'
+  ) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       return;
     }
+
+    if (symbol) this.symbol = symbol ?? '';
+    this.timeframe = timeframe;
+
     this.socket = new WebSocket(this.wsUrl);
 
     this.socket.onopen = () => {
-      this.subscribeToCandlestick(symbol, timeframe);
+      this.subscribeToCandlestick();
     };
 
     this.socket.onmessage = (event) => {
@@ -53,30 +66,39 @@ export class CandlestickService {
     };
   }
 
-  updateCandlestick(candleData: any) {
+  updateCandlestick(candleData: string[][]) {
     if (!candleData || candleData.length === 0) return;
     const candle = candleData[0];
-    const formattedData: Partial<CandlestickData> = {
+    const formattedData: CandlestickData = {
       time: (new Date(+candle[0]).getTime() / 1000) as Time,
       open: parseFloat(candle[1]),
       high: parseFloat(candle[2]),
       low: parseFloat(candle[3]),
       close: parseFloat(candle[4]),
     };
+    const volumeData: HistogramData = {
+      time: (new Date(+candle[0]).getTime() / 1000) as Time,
+      value: parseFloat(candle[6]), // volume,
+      color:
+        parseFloat(candle[4]) >= parseFloat(candle[1]) // close >= open
+          ? 'rgba(38, 166, 154, 0.5)'
+          : 'rgba(239, 83, 80, 0.5)',
+    };
 
-    this.series$.next(formattedData);
+    // this.volumes$.next(volumeData);
+    this.serries$.next({
+      candles: formattedData,
+      volumes: volumeData,
+    });
   }
 
-  subscribeToCandlestick(
-    instId?: string,
-    timeframe?: subscribeChannelsCandleType
-  ) {
+  subscribeToCandlestick() {
     const message = {
       op: 'subscribe',
       args: [
         {
-          channel: timeframe ?? 'candle1m',
-          instId: instId ?? 'BTC-USDT',
+          channel: 'candle' + this.timeframe,
+          instId: this.symbol ?? 'BTC-USDT',
         },
       ],
     };
@@ -112,10 +134,14 @@ export class CandlestickService {
   }
 
   // history-candles
-  getHistoryMarkets(instId: string): Observable<DataMarket> {
+  getHistoryMarkets(
+    symbol: string,
+    timeframe: subscribeChannelsCandleType = '1H',
+    limit: number = 100
+  ): Observable<DataMarket> {
     return this.okxService
       .getOKX<OKSModelResponse<string[][]>>(
-        `/market/history-candles?instId=${instId}`
+        `/market/history-candles?instId=${symbol}&bar=${timeframe}&limit=${limit}`
       )
       .pipe(
         map((data) => {

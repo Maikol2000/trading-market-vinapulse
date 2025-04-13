@@ -1,8 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CandlestickService } from '@app/core/services';
+import { subscribeChannelsCandleType } from '@app/shared/models';
 import { TranslateModule } from '@ngx-translate/core';
 
 import {
@@ -19,10 +26,16 @@ import {
   Time,
 } from 'lightweight-charts';
 import { Subscription } from 'rxjs';
+import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
 
 @Component({
   selector: 'app-financial-chart',
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TimeframeSelectorComponent,
+  ],
   templateUrl: './financial-chart.component.html',
   styleUrl: './financial-chart.component.scss',
 })
@@ -34,56 +47,103 @@ export class FinancialChartComponent {
   candleData: CandlestickData[] = [];
   volumeData: HistogramData[] = [];
 
-  public symbol = signal<string>('BTC-USDT');
+  public symbol = signal<string>('');
 
   private subscription: Subscription | null = null;
   private candleSeries: ISeriesApi<'Candlestick'> | null = null;
   private volumeSeries: ISeriesApi<'Histogram'> | null = null;
 
-  private resizeObserver: ResizeObserver | null = null;
+  public selectedTimeframe = signal<subscribeChannelsCandleType>('1m');
 
   constructor(
     private candlestickService: CandlestickService,
     private router: Router
   ) {
-    this.getHistoryCandles();
+    const path = this.router.url.split('/');
+    this.symbol.set(path[path.length - 1]);
+
+    effect(() => {
+      if (this.selectedTimeframe()) {
+        this.getHistoryCandles(this.selectedTimeframe());
+        this.candlestickService.connectWebSocket(
+          this.symbol(),
+          this.selectedTimeframe()
+        );
+        this.candlestickService.setTimer(500);
+      }
+    });
   }
 
   ngOnInit(): void {
     this.initChart();
-    this.setupResizeObserver();
-    const path = this.router.url.split('/');
-    this.symbol.set(path[path.length - 1]);
-
-    this.candlestickService.connectWebSocket(this.symbol(), 'candle1m');
-    this.candlestickService.setTimer(500);
-
-    this.subscription = this.candlestickService.series$.subscribe((data) => {
-      if (data && this.candleSeries) {
-        const ser = this.candleSeries.data();
-        if (ser) {
-          const existingIndex = ser
-            ? ser.findIndex((item) => Number(item.time) === Number(data.time))
+    this.subscription = this.candlestickService.serries$.subscribe((data) => {
+      if (data && this.candleSeries && this.volumeSeries) {
+        const serCandle = this.candleSeries.data();
+        const serVolume = this.volumeSeries.data();
+        // const
+        if (serCandle && serVolume) {
+          const existingIndexCandle = serCandle
+            ? serCandle.findIndex(
+                (item) =>
+                  Number(item.time) === Number(data.candles?.time ?? '0')
+              )
             : [];
 
-          if (typeof existingIndex === 'number' && existingIndex !== -1) {
+          const existingIndexVolume = serVolume
+            ? serVolume.findIndex(
+                (item) =>
+                  Number(item.time) === Number(data.volumes?.time ?? '0')
+              )
+            : [];
+
+          // Candle
+          if (
+            typeof existingIndexCandle === 'number' &&
+            existingIndexCandle !== -1
+          ) {
             // Update existing candle
-            const updatedSeries = [...ser];
-            updatedSeries[existingIndex] = data as CandlestickData<Time>;
+            const updatedSeries = [...serCandle];
+            updatedSeries[existingIndexCandle] =
+              data.candles as CandlestickData<Time>;
             this.candleSeries.setData(updatedSeries);
           } else {
             // Add new candle
-            if (data.time)
-              this.candleSeries.update(data as CandlestickData<Time>);
+            if (data.candles?.time)
+              this.candleSeries.update(data.candles as CandlestickData<Time>);
+          }
+
+          // Volume
+          if (
+            typeof existingIndexVolume === 'number' &&
+            existingIndexVolume !== -1
+          ) {
+            // Update existing candle
+            const updatedSeries = [...serVolume];
+            updatedSeries[existingIndexVolume] =
+              data.volumes as HistogramData<Time>;
+            this.volumeSeries.setData(updatedSeries);
+          } else {
+            // Add new volume
+            if (data.volumes?.time)
+              this.volumeSeries.update(data.volumes as HistogramData<Time>);
           }
         }
       }
     });
   }
 
-  getHistoryCandles() {
+  changeTimeframe(timeframe: subscribeChannelsCandleType) {
+    this.selectedTimeframe.set(timeframe);
+    // Reload chart data with new timeframe
+    this.getHistoryCandles(timeframe);
+  }
+
+  getHistoryCandles(
+    timeframe: subscribeChannelsCandleType = '1H',
+    limit: number = 100
+  ) {
     this.candlestickService
-      .getHistoryMarkets(this.symbol())
+      .getHistoryMarkets(this.symbol(), timeframe, limit)
       .subscribe((data) => {
         if (this.candleSeries && this.volumeSeries && data.candles.length > 0) {
           this.candleSeries.setData(data.candles);
@@ -99,7 +159,7 @@ export class FinancialChartComponent {
       height: container.height,
       layout: {
         background: {
-          color: '#131722',
+          color: '#0f0f0f',
         },
         textColor: '#d1d4dc',
         attributionLogo: false,
@@ -163,19 +223,6 @@ export class FinancialChartComponent {
     });
   }
 
-  private setupResizeObserver(): void {
-    const container = this.chartContainer.nativeElement;
-
-    this.resizeObserver = new ResizeObserver(() => {
-      if (this.chart) {
-        const { width, height } = container.getBoundingClientRect();
-        this.chart.resize(width, height);
-      }
-    });
-
-    this.resizeObserver.observe(container);
-  }
-
   ngOnDestroy(): void {
     this.candlestickService.clearTimer();
     this.subscription?.unsubscribe();
@@ -183,10 +230,6 @@ export class FinancialChartComponent {
     if (this.chart) {
       this.chart.remove();
       this.chart = null;
-    }
-
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
     }
   }
 }

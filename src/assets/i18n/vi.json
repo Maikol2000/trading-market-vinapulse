@@ -130,5 +130,24 @@
         "AI_TRADING_BOT": "AI Trading Bot",
         "AI_CHAT_BOT": "AI Chat Bot",
         "NEWS": "Tin tức"
+    },
+    "TIMEFRAME": {
+        "1m": "1 phút",
+        "3m": "3 phút",
+        "5m": "5 phút",
+        "15m": "15 phút",
+        "30m": "30 phút",
+        "1H": "1 giờ",
+        "2H": "2 giờ",
+        "4H": "4 giờ",
+        "6H": "6 giờ",
+        "12H": "12 giờ",
+        "1D": "1 ngày",
+        "2D": "2 ngày",
+        "3D": "3 ngày",
+        "5D": "5 ngày",
+        "1W": "1 tuần",
+        "1M": "1 tháng",
+        "3M": "3 tháng"
     }
 }

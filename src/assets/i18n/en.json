@@ -132,5 +132,24 @@
         "AI_TRADING_BOT": "AI Trading Bot",
         "AI_CHAT_BOT": "AI Chat Bot",
         "NEWS": "News"
+    },
+    "TIMEFRAME": {
+        "1m": "1 minute",
+        "3m": "3 minutes",
+        "5m": "5 minutes",
+        "15m": "15 minutes",
+        "30m": "30 minutes",
+        "1H": "1 hour",
+        "2H": "2 hours",
+        "4H": "4 hours",
+        "6H": "6 hours",
+        "12H": "12 hours",
+        "1D": "1 day",
+        "2D": "2 days",
+        "3D": "3 days",
+        "5D": "5 days",
+        "1W": "1 week",
+        "1M": "1 month",
+        "3M": "3 months"
     }
 }
