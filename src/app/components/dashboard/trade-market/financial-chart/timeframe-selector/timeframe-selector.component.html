@@ -1,12 +1,12 @@
 <div #toogleBar class="relative">
   <div
     (click)="toggleDropdown()"
-    class="px-3 py-1.5 text-sm font-medium rounded-md bg-neutral-800 hover:bg-neutral-700 text-gray-200 transition-colors duration-200 cursor-pointer"
+    class="px-3 py-1.5 text-sm font-medium rounded-md bg-neutral-800 hover:bg-neutral-700 text-gray-200 transition-colors duration-200 cursor-pointer w-fit"
     [clickOutsideExceptions]="[toogleBar]"
     appClickOutside
     (clickOutside)="onClose()"
   >
-    {{ selectedTimeframe() }}
+    {{ selectedTimeframe }}
   </div>
 
   @if(isDropdownOpen) {
@@ -16,6 +16,7 @@
     <button
       *ngFor="let tf of timeframes"
       (click)="changeTimeframe(tf.value); onClose()"
+      [class.bg-gray-600]="selectedTimeframe === tf.value"
       class="px-3 py-1.5 text-sm font-medium hover:bg-neutral-700 text-gray-200 transition-colors duration-200 text-left"
     >
       {{ tf.label | translate }}

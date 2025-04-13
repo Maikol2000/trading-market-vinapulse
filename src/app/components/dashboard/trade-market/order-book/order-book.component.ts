@@ -58,7 +58,8 @@ export class OrderBookComponent implements OnInit {
 
   ngOnInit(): void {
     const path = this.router.url.split('/');
-    this.symbol.set(path[path.length - 1]);
+    const sub = path[path.length - 1];
+    this.symbol.set(sub.split('-').join('/'));
 
     this.orderBookService.orderBook$
       .pipe(takeUntil(this.destroy$))
@@ -69,7 +70,7 @@ export class OrderBookComponent implements OnInit {
         }
       });
 
-    this.orderBookService.startStreaming(this.symbol());
+    this.orderBookService.startStreaming(sub);
   }
 
   ngOnDestroy(): void {

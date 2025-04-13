@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, output, signal } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideDirective } from '@app/shared/directives';
 import { subscribeChannelsCandleType, Timeframe } from '@app/shared/models';
@@ -22,7 +22,7 @@ export class TimeframeSelectorComponent {
 
   isDropdownOpen = false;
 
-  public selectedTimeframe = signal<subscribeChannelsCandleType>('1H');
+  public selectedTimeframe: subscribeChannelsCandleType = '1m';
 
   public timeframes: Timeframe<subscribeChannelsCandleType>[] = [
     { value: '1m', label: 'TIMEFRAME.1m' },
@@ -38,7 +38,7 @@ export class TimeframeSelectorComponent {
   ];
 
   changeTimeframe(timeframe: subscribeChannelsCandleType) {
-    this.selectedTimeframe.set(timeframe);
+    this.selectedTimeframe = timeframe;
     this.setTimeframe.emit(timeframe);
   }
 

@@ -48,12 +48,11 @@ export class FinancialChartComponent {
   volumeData: HistogramData[] = [];
 
   public symbol = signal<string>('');
+  public selectedTimeframe = signal<subscribeChannelsCandleType>('1m');
 
   private subscription: Subscription | null = null;
   private candleSeries: ISeriesApi<'Candlestick'> | null = null;
   private volumeSeries: ISeriesApi<'Histogram'> | null = null;
-
-  public selectedTimeframe = signal<subscribeChannelsCandleType>('1m');
 
   constructor(
     private candlestickService: CandlestickService,
@@ -63,12 +62,13 @@ export class FinancialChartComponent {
     this.symbol.set(path[path.length - 1]);
 
     effect(() => {
-      if (this.selectedTimeframe()) {
+      if (this.selectedTimeframe() && this.symbol()) {
         this.getHistoryCandles(this.selectedTimeframe());
-        this.candlestickService.connectWebSocket(
+        this.candlestickService.setSubcribe(
           this.symbol(),
           this.selectedTimeframe()
         );
+        this.candlestickService.connectWebSocket();
         this.candlestickService.setTimer(500);
       }
     });
@@ -80,7 +80,6 @@ export class FinancialChartComponent {
       if (data && this.candleSeries && this.volumeSeries) {
         const serCandle = this.candleSeries.data();
         const serVolume = this.volumeSeries.data();
-        // const
         if (serCandle && serVolume) {
           const existingIndexCandle = serCandle
             ? serCandle.findIndex(
@@ -96,7 +95,7 @@ export class FinancialChartComponent {
               )
             : [];
 
-          // Candle
+          // Set Candle
           if (
             typeof existingIndexCandle === 'number' &&
             existingIndexCandle !== -1
@@ -112,7 +111,7 @@ export class FinancialChartComponent {
               this.candleSeries.update(data.candles as CandlestickData<Time>);
           }
 
-          // Volume
+          // Set Volume
           if (
             typeof existingIndexVolume === 'number' &&
             existingIndexVolume !== -1

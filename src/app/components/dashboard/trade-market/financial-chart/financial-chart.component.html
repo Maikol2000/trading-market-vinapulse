@@ -5,11 +5,9 @@
 
   <div class="mb-6">
     <!-- Timeframe Selector -->
-    <div class="flex gap-2">
-      <app-timeframe-selector
-        (setTimeframe)="changeTimeframe($event)"
-      ></app-timeframe-selector>
-    </div>
+    <app-timeframe-selector
+      (setTimeframe)="changeTimeframe($event)"
+    ></app-timeframe-selector>
 
     <div class="chart-container w-full" #chartContainer></div>
   </div>

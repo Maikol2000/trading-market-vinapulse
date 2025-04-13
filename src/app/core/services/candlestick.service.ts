@@ -24,7 +24,6 @@ export class CandlestickService {
   public serries$ = new BehaviorSubject<
     Partial<{ candles: CandlestickData; volumes: HistogramData }>
   >({});
-  // public volumes$ = new BehaviorSubject<Partial<HistogramData>>({});
   private socket: WebSocket | null = null;
 
   private symbol: string = '';
@@ -33,16 +32,10 @@ export class CandlestickService {
   constructor(private okxService: ApiOKSService) {}
 
   // socket
-  connectWebSocket(
-    symbol?: string,
-    timeframe: subscribeChannelsCandleType = '1m'
-  ) {
+  connectWebSocket() {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       return;
     }
-
-    if (symbol) this.symbol = symbol ?? '';
-    this.timeframe = timeframe;
 
     this.socket = new WebSocket(this.wsUrl);
 
@@ -105,6 +98,11 @@ export class CandlestickService {
     if (this.socket) {
       this.socket.send(JSON.stringify(message));
     }
+  }
+
+  setSubcribe(symbol: string, timeframe: subscribeChannelsCandleType = '1m') {
+    this.symbol = symbol;
+    this.timeframe = timeframe;
   }
 
   setTimer(interval: number) {
