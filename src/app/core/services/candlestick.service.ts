@@ -139,7 +139,7 @@ export class CandlestickService {
   ): Observable<DataMarket> {
     return this.okxService
       .getOKX<OKSModelResponse<string[][]>>(
-        `/market/history-candles?instId=${symbol}&bar=${timeframe}&limit=${limit}`
+        `/market/candles?instId=${symbol}&bar=${timeframe}&limit=${limit}`
       )
       .pipe(
         map((data) => {

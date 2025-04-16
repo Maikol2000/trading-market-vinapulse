@@ -1,0 +1,87 @@
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center"
+  [@fadeAnimation]
+>
+  <!-- Backdrop -->
+  <div
+    class="absolute inset-0 bg-black/50 transition-opacity"
+    [ngClass]="backdropClass ? backdropClass : 'bg-opacity-50'"
+    (click)="closeOnBackdropClick ? close() : null"
+  ></div>
+
+  <!-- Modal Container -->
+  <div
+    #modalContent
+    [ngClass]="
+      containerClass
+        ? containerClass
+        : 'bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4'
+    "
+    class="z-10 overflow-hidden relative"
+  >
+    <!-- Header -->
+    <div
+      *ngIf="showHeader"
+      [ngClass]="
+        headerClass
+          ? headerClass
+          : 'px-6 py-4 border-b dark:border-gray-700 flex justify-between items-center'
+      "
+    >
+      <h3
+        [ngClass]="
+          titleClass
+            ? titleClass
+            : 'text-lg font-medium text-gray-900 dark:text-white'
+        "
+      >
+        <ng-content select="[modal-title]"></ng-content>
+        <span *ngIf="title">{{ title }}</span>
+      </h3>
+
+      <button
+        *ngIf="showCloseButton"
+        (click)="close()"
+        [ngClass]="
+          closeButtonClass
+            ? closeButtonClass
+            : 'text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-indigo-100 rounded'
+        "
+        aria-label="Close"
+      >
+        <svg
+          class="h-5 w-5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div [ngClass]="bodyClass ? bodyClass : 'px-6 py-4'">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Footer -->
+    <div
+      *ngIf="showFooter"
+      [ngClass]="
+        footerClass
+          ? footerClass
+          : 'px-6 py-4 border-t dark:border-gray-700 flex justify-end space-x-3'
+      "
+    >
+      <ng-content select="[modal-footer]"></ng-content>
+    </div>
+  </div>
+</div>

@@ -38,7 +38,7 @@ export type ChartOptions = {
 
 @Component({
   selector: 'app-order-book',
-  imports: [CommonModule, FormsModule, NgApexchartsModule, TranslateModule],
+  imports: [CommonModule, NgApexchartsModule, TranslateModule],
   templateUrl: './order-book.component.html',
   styleUrls: ['./order-book.component.scss'],
 })

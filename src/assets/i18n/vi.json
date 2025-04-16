@@ -56,10 +56,10 @@
     },
     "TRADE": {
         "CHART": {
-            "TITLE": "Biểu đồ tài chính"
-        },
-        "VOLUME": {
-            "TITLE": "Khối lượng"
+            "TITLE": "Biểu đồ tài chính",
+            "MODAL": {
+                "TITLE": "Các chỉ báo"
+            }
         },
         "ORDER_BOOK": {
             "TITLE": "Sổ lệnh",

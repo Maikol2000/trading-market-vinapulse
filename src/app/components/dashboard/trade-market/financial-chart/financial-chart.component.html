@@ -5,10 +5,14 @@
 
   <div class="mb-6">
     <!-- Timeframe Selector -->
-    <app-timeframe-selector
-      (setTimeframe)="changeTimeframe($event)"
-    ></app-timeframe-selector>
-
+    <div class="flex gap-2">
+      <app-timeframe-selector
+        (setTimeframe)="changeTimeframe($event)"
+      ></app-timeframe-selector>
+      <app-indicators-selector
+        (selectIndicator)="onSelectIndicator($event)"
+      ></app-indicators-selector>
+    </div>
     <div class="chart-container w-full" #chartContainer></div>
   </div>
 </div>

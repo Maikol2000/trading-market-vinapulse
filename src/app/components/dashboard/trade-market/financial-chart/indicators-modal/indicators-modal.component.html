@@ -1,0 +1,39 @@
+<app-modal
+  [isOpen]="true"
+  (closed)="onClose()"
+  [title]="'TRADE.CHART.MODAL.TITLE' | translate"
+>
+  <div class="mb-4">
+    <div class="relative">
+      <input
+        type="text"
+        [formControl]="searchControl"
+        class="w-full px-4 py-2 text-sm border rounded-lg bg-neutral-800 border-neutral-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [placeholder]="'TRADE.CHART.MODAL.SEARCH_PLACEHOLDER' | translate"
+      />
+      <span class="absolute right-3 top-2.5 text-gray-400">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </span>
+    </div>
+  </div>
+
+  <div class="mt-4 max-h-96 overflow-y-auto">
+    <div class="grid grid-cols-1 gap-2">
+      <div
+        *ngFor="let indicator of filteredIndicators()"
+        class="flex items-center justify-between p-3 rounded-lg bg-neutral-800 hover:bg-neutral-700 cursor-pointer"
+        (click)="onSelect(indicator.id)"
+      >
+        <div class="flex items-center space-x-3">
+          <fa-icon [icon]="indicator.icon" class="text-gray-400"></fa-icon>
+          <div>
+            <h3 class="text-sm font-medium text-gray-200">
+              {{ indicator.name }}
+            </h3>
+            <p class="text-xs text-gray-400">{{ indicator.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>

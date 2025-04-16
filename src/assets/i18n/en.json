@@ -57,11 +57,10 @@
     },
     "TRADE": {
         "CHART": {
-            "TITLE": "Financial Chart"
-        },
-        "VOLUME": {
-            "TITLE": "Volume",
-            "CHART_TITLE": "Trading Volume Chart"
+            "TITLE": "Financial Chart",
+            "MODAL": {
+                "TITLE": "Indicators"
+            }
         },
         "ORDER_BOOK": {
             "TITLE": "Order Book",

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TraddingVolumeComponent } from './tradding-volume.component';
+import { IndicatorsModalComponent } from './indicators-modal.component';
 
-describe('TraddingVolumeComponent', () => {
-  let component: TraddingVolumeComponent;
-  let fixture: ComponentFixture<TraddingVolumeComponent>;
+describe('IndicatorsModalComponent', () => {
+  let component: IndicatorsModalComponent;
+  let fixture: ComponentFixture<IndicatorsModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TraddingVolumeComponent]
+      imports: [IndicatorsModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TraddingVolumeComponent);
+    fixture = TestBed.createComponent(IndicatorsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

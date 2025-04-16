@@ -9,7 +9,7 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CandlestickService } from '@app/core/services';
-import { subscribeChannelsCandleType } from '@app/shared/models';
+import { IdIndicator, subscribeChannelsCandleType } from '@app/shared/models';
 import { TranslateModule } from '@ngx-translate/core';
 
 import {
@@ -23,10 +23,12 @@ import {
   HistogramSeries,
   IChartApi,
   ISeriesApi,
+  LineSeries,
   Time,
 } from 'lightweight-charts';
 import { Subscription } from 'rxjs';
 import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
+import { IndicatorsSelectorComponent } from './indicators-selector/indicators-selector.component';
 
 @Component({
   selector: 'app-financial-chart',
@@ -35,6 +37,7 @@ import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selec
     ReactiveFormsModule,
     TranslateModule,
     TimeframeSelectorComponent,
+    IndicatorsSelectorComponent,
   ],
   templateUrl: './financial-chart.component.html',
   styleUrl: './financial-chart.component.scss',
@@ -42,17 +45,21 @@ import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selec
 export class FinancialChartComponent {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
 
-  private chart: IChartApi | null = null;
-
-  candleData: CandlestickData[] = [];
-  volumeData: HistogramData[] = [];
-
   public symbol = signal<string>('');
   public selectedTimeframe = signal<subscribeChannelsCandleType>('1m');
 
-  private subscription: Subscription | null = null;
+  // API Chart
+  private chart: IChartApi | null = null;
   private candleSeries: ISeriesApi<'Candlestick'> | null = null;
   private volumeSeries: ISeriesApi<'Histogram'> | null = null;
+  private bbSeries: {
+    middle: ISeriesApi<'Line'>;
+    upper: ISeriesApi<'Line'>;
+    lower: ISeriesApi<'Line'>;
+  } | null = null;
+  private smaLine: ISeriesApi<'Line'> | null = null;
+
+  private subscription: Subscription | null = null;
 
   constructor(
     private candlestickService: CandlestickService,
@@ -76,6 +83,31 @@ export class FinancialChartComponent {
 
   ngOnInit(): void {
     this.initChart();
+    this.subscribeDefaultSeries();
+  }
+
+  changeTimeframe(timeframe: subscribeChannelsCandleType) {
+    this.selectedTimeframe.set(timeframe);
+    // Reload chart data with new timeframe
+    this.getHistoryCandles(timeframe);
+  }
+
+  // get initial data
+  getHistoryCandles(
+    timeframe: subscribeChannelsCandleType = '1H',
+    limit: number = 100
+  ) {
+    this.candlestickService
+      .getHistoryMarkets(this.symbol(), timeframe, limit)
+      .subscribe((data) => {
+        if (this.candleSeries && this.volumeSeries && data.candles.length > 0) {
+          this.candleSeries.setData(data.candles);
+          this.volumeSeries.setData(data.volumes);
+        }
+      });
+  }
+
+  private subscribeDefaultSeries() {
     this.subscription = this.candlestickService.serries$.subscribe((data) => {
       if (data && this.candleSeries && this.volumeSeries) {
         const serCandle = this.candleSeries.data();
@@ -127,28 +159,29 @@ export class FinancialChartComponent {
               this.volumeSeries.update(data.volumes as HistogramData<Time>);
           }
         }
+        this.subscribeIndicator();
       }
     });
   }
 
-  changeTimeframe(timeframe: subscribeChannelsCandleType) {
-    this.selectedTimeframe.set(timeframe);
-    // Reload chart data with new timeframe
-    this.getHistoryCandles(timeframe);
-  }
+  private subscribeIndicator() {
+    if (this.candleSeries?.data()) {
+      const candleData = this.candleSeries.data() as CandlestickData[];
 
-  getHistoryCandles(
-    timeframe: subscribeChannelsCandleType = '1H',
-    limit: number = 100
-  ) {
-    this.candlestickService
-      .getHistoryMarkets(this.symbol(), timeframe, limit)
-      .subscribe((data) => {
-        if (this.candleSeries && this.volumeSeries && data.candles.length > 0) {
-          this.candleSeries.setData(data.candles);
-          this.volumeSeries.setData(data.volumes);
-        }
-      });
+      // Update SMA if active
+      if (this.smaLine) {
+        const maData = this.calculateMA(candleData, 20);
+        this.smaLine.setData(maData);
+      }
+
+      // Update Bollinger Bands if active
+      if (this.bbSeries) {
+        const bbData = this.calculateBB(candleData, 20, 2);
+        this.bbSeries.middle.setData(bbData.middle);
+        this.bbSeries.upper.setData(bbData.upper);
+        this.bbSeries.lower.setData(bbData.lower);
+      }
+    }
   }
 
   private initChart(): void {
@@ -199,10 +232,6 @@ export class FinancialChartComponent {
         type: 'volume',
       },
       priceScaleId: 'volume',
-      // scaleMargins: {
-      //   top: 0.8,
-      //   bottom: 0,
-      // },
     });
 
     // Set up the price scale for volume
@@ -219,7 +248,128 @@ export class FinancialChartComponent {
       timeVisible: true,
       secondsVisible: false,
       shiftVisibleRangeOnNewBar: true,
+      barSpacing: 14.5,
     });
+  }
+
+  onSelectIndicator(ind: IdIndicator) {
+    switch (ind) {
+      case 'sma':
+        this.addSimpleMovingAverage();
+        break;
+    }
+  }
+
+  private addSimpleMovingAverage() {
+    if (!this.smaLine && this.chart) {
+      this.smaLine = this.chart.addSeries(LineSeries, {
+        color: '#2962FF',
+        lineWidth: 2,
+      });
+
+      if (this.candleSeries && this.candleSeries?.data()) {
+        // Tính toán MA và set data
+
+        const candleData = this.candleSeries.data() as CandlestickData[];
+        const maData = this.calculateMA(candleData, 20);
+        this.smaLine?.setData(maData);
+      }
+    }
+  }
+
+  private calculateMA(data: CandlestickData[], period: number) {
+    // Logic tính MA ở đây
+    return data
+      .map((candle, index) => {
+        if (index < period - 1) return null;
+
+        const sum = data
+          .slice(index - period + 1, index + 1)
+          .reduce((acc, curr) => acc + curr.close, 0);
+
+        return {
+          time: candle.time,
+          value: sum / period,
+        };
+      })
+      .filter((item) => item !== null);
+  }
+
+  private addBollingerBands(candleData: CandlestickData[]) {
+    if (!this.bbSeries && this.chart) {
+      // Create three line series for BB
+      this.bbSeries = {
+        middle: this.chart.addSeries(LineSeries, {
+          color: '#2962FF',
+          lineWidth: 2,
+          title: 'BB Middle',
+        }),
+        upper: this.chart.addSeries(LineSeries, {
+          color: 'rgba(41, 98, 255, 0.3)',
+          lineWidth: 2,
+          title: 'BB Upper',
+        }),
+        lower: this.chart.addSeries(LineSeries, {
+          color: 'rgba(41, 98, 255, 0.3)',
+          lineWidth: 2,
+          title: 'BB Lower',
+        }),
+      };
+
+      // Calculate BB data
+      const bbData = this.calculateBB(candleData, 20, 2);
+
+      // Set data for each line
+      this.bbSeries.middle.setData(bbData.middle);
+      this.bbSeries.upper.setData(bbData.upper);
+      this.bbSeries.lower.setData(bbData.lower);
+    }
+  }
+
+  private removeBollingerBands() {
+    if (this.bbSeries && this.chart) {
+      this.chart.removeSeries(this.bbSeries.middle);
+      this.chart.removeSeries(this.bbSeries.upper);
+      this.chart.removeSeries(this.bbSeries.lower);
+      this.bbSeries = null;
+    }
+  }
+
+  private calculateBB(
+    data: CandlestickData[],
+    period: number,
+    multiplier: number
+  ) {
+    const bbData = data
+      .map((candle, index) => {
+        if (index < period - 1) return null;
+
+        // Calculate SMA
+        const slice = data.slice(index - period + 1, index + 1);
+        const sum = slice.reduce((acc, curr) => acc + curr.close, 0);
+        const sma = sum / period;
+
+        // Calculate Standard Deviation
+        const squaredDiffs = slice.map((bar) => Math.pow(bar.close - sma, 2));
+        const avgSquaredDiff = squaredDiffs.reduce((a, b) => a + b, 0) / period;
+        const standardDeviation = Math.sqrt(avgSquaredDiff);
+
+        // Calculate BB values
+        return {
+          time: candle.time,
+          middle: sma,
+          upper: sma + standardDeviation * multiplier,
+          lower: sma - standardDeviation * multiplier,
+        };
+      })
+      .filter((item) => item !== null);
+
+    // Separate data for each band
+    return {
+      middle: bbData.map((d) => ({ time: d!.time, value: d!.middle })),
+      upper: bbData.map((d) => ({ time: d!.time, value: d!.upper })),
+      lower: bbData.map((d) => ({ time: d!.time, value: d!.lower })),
+    };
   }
 
   ngOnDestroy(): void {
