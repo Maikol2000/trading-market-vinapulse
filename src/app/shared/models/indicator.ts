@@ -7,4 +7,4 @@ export interface Indicator {
   type: 'trend' | 'momentum' | 'volume' | 'volatility';
 }
 
-export type IdIndicator = 'rsi' | 'sma' | 'ema';
+export type IdIndicator = 'rsi' | 'sma' | 'ema' | 'bb';

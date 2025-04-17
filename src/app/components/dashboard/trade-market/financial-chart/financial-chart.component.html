@@ -16,7 +16,10 @@
       </div>
       <div class="absolute top-8 z-10 backdrop-blur-sm rounded-md">
         <app-legend-indicator [data]="legendIndicator()"></app-legend-indicator>
-        <app-legend-crosshair [smaData]="legendSMA()"></app-legend-crosshair>
+        <app-legend-crosshair
+          [smaData]="legendSMA()"
+          [bbData]="legendBB()"
+        ></app-legend-crosshair>
       </div>
     </div>
     <div class="chart-container w-full" #chartContainer></div>

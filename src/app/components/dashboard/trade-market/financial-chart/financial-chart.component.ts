@@ -32,6 +32,7 @@ import { IndicatorsSelectorComponent } from './indicators-selector/indicators-se
 import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
 import { LegendIndicatorComponent } from './legend-indicator/legend-indicator.component';
 import { LegendCrosshairComponent } from './legend-crosshair/legend-crosshair.component';
+import { BollingerBands } from '@app/shared/models/bolliner-band';
 
 @Component({
   selector: 'app-financial-chart',
@@ -65,6 +66,7 @@ export class FinancialChartComponent {
     time: '',
     value: 0,
   });
+  legendBB = signal<Partial<BollingerBands>>({});
 
   // API Chart
   private chart: IChartApi | null = null;
@@ -218,11 +220,30 @@ export class FinancialChartComponent {
 
   private subSMAChartCrosshairMove() {
     if (this.chart && this.smaSeries) {
-      const sub = this.chart.subscribeCrosshairMove((param) => {
+      this.chart.subscribeCrosshairMove((param) => {
         if (param.time && this.smaSeries) {
           const data = param.seriesData.get(this.smaSeries);
           if (data) {
             this.legendSMA.set(data as LineData);
+          }
+        }
+      });
+    }
+  }
+
+  private subBBChartCrosshairMove() {
+    if (this.chart && this.bbSeries) {
+      this.chart.subscribeCrosshairMove((param) => {
+        if (param.time && this.bbSeries) {
+          const upper = param.seriesData.get(this.bbSeries.upper);
+          const middle = param.seriesData.get(this.bbSeries.middle);
+          const lower = param.seriesData.get(this.bbSeries.lower);
+          if (upper && middle && lower) {
+            this.legendBB.set({
+              upper: upper as LineData,
+              middle: middle as LineData,
+              lower: lower as LineData,
+            });
           }
         }
       });
@@ -240,6 +261,11 @@ export class FinancialChartComponent {
         },
         textColor: '#d1d4dc',
         attributionLogo: false,
+        panes: {
+          separatorColor: '#ff0000',
+          separatorHoverColor: '#00ff00',
+          enableResize: true,
+        },
       },
       grid: {
         vertLines: {
@@ -262,22 +288,30 @@ export class FinancialChartComponent {
     this.chart = createChart(container, options);
 
     // Add candlestick series
-    this.candleSeries = this.chart.addSeries(CandlestickSeries, {
-      upColor: '#26a69a',
-      downColor: '#ef5350',
-      borderVisible: false,
-      wickUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
-    });
+    this.candleSeries = this.chart.addSeries(
+      CandlestickSeries,
+      {
+        upColor: '#26a69a',
+        downColor: '#ef5350',
+        borderVisible: false,
+        wickUpColor: '#26a69a',
+        wickDownColor: '#ef5350',
+      },
+      0
+    );
 
     // Create volume series with 70% of the main chart's height
-    this.volumeSeries = this.chart.addSeries(HistogramSeries, {
-      color: '#26a69a',
-      priceFormat: {
-        type: 'volume',
+    this.volumeSeries = this.chart.addSeries(
+      HistogramSeries,
+      {
+        color: '#26a69a',
+        priceFormat: {
+          type: 'volume',
+        },
+        priceScaleId: 'volume',
       },
-      priceScaleId: 'volume',
-    });
+      0
+    );
 
     // Set up the price scale for volume
     this.chart.priceScale('volume').applyOptions({
@@ -286,6 +320,7 @@ export class FinancialChartComponent {
         bottom: 0,
       },
       autoScale: true,
+      visible: true,
     });
 
     // Enable kinetic scrolling
@@ -303,15 +338,22 @@ export class FinancialChartComponent {
         this.addSimpleMovingAverage();
         this.subSMAChartCrosshairMove();
         break;
+      case 'bb':
+        this.addBollingerBands();
+        this.subBBChartCrosshairMove();
     }
   }
 
   private addSimpleMovingAverage() {
     if (!this.smaSeries && this.chart) {
-      this.smaSeries = this.chart.addSeries(LineSeries, {
-        color: '#2962FF',
-        lineWidth: 2,
-      });
+      this.smaSeries = this.chart.addSeries(
+        LineSeries,
+        {
+          color: '#2962FF',
+          lineWidth: 2,
+        },
+        0
+      );
 
       if (this.candleSeries && this.candleSeries?.data()) {
         // Tính toán MA và set data
@@ -341,43 +383,32 @@ export class FinancialChartComponent {
       .filter((item) => item !== null);
   }
 
-  private addBollingerBands(candleData: CandlestickData[]) {
-    if (!this.bbSeries && this.chart) {
+  private addBollingerBands() {
+    if (!this.bbSeries && this.chart && this.candleSeries) {
       // Create three line series for BB
       this.bbSeries = {
         middle: this.chart.addSeries(LineSeries, {
-          color: '#2962FF',
+          color: '#3b82f6',
           lineWidth: 2,
-          title: 'BB Middle',
         }),
         upper: this.chart.addSeries(LineSeries, {
-          color: 'rgba(41, 98, 255, 0.3)',
+          color: '#16a34a',
           lineWidth: 2,
-          title: 'BB Upper',
         }),
         lower: this.chart.addSeries(LineSeries, {
-          color: 'rgba(41, 98, 255, 0.3)',
+          color: '#ef4444',
           lineWidth: 2,
-          title: 'BB Lower',
         }),
       };
 
       // Calculate BB data
+      const candleData = this.candleSeries.data() as CandlestickData[];
       const bbData = this.calculateBB(candleData, 20, 2);
 
       // Set data for each line
       this.bbSeries.middle.setData(bbData.middle);
       this.bbSeries.upper.setData(bbData.upper);
       this.bbSeries.lower.setData(bbData.lower);
-    }
-  }
-
-  private removeBollingerBands() {
-    if (this.bbSeries && this.chart) {
-      this.chart.removeSeries(this.bbSeries.middle);
-      this.chart.removeSeries(this.bbSeries.upper);
-      this.chart.removeSeries(this.bbSeries.lower);
-      this.bbSeries = null;
     }
   }
 

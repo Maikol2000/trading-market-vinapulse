@@ -1,16 +1,33 @@
-<div class="p-2 min-w-[200px]">
+<div class="p-2">
   <!-- SMA Legend -->
-  <div class="flex justify-between items-center" *ngIf="smaData()?.value">
+  <div class="flex gap-2 items-center" *ngIf="smaData()?.value">
     <!-- SMA Header -->
 
-    <span class="text-gray-300 text-sm font-medium">SMA({{ period() }})</span>
+    <span class="text-gray-300 text-sm font-medium">SMA</span>
 
     <!-- SMA Values -->
-    <div class="flex items-center justify-between gap-2">
-      <span class="text-gray-400 text-xs">Value</span>
-      <span class="text-gray-200 text-sm font-semibold">
-        {{ smaData()?.value | number : "1.2-2" }}
-      </span>
-    </div>
+    <span class="text-gray-200 text-sm font-semibold">
+      {{ smaData()?.value | number : "1.2-2" }}
+    </span>
+  </div>
+  <!-- Bollinger Bands Legend -->
+  <div class="flex mt-2 space-x-2" *ngIf="bbData()?.lower">
+    <!-- BB Header -->
+    <span class="text-gray-300 text-sm font-medium">BB</span>
+
+    <!-- Upper Band -->
+    <p class="text-green-500 text-sm font-semibold">
+      {{ bbData()?.upper?.value | number : "1.2-2" }}
+    </p>
+
+    <!-- Middle Band -->
+    <p class="text-blue-500 text-sm font-semibold">
+      {{ bbData()?.middle?.value | number : "1.2-2" }}
+    </p>
+
+    <!-- Lower Band -->
+    <p class="text-red-500 text-sm font-semibold">
+      {{ bbData()?.lower?.value | number : "1.2-2" }}
+    </p>
   </div>
 </div>

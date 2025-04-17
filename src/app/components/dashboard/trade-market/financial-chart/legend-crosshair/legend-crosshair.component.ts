@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Output } from '@angular/core';
+import { BollingerBands } from '@app/shared/models/bolliner-band';
 import { LineData } from 'lightweight-charts';
 
 @Component({
@@ -11,6 +12,7 @@ import { LineData } from 'lightweight-charts';
 export class LegendCrosshairComponent {
   // Input signals
   smaData = input<LineData>();
+  bbData = input<Partial<BollingerBands>>();
   period = input<number>(9);
 
   // Output events
