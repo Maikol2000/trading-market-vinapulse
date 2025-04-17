@@ -19,6 +19,10 @@
         <app-legend-crosshair
           [smaData]="legendSMA()"
           [bbData]="legendBB()"
+          [isSMAVisible]="isSMAVisible()"
+          [isBBVisible]="isBBVisible()"
+          (onToggleVisibility)="handleToggleVisibility($event)"
+          (onRemove)="handleRemoveIndicator($event)"
         ></app-legend-crosshair>
       </div>
     </div>

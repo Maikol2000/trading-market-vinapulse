@@ -8,3 +8,8 @@ export interface Indicator {
 }
 
 export type IdIndicator = 'rsi' | 'sma' | 'ema' | 'bb';
+
+export interface IndicatorVisibility {
+  type: IdIndicator;
+  visible: boolean;
+}

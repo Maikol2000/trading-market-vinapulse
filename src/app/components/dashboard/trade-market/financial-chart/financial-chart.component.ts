@@ -9,7 +9,11 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CandlestickService } from '@app/core/services';
-import { IdIndicator, subscribeChannelsCandleType } from '@app/shared/models';
+import {
+  IdIndicator,
+  IndicatorVisibility,
+  subscribeChannelsCandleType,
+} from '@app/shared/models';
 import { TranslateModule } from '@ngx-translate/core';
 
 import {
@@ -62,11 +66,11 @@ export class FinancialChartComponent {
       close: 0,
     },
   ]);
-  legendSMA = signal<LineData>({
-    time: '',
-    value: 0,
-  });
+  legendSMA = signal<Partial<LineData>>({});
   legendBB = signal<Partial<BollingerBands>>({});
+
+  isSMAVisible = signal(true);
+  isBBVisible = signal(true);
 
   // API Chart
   private chart: IChartApi | null = null;
@@ -447,6 +451,38 @@ export class FinancialChartComponent {
       upper: bbData.map((d) => ({ time: d!.time, value: d!.upper })),
       lower: bbData.map((d) => ({ time: d!.time, value: d!.lower })),
     };
+  }
+
+  handleToggleVisibility(event: IndicatorVisibility) {
+    if (event.type === 'sma') {
+      this.isSMAVisible.set(event.visible);
+      if (this.smaSeries) {
+        this.smaSeries.applyOptions({ visible: event.visible });
+      }
+    } else if (event.type === 'bb') {
+      this.isBBVisible.set(event.visible);
+      if (this.bbSeries) {
+        this.bbSeries.upper.applyOptions({ visible: event.visible });
+        this.bbSeries.middle.applyOptions({ visible: event.visible });
+        this.bbSeries.lower.applyOptions({ visible: event.visible });
+      }
+    }
+  }
+
+  handleRemoveIndicator(type: IdIndicator) {
+    if (!this.chart) return;
+    if (type === 'sma' && this.smaSeries) {
+      this.chart.removeSeries(this.smaSeries);
+      this.smaSeries = null;
+      this.legendSMA.set({});
+    }
+    if (type === 'bb' && this.bbSeries) {
+      this.chart.removeSeries(this.bbSeries.upper);
+      this.chart.removeSeries(this.bbSeries.middle);
+      this.chart.removeSeries(this.bbSeries.lower);
+      this.bbSeries = null;
+      this.legendBB.set({});
+    }
   }
 
   ngOnDestroy(): void {

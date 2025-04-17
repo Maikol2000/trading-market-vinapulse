@@ -1,33 +1,77 @@
 <div class="p-2">
   <!-- SMA Legend -->
-  <div class="flex gap-2 items-center" *ngIf="smaData()?.value">
-    <!-- SMA Header -->
+  <div class="flex justify-between items-center group" *ngIf="smaData()?.value">
+    <div class="flex items-center gap-2">
+      <span class="text-gray-300 text-sm font-medium">SMA</span>
 
-    <span class="text-gray-300 text-sm font-medium">SMA</span>
-
-    <!-- SMA Values -->
-    <span class="text-gray-200 text-sm font-semibold">
-      {{ smaData()?.value | number : "1.2-2" }}
-    </span>
+      <!-- SMA Values -->
+      <span class="text-gray-200 text-sm font-semibold">
+        {{ smaData()?.value | number : "1.2-2" }}
+      </span>
+    </div>
+    <!-- action -->
+    <div class="items-center space-x-2 hidden group-hover:flex">
+      <button
+        (click)="
+          onToggleVisibility.emit({ type: 'sma', visible: !isSMAVisible() })
+        "
+        class="w-5 h-5 flex items-center justify-center rounded hover:bg-neutral-700"
+      >
+        <fa-icon
+          [icon]="isSMAVisible() ? faEye : faEyeSlash"
+          class="text-gray-400"
+        ></fa-icon>
+      </button>
+      <button
+        (click)="onRemove.emit('sma')"
+        class="w-5 h-5 flex items-center justify-center rounded hover:bg-neutral-700"
+      >
+        <fa-icon [icon]="trash" class="text-gray-400"></fa-icon>
+      </button>
+    </div>
   </div>
+
   <!-- Bollinger Bands Legend -->
-  <div class="flex mt-2 space-x-2" *ngIf="bbData()?.lower">
-    <!-- BB Header -->
-    <span class="text-gray-300 text-sm font-medium">BB</span>
+  <div
+    class="flex justify-between items-center mt-2 space-x-2 group"
+    *ngIf="bbData()?.lower"
+  >
+    <div class="flex items-center gap-2">
+      <span class="text-gray-300 text-sm font-medium">BB</span>
 
-    <!-- Upper Band -->
-    <p class="text-green-500 text-sm font-semibold">
-      {{ bbData()?.upper?.value | number : "1.2-2" }}
-    </p>
+      <!-- Upper Band -->
+      <p class="text-green-500 text-sm font-semibold">
+        {{ bbData()?.upper?.value | number : "1.2-2" }}
+      </p>
 
-    <!-- Middle Band -->
-    <p class="text-blue-500 text-sm font-semibold">
-      {{ bbData()?.middle?.value | number : "1.2-2" }}
-    </p>
+      <!-- Middle Band -->
+      <p class="text-blue-500 text-sm font-semibold">
+        {{ bbData()?.middle?.value | number : "1.2-2" }}
+      </p>
 
-    <!-- Lower Band -->
-    <p class="text-red-500 text-sm font-semibold">
-      {{ bbData()?.lower?.value | number : "1.2-2" }}
-    </p>
+      <!-- Lower Band -->
+      <p class="text-red-500 text-sm font-semibold">
+        {{ bbData()?.lower?.value | number : "1.2-2" }}
+      </p>
+    </div>
+    <div class="items-center space-x-2 hidden group-hover:flex">
+      <button
+        (click)="
+          onToggleVisibility.emit({ type: 'bb', visible: !isBBVisible() })
+        "
+        class="w-5 h-5 flex items-center justify-center rounded hover:bg-neutral-700"
+      >
+        <fa-icon
+          [icon]="isBBVisible() ? faEye : faEyeSlash"
+          class="text-gray-400"
+        ></fa-icon>
+      </button>
+      <button
+        (click)="onRemove.emit('bb')"
+        class="w-5 h-5 flex items-center justify-center rounded hover:bg-neutral-700"
+      >
+        <fa-icon [icon]="trash" class="text-gray-400"></fa-icon>
+      </button>
+    </div>
   </div>
 </div>
