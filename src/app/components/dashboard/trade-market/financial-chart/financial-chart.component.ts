@@ -27,8 +27,9 @@ import {
   Time,
 } from 'lightweight-charts';
 import { Subscription } from 'rxjs';
-import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
 import { IndicatorsSelectorComponent } from './indicators-selector/indicators-selector.component';
+import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
+import { LegendIndicatorComponent } from './legend-indicator/legend-indicator.component';
 
 @Component({
   selector: 'app-financial-chart',
@@ -38,6 +39,7 @@ import { IndicatorsSelectorComponent } from './indicators-selector/indicators-se
     TranslateModule,
     TimeframeSelectorComponent,
     IndicatorsSelectorComponent,
+    LegendIndicatorComponent,
   ],
   templateUrl: './financial-chart.component.html',
   styleUrl: './financial-chart.component.scss',
@@ -47,6 +49,15 @@ export class FinancialChartComponent {
 
   public symbol = signal<string>('');
   public selectedTimeframe = signal<subscribeChannelsCandleType>('1m');
+  legendIndicator = signal<CandlestickData[]>([
+    {
+      time: '',
+      open: 0,
+      high: 0,
+      low: 0,
+      close: 0,
+    },
+  ]);
 
   // API Chart
   private chart: IChartApi | null = null;
@@ -84,6 +95,7 @@ export class FinancialChartComponent {
   ngOnInit(): void {
     this.initChart();
     this.subscribeDefaultSeries();
+    this.subIndChartCrosshairMove();
   }
 
   changeTimeframe(timeframe: subscribeChannelsCandleType) {
@@ -170,7 +182,7 @@ export class FinancialChartComponent {
 
       // Update SMA if active
       if (this.smaLine) {
-        const maData = this.calculateMA(candleData, 20);
+        const maData = this.calculateMA(candleData);
         this.smaLine.setData(maData);
       }
 
@@ -181,6 +193,19 @@ export class FinancialChartComponent {
         this.bbSeries.upper.setData(bbData.upper);
         this.bbSeries.lower.setData(bbData.lower);
       }
+    }
+  }
+
+  private subIndChartCrosshairMove() {
+    if (this.chart && this.candleSeries) {
+      this.chart.subscribeCrosshairMove((param) => {
+        if (param.time && this.candleSeries) {
+          const data = param.seriesData.get(this.candleSeries);
+          if (data) {
+            this.legendIndicator.set([data] as unknown as CandlestickData[]);
+          }
+        }
+      });
     }
   }
 
@@ -271,13 +296,13 @@ export class FinancialChartComponent {
         // Tính toán MA và set data
 
         const candleData = this.candleSeries.data() as CandlestickData[];
-        const maData = this.calculateMA(candleData, 20);
+        const maData = this.calculateMA(candleData);
         this.smaLine?.setData(maData);
       }
     }
   }
 
-  private calculateMA(data: CandlestickData[], period: number) {
+  private calculateMA(data: CandlestickData[], period: number = 4) {
     // Logic tính MA ở đây
     return data
       .map((candle, index) => {

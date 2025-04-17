@@ -1,0 +1,63 @@
+<div class="absolute top-8 z-10 backdrop-blur-sm rounded-md p-2">
+  <div class="flex items-center space-x-4" *ngIf="data()?.length">
+    <!-- O - Open -->
+    <div class="legend-item">
+      <span class="text-gray-400 text-xs font-medium">O</span>
+      <span
+        class="text-sm font-semibold ml-1"
+        [class.text-green-500]="isUpCandle()"
+        [class.text-red-500]="!isUpCandle()"
+      >
+        {{ data()[0].open | number : "1.2-2" }}
+      </span>
+    </div>
+
+    <!-- H - High -->
+    <div class="legend-item">
+      <span class="text-gray-400 text-xs font-medium">H</span>
+      <span
+        class="text-sm font-semibold ml-1"
+        [class.text-green-500]="isUpCandle()"
+        [class.text-red-500]="!isUpCandle()"
+      >
+        {{ data()[0].high | number : "1.2-2" }}
+      </span>
+    </div>
+
+    <!-- L - Low -->
+    <div class="legend-item">
+      <span class="text-gray-400 text-xs font-medium">L</span>
+      <span
+        class="text-sm font-semibold ml-1"
+        [class.text-green-500]="isUpCandle()"
+        [class.text-red-500]="!isUpCandle()"
+      >
+        {{ data()[0].low | number : "1.2-2" }}
+      </span>
+    </div>
+
+    <!-- C - Close -->
+    <div class="legend-item">
+      <span class="text-gray-400 text-xs font-medium">C</span>
+      <span
+        class="text-sm font-semibold ml-1"
+        [class.text-green-500]="isUpCandle()"
+        [class.text-red-500]="!isUpCandle()"
+      >
+        {{ data()[0].close | number : "1.2-2" }}
+      </span>
+    </div>
+
+    <!-- Change % -->
+    <div class="legend-item" *ngIf="change()">
+      <span class="text-gray-400 text-xs font-medium">CHG</span>
+      <span
+        class="text-sm font-semibold ml-1"
+        [class.text-green-500]="(change() ?? 0) > 0"
+        [class.text-red-500]="(change() ?? 0) < 0"
+      >
+        {{ change() | number : "1.2-2" }}%
+      </span>
+    </div>
+  </div>
+</div>
