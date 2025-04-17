@@ -1,0 +1,16 @@
+<div class="p-2 min-w-[200px]">
+  <!-- SMA Legend -->
+  <div class="flex justify-between items-center" *ngIf="smaData()?.value">
+    <!-- SMA Header -->
+
+    <span class="text-gray-300 text-sm font-medium">SMA({{ period() }})</span>
+
+    <!-- SMA Values -->
+    <div class="flex items-center justify-between gap-2">
+      <span class="text-gray-400 text-xs">Value</span>
+      <span class="text-gray-200 text-sm font-semibold">
+        {{ smaData()?.value | number : "1.2-2" }}
+      </span>
+    </div>
+  </div>
+</div>

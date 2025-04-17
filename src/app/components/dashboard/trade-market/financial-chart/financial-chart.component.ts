@@ -23,6 +23,7 @@ import {
   HistogramSeries,
   IChartApi,
   ISeriesApi,
+  LineData,
   LineSeries,
   Time,
 } from 'lightweight-charts';
@@ -30,6 +31,7 @@ import { Subscription } from 'rxjs';
 import { IndicatorsSelectorComponent } from './indicators-selector/indicators-selector.component';
 import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
 import { LegendIndicatorComponent } from './legend-indicator/legend-indicator.component';
+import { LegendCrosshairComponent } from './legend-crosshair/legend-crosshair.component';
 
 @Component({
   selector: 'app-financial-chart',
@@ -40,6 +42,7 @@ import { LegendIndicatorComponent } from './legend-indicator/legend-indicator.co
     TimeframeSelectorComponent,
     IndicatorsSelectorComponent,
     LegendIndicatorComponent,
+    LegendCrosshairComponent,
   ],
   templateUrl: './financial-chart.component.html',
   styleUrl: './financial-chart.component.scss',
@@ -58,6 +61,10 @@ export class FinancialChartComponent {
       close: 0,
     },
   ]);
+  legendSMA = signal<LineData>({
+    time: '',
+    value: 0,
+  });
 
   // API Chart
   private chart: IChartApi | null = null;
@@ -68,7 +75,7 @@ export class FinancialChartComponent {
     upper: ISeriesApi<'Line'>;
     lower: ISeriesApi<'Line'>;
   } | null = null;
-  private smaLine: ISeriesApi<'Line'> | null = null;
+  private smaSeries: ISeriesApi<'Line'> | null = null;
 
   private subscription: Subscription | null = null;
 
@@ -181,9 +188,9 @@ export class FinancialChartComponent {
       const candleData = this.candleSeries.data() as CandlestickData[];
 
       // Update SMA if active
-      if (this.smaLine) {
+      if (this.smaSeries) {
         const maData = this.calculateMA(candleData);
-        this.smaLine.setData(maData);
+        this.smaSeries.setData(maData);
       }
 
       // Update Bollinger Bands if active
@@ -203,6 +210,19 @@ export class FinancialChartComponent {
           const data = param.seriesData.get(this.candleSeries);
           if (data) {
             this.legendIndicator.set([data] as unknown as CandlestickData[]);
+          }
+        }
+      });
+    }
+  }
+
+  private subSMAChartCrosshairMove() {
+    if (this.chart && this.smaSeries) {
+      const sub = this.chart.subscribeCrosshairMove((param) => {
+        if (param.time && this.smaSeries) {
+          const data = param.seriesData.get(this.smaSeries);
+          if (data) {
+            this.legendSMA.set(data as LineData);
           }
         }
       });
@@ -281,13 +301,14 @@ export class FinancialChartComponent {
     switch (ind) {
       case 'sma':
         this.addSimpleMovingAverage();
+        this.subSMAChartCrosshairMove();
         break;
     }
   }
 
   private addSimpleMovingAverage() {
-    if (!this.smaLine && this.chart) {
-      this.smaLine = this.chart.addSeries(LineSeries, {
+    if (!this.smaSeries && this.chart) {
+      this.smaSeries = this.chart.addSeries(LineSeries, {
         color: '#2962FF',
         lineWidth: 2,
       });
@@ -297,12 +318,12 @@ export class FinancialChartComponent {
 
         const candleData = this.candleSeries.data() as CandlestickData[];
         const maData = this.calculateMA(candleData);
-        this.smaLine?.setData(maData);
+        this.smaSeries?.setData(maData);
       }
     }
   }
 
-  private calculateMA(data: CandlestickData[], period: number = 4) {
+  private calculateMA(data: CandlestickData[], period: number = 9) {
     // Logic tính MA ở đây
     return data
       .map((candle, index) => {

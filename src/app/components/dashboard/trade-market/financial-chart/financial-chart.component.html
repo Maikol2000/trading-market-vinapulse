@@ -14,7 +14,10 @@
           (selectIndicator)="onSelectIndicator($event)"
         ></app-indicators-selector>
       </div>
-      <app-legend-indicator [data]="legendIndicator()"></app-legend-indicator>
+      <div class="absolute top-8 z-10 backdrop-blur-sm rounded-md">
+        <app-legend-indicator [data]="legendIndicator()"></app-legend-indicator>
+        <app-legend-crosshair [smaData]="legendSMA()"></app-legend-crosshair>
+      </div>
     </div>
     <div class="chart-container w-full" #chartContainer></div>
   </div>
