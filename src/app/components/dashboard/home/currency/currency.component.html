@@ -6,23 +6,32 @@
       <thead>
         <tr>
           <th class="px-4 py-1 border-b">{{ "HOME.SYMBOL" | translate }}</th>
-          <th class="px-4 py-1 border-b">{{ "HOME.HIGH" | translate }}</th>
-          <th class="px-4 py-1 border-b">{{ "HOME.LOW" | translate }}</th>
-          <th class="px-2 py-1 border-b">{{ "HOME.BUY_PRICE" | translate }}</th>
-          <th class="px-2 py-1 border-b">
+          <th class="px-4 py-1 border-b text-right">
+            {{ "HOME.HIGH" | translate }}
+          </th>
+          <th class="px-4 py-1 border-b text-right">
+            {{ "HOME.LOW" | translate }}
+          </th>
+          <th class="px-2 py-1 border-b text-right">
+            {{ "HOME.BUY_PRICE" | translate }}
+          </th>
+          <th class="px-2 py-1 border-b text-right">
             {{ "HOME.BUY_VOLUME" | translate }}
           </th>
-          <th class="px-2 py-1 border-b">
+          <th class="px-2 py-1 border-b text-right">
             {{ "HOME.SELL_PRICE" | translate }}
           </th>
-          <th class="px-2 py-1 border-b">
+          <th class="px-2 py-1 border-b text-right">
             {{ "HOME.SELL_VOLUME" | translate }}
           </th>
-          <th class="px-2 py-1 border-b">
+          <th class="px-2 py-1 border-b text-right">
             {{ "HOME.MATCHED_PRICE" | translate }}
           </th>
-          <th class="px-2 py-1 border-b">
+          <th class="px-2 py-1 border-b text-right">
             {{ "HOME.MATCHED_VOLUME" | translate }}
+          </th>
+          <th class="px-2 py-1 border-b text-right">
+            {{ "HOME.TRENDING" | translate }}
           </th>
         </tr>
       </thead>
@@ -64,6 +73,11 @@
           </td>
           <td class="px-2 py-2 text-right">
             {{ formatNumber(+currencyCrypto.volCcy24h) }}
+          </td>
+          <td class="flex justify-end px-2 py-2">
+            <app-mini-chart-currency
+              [symbol]="currencyCrypto.instId"
+            ></app-mini-chart-currency>
           </td>
         </tr>
         <tr *ngIf="currenciesSignal().length === 0">

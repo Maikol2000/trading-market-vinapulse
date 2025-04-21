@@ -6,14 +6,16 @@ import { OKXCurrencyService } from '@app/core/services';
 import { AppRouter } from '@app/utils/routers';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, Subscription } from 'rxjs';
+import { MiniChartCurrencyComponent } from './mini-chart-currency/mini-chart-currency.component';
 
 @Component({
   selector: 'app-currency',
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, MiniChartCurrencyComponent],
   templateUrl: './currency.component.html',
   styleUrl: './currency.component.scss',
 })
 export class CurrencyComponent {
+  [x: string]: any;
   currenciesSignal = signal<IOKXTicker[]>([]);
   isLoading = true;
   error: string | null = null;
@@ -36,6 +38,7 @@ export class CurrencyComponent {
 
   constructor(
     private currencyService: OKXCurrencyService,
+
     private router: Router
   ) {}
 

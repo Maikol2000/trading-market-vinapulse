@@ -29,7 +29,8 @@
         "SELL_PRICE": "Price (Sell)",
         "SELL_VOLUME": "Volume (Sell)",
         "MATCHED_PRICE": "Matched Price",
-        "MATCHED_VOLUME": "Matched Volume"
+        "MATCHED_VOLUME": "Matched Volume",
+        "TRENDING": "Trending"
     },
     "AUTH": {
         "LOGIN": "Login",

@@ -1,24 +1,18 @@
-<div class="h-screen w-50 bg-neutral-900 shadow-lg fixed left-0 top-0">
+<div class="flex gap-4">
   <!-- Logo Section -->
-  <div class="flex items-center justify-center h-16 border-b">
-    <h1 class="text-xl font-bold text-blue-500">Your Logo</h1>
-  </div>
+  <h1 class="text-xl font-bold text-blue-500">Your Logo</h1>
 
   <!-- Navigation Menu -->
-  <nav class="mt-6">
-    <div class="px-1 space-y-1">
-      <ng-container *ngFor="let item of menuItems">
-        <a
-          [routerLink]="item.route"
-          routerLinkActive="bg-blue-500 text-white"
-          class="flex items-center px-2 py-3 text-gray-600 transition-colors duration-200 hover:bg-blue-500 hover:text-white rounded-lg"
-        >
-          <fa-icon [icon]="item.icon"></fa-icon>
-          <span class="mx-2 text-sm font-medium">{{
-            item.label | translate
-          }}</span>
-        </a>
-      </ng-container>
-    </div>
-  </nav>
+  <div class="flex px-1 space-y-1">
+    <ng-container *ngFor="let item of menuItems">
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="border-b-1 border-blue-500 text-blue-500"
+        class="flex items-center px-2 py-3 text-gray-600 transition delay-150 duration-300 ease-in-out hover:border-b-1 hover:text-blue-300 border-blue-300"
+      >
+        <!-- <fa-icon [icon]="item.icon"></fa-icon> -->
+        <span>{{ item.label | translate }}</span>
+      </a>
+    </ng-container>
+  </div>
 </div>

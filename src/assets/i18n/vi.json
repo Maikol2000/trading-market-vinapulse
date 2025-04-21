@@ -29,7 +29,8 @@
         "SELL_PRICE": "Giá (Bán)",
         "SELL_VOLUME": "KL (Bán)",
         "MATCHED_PRICE": "Giá (Khớp lệnh)",
-        "MATCHED_VOLUME": "KL (Khớp lệnh)"
+        "MATCHED_VOLUME": "KL (Khớp lệnh)",
+        "TRENDING": "Xu hướng"
     },
     "AUTH": {
         "LOGIN": "Đăng nhập",

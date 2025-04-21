@@ -1,7 +1,9 @@
 <nav class="bg-neutral-900">
   <div class="mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
-      <div class="flex items-center"></div>
+      <div class="flex items-center">
+        <app-side-bar></app-side-bar>
+      </div>
       <!-- Right side navigation items -->
       <div class="flex items-center">
         <!-- User Profile with Dropdown -->
@@ -34,44 +36,9 @@
                 }}</span>
                 <div class="flex items-center space-x-2 mt-1">
                   <app-select-lang></app-select-lang>
-                  <!-- <button
-                    (click)="switchLanguage('vi')"
-                    [class.text-blue-500]="currentLang === 'vi'"
-                    class="px-2 py-1 rounded hover:bg-neutral-700"
-                  >
-                    Tiếng Việt
-                  </button>
-                  <button
-                    (click)="switchLanguage('en')"
-                    [class.text-blue-500]="currentLang === 'en'"
-                    class="px-2 py-1 rounded hover:bg-neutral-700"
-                  >
-                    English
-                  </button> -->
                 </div>
               </div>
               <!-- Other menu items -->
-              <!-- <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-200 hover:bg-neutral-700"
-                role="menuitem"
-              >
-                {{ "AUTH.PROFILE" | translate }}
-              </a>
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-200 hover:bg-neutral-700"
-                role="menuitem"
-              >
-                {{ "AUTH.SETTINGS" | translate }}
-              </a>
-              <a
-                (click)="logout()"
-                class="block px-4 py-2 text-sm text-gray-200 hover:bg-neutral-700 cursor-pointer"
-                role="menuitem"
-              >
-                {{ "AUTH.LOGOUT" | translate }}
-              </a> -->
             </div>
           </div>
         </div>

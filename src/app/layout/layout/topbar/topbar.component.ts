@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SelectLangComponent } from '@app/shared/components';
 import { ClickOutsideDirective } from '@app/shared/directives';
 import { TranslateModule } from '@ngx-translate/core';
+import { SideBarComponent } from '../side-bar/side-bar.component';
 
 @Component({
   selector: 'app-topbar',
@@ -13,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     SelectLangComponent,
     ClickOutsideDirective,
+    SideBarComponent,
   ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',

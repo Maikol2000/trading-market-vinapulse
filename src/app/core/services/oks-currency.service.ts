@@ -105,30 +105,6 @@ export class OKXCurrencyService {
     }
   }
 
-  /**
-   * Chuyển đổi dữ liệu từ API sang định dạng ứng dụng
-   */
-  // private mapToCurrencyData(item: IOKXTicker): ICurrencyData {
-  //   return {
-  //     symbol: item.instId,
-  //     ceiling: parseFloat(item.high24h),
-  //     floor: parseFloat(item.low24h),
-  //     buyTrade: {
-  //       price: parseFloat(item.bidPx),
-  //       volume: parseFloat(item.bidSz),
-  //     },
-  //     sellTrade: {
-  //       price: parseFloat(item.askPx),
-  //       volume: parseFloat(item.askSz),
-  //     },
-  //     matchedTrade: {
-  //       price: parseFloat(item.last),
-  //       volume: parseFloat(item.volCcy24h),
-  //     },
-  //     lastUpdate: new Date(),
-  //   };
-  // }
-
   getInitialTickers(instType: string = 'SWAP'): void {
     // Gọi API để lấy dữ liệu ban đầu
     const resp = this.http.getOKX<OKSModelResponse<IOKXTicker[]>>(

@@ -14,8 +14,8 @@ import {
   IndicatorVisibility,
   subscribeChannelsCandleType,
 } from '@app/shared/models';
+import { BollingerBands } from '@app/shared/models/bolliner-band';
 import { TranslateModule } from '@ngx-translate/core';
-
 import {
   CandlestickData,
   CandlestickSeries,
@@ -33,10 +33,9 @@ import {
 } from 'lightweight-charts';
 import { Subscription } from 'rxjs';
 import { IndicatorsSelectorComponent } from './indicators-selector/indicators-selector.component';
-import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
-import { LegendIndicatorComponent } from './legend-indicator/legend-indicator.component';
 import { LegendCrosshairComponent } from './legend-crosshair/legend-crosshair.component';
-import { BollingerBands } from '@app/shared/models/bolliner-band';
+import { LegendIndicatorComponent } from './legend-indicator/legend-indicator.component';
+import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selector.component';
 
 @Component({
   selector: 'app-financial-chart',
