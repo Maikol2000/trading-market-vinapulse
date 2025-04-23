@@ -1,35 +1,33 @@
 <div>
-  <!-- <highcharts-chart
-    [Highcharts]="highcharts"
-    [options]="chartOptions"
-    style="width: 100%; height: 300px; display: block"
-  ></highcharts-chart> -->
-
   <div class="text-center font-semibold text-xl text-blue-600 mt-2"></div>
-
-  <div class="flex justify-around mt-4">
-    <div class="text-center">
-      <h4 class="text-red-500 font-semibold">Bán</h4>
-      <p>{{ signalCount.sell }}</p>
-    </div>
-    <div class="text-center">
-      <h4 class="text-purple-500 font-semibold">Trung lập</h4>
-      <p>{{ signalCount.neutral }}</p>
-    </div>
-    <div class="text-center">
-      <h4 class="text-blue-500 font-semibold">Mua</h4>
-      <p>{{ signalCount.buy }}</p>
-    </div>
+  <div class="flex justify-center py-2 bg-white">
+    <ngx-gauge
+      [value]="gaugeValue()"
+      [label]="gaugeLabel()"
+      [append]="gaugeAppendText"
+      [thick]="gaugeThick"
+      [size]="gaugeSize"
+      [animate]="gaugeOptions.animation"
+      [duration]="gaugeOptions.animationDuration"
+      class="text-gray-400 p-2"
+      [type]="gaugeType"
+      [foregroundColor]="gaugeForegroundColor()"
+      [markers]="thresholds"
+    >
+    </ngx-gauge>
   </div>
 
   <div class="mt-6">
     <h3 class="font-bold mb-2">Chỉ số kỹ thuật</h3>
-    <div *ngFor="let i of indicators" class="flex justify-between">
+    <div
+      *ngFor="let i of indicators"
+      class="flex justify-between text-gray-400"
+    >
       <p>{{ i.name }}</p>
       <p
         [ngClass]="{
           'text-blue-600': i.signal === 'Mua',
-          'text-purple-500': i.signal === 'Trung lập',
+          'text-gray-400': i.signal === 'Trung lập',
           'text-red-500': i.signal === 'Bán'
         }"
       >

@@ -1,111 +1,131 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { CandlestickService } from '@app/core/services';
 import { LanguageService } from '@app/shared/services';
 import { TranslateModule } from '@ngx-translate/core';
-import { HighchartsChartModule } from 'highcharts-angular';
-import { webSocket } from 'rxjs/webSocket';
+import { NgxGaugeModule } from 'ngx-gauge';
+import { NgxGaugeCap, NgxGaugeType } from 'node_modules/ngx-gauge/gauge/gauge';
+
+type NgxThresholds = {
+  [key in 0 | 30 | 70]: {
+    color: string;
+    label: string;
+  };
+};
 
 @Component({
   selector: 'app-technical-gauge-chart',
-  imports: [HighchartsChartModule, CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, NgxGaugeModule],
   templateUrl: './technical-gauge-chart.component.html',
   styleUrl: './technical-gauge-chart.component.scss',
 })
 export class TechnicalGaugeChartComponent {
-  // highcharts: typeof Highcharts = Highcharts;
-  // chartOptions: Highcharts.Options = {};
+  gaugeValue = signal(80);
+  gaugeLabel = signal('BUY');
+  gaugeForegroundColor = signal('');
+  gaugeAppendText = '%';
+  gaugeThick = 40;
+  gaugeSize = 400;
 
-  signalCount = { sell: 0, neutral: 0, buy: 0 };
+  gaugeType: NgxGaugeType = 'semi';
+  gaugeCap: NgxGaugeCap = 'round';
+
+  gaugeOptions = {
+    animation: true,
+    animationDuration: 1000,
+  };
+
+  thresholds: NgxThresholds = {
+    '0': {
+      color: '#DF5353',
+      label: 'COMMONS.SELL',
+    }, // Red for Sell
+    '30': { color: '#DDDF0D', label: 'COMMONS.NEUTRAL' }, // Yellow for Neutral
+    '70': { color: '#55BF3B', label: 'COMMONS.BUY' }, // Green for Buy
+  };
+
   indicators = [
-    { name: 'SMA', signal: 'Mua' },
-    { name: 'RSI', signal: 'Mua' },
-    { name: 'MACD', signal: 'Mua' },
-    { name: 'LMN (GPT)', signal: 'Chung lập' },
-    { name: 'LSTM', signal: 'Mua' },
+    { name: 'SMA', signal: 'BUY' },
+    { name: 'RSI', signal: 'BUY' },
+    { name: 'MACD', signal: 'BUY' },
+    { name: 'ML Prediction', signal: 'NEUTRAL' },
+    { name: 'LSTM', signal: 'BUY' },
   ];
 
-  constructor(private translate: LanguageService) {}
+  symbol = 'BTC-USDT';
 
-  ngOnInit() {
-    // this.initRealtimePriceStream();
-    this.updateChart(65); // initial percent (e.g. 65% Buy)
-  }
+  closes: number[] = [];
 
-  updateChart(percent: number) {
-    // this.chartOptions = {
-    //   chart: {
-    //     type: 'solidgauge',
-    //     height: '110%',
-    //   },
-    //   title: { text: 'Summary' },
-    //   pane: {
-    //     center: ['50%', '70%'],
-    //     size: '100%',
-    //     startAngle: -90,
-    //     endAngle: 90,
-    //     background: [
-    //       {
-    //         backgroundColor: '#EEE',
-    //         innerRadius: '60%',
-    //         outerRadius: '100%',
-    //         shape: 'arc',
-    //       },
-    //     ],
-    //   },
-    //   tooltip: { enabled: true },
-    //   yAxis: {
-    //     min: 0,
-    //     max: 100,
-    //     stops: [
-    //       [0.2, '#f44336'],
-    //       [0.5, '#9c27b0'],
-    //       [0.8, '#4caf50'],
-    //     ],
-    //     lineWidth: 0,
-    //     tickWidth: 0,
-    //     minorTickInterval: 100,
-    //     tickAmount: 2,
-    //     labels: { enabled: false },
-    //   },
-    //   plotOptions: {
-    //     solidgauge: {
-    //       dataLabels: {
-    //         y: -20,
-    //         borderWidth: 0,
-    //         useHTML: true,
-    //         format:
-    //           '<div style="text-align:center"><span style="font-size:1.5rem">Buy</span></div>',
-    //       },
-    //     },
-    //   },
-    //   series: [
-    //     {
-    //       type: 'solidgauge',
-    //       name: 'Buy strength',
-    //       data: [percent],
-    //     },
-    //   ],
-    // };
-  }
-
-  // TODO: Implement this function to fetch real-time price data and calculate SMA/RSI/MACD
-  initRealtimePriceStream() {
-    const socket = webSocket('wss://ws.okx.com:8443/ws/v5/public');
-    socket.next({
-      op: 'subscribe',
-      args: [
-        {
-          channel: 'candle1m',
-          instId: 'BTC-USDT',
-        },
-      ],
+  constructor(
+    private service: CandlestickService,
+    private langService: LanguageService
+  ) {
+    this.getHistoryCandle();
+    this.service.setSubcribe(this.symbol, '1m');
+    this.service.connectWebSocket();
+    this.service.serries$.subscribe((resp) => {
+      if (resp.candles) {
+        const { close } = resp.candles;
+        this.closes.push(close);
+        const rsi = this.calculateRSI(this.closes.slice(-100));
+        this.updateGauge(rsi);
+        this.setThresholds();
+      }
     });
+  }
 
-    socket.subscribe((msg: any) => {
-      console.log('msg', msg);
-      const close = parseFloat(msg.data[0][4]);
-      console.log('Realtime Close Price:', close);
-      // TODO: Push to price array, calculate SMA/RSI/MACD, and update signalCount + chart
+  ngOnInit() {}
+
+  calculateRSI(closes: number[]): number {
+    let gains = 0;
+    let losses = 0;
+
+    for (let i = 1; i <= 100; i++) {
+      const diff = closes[i] - closes[i - 1];
+      if (diff >= 0) gains += diff;
+      else losses -= diff;
+    }
+
+    const avgGain = gains / 100;
+    const avgLoss = losses / 100;
+
+    const rs = avgGain / (avgLoss || 1);
+    const rsi = 100 - 100 / (1 + rs);
+    return rsi;
+  }
+
+  updateGauge(value: number) {
+    this.gaugeValue.set(value);
+
+    if (value < 30) {
+      this.gaugeLabel.set(this.thresholds['0']?.label ?? '');
+      this.gaugeForegroundColor.set(this.thresholds['0']?.color ?? '');
+    } else if (value < 70) {
+      this.gaugeLabel.set(this.thresholds['30']?.label ?? '');
+      this.gaugeForegroundColor.set(this.thresholds['30']?.color ?? '');
+    } else {
+      this.gaugeLabel.set(this.thresholds['70']?.label ?? '');
+      this.gaugeForegroundColor.set(this.thresholds['70']?.color ?? '');
+    }
+  }
+
+  setThresholds() {
+    this.thresholds['0'].label =
+      this.langService.getInstantLang('COMMONS.SELL');
+    this.thresholds['30'].label =
+      this.langService.getInstantLang('COMMONS.NEUTRAL');
+    this.thresholds['70'].label =
+      this.langService.getInstantLang('COMMONS.BUY');
+  }
+
+  getHistoryCandle() {
+    this.service.getHistoryMarkets(this.symbol, '1m').subscribe((resp) => {
+      if (resp.candles) {
+        const cls = resp.candles.map((c) => c.close);
+        this.closes = cls;
+        const rsi = this.calculateRSI(cls);
+        this.updateGauge(rsi);
+      }
     });
   }
 }

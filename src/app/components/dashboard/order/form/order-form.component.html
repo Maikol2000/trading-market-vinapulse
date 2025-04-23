@@ -60,7 +60,7 @@
           class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
           (click)="orderForm.get('side')?.setValue('buy')"
         >
-          {{ "ORDER.FORM.ORDER_TYPE.BUY" | translate }}
+          {{ "COMMONS.BUY" | translate }}
         </button>
         <button
           type="button"
@@ -72,7 +72,7 @@
           class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
           (click)="orderForm.get('side')?.setValue('sell')"
         >
-          {{ "ORDER.FORM.ORDER_TYPE.SELL" | translate }}
+          {{ "COMMONS.SELL" | translate }}
         </button>
       </div>
     </div>
@@ -202,8 +202,7 @@
         class="w-full md:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200"
       >
         {{
-          "ORDER.FORM.ORDER_TYPE." +
-            (orderForm.get("side")?.value === "buy" ? "BUY" : "SELL")
+          "COMMONS." + (orderForm.get("side")?.value === "buy" ? "BUY" : "SELL")
             | translate
         }}
         {{ selectedSymbol.split("-")[0] }}

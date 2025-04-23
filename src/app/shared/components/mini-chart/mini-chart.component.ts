@@ -63,8 +63,8 @@ export class MiniChartComponent {
       rightPriceScale: { visible: false },
       timeScale: {
         visible: false,
-        fixLeftEdge: true,
-        fixRightEdge: true,
+        fixLeftEdge: false,
+        fixRightEdge: false,
       },
       handleScroll: false,
       handleScale: false,

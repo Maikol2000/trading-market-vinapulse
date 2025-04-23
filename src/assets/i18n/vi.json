@@ -17,7 +17,10 @@
         "VIETNAMESE": "Tiếng Việt",
         "ENGLISH": "Tiếng Anh",
         "LANGUAGE": "Ngôn ngữ",
-        "LOADING": "Đang tải..."
+        "LOADING": "Đang tải...",
+        "BUY": "Mua",
+        "SELL": "Bán",
+        "NEUTRAL": "Trung lập"
     },
     "HOME": {
         "CRYPTO_TRADE_DATA": "Dữ liệu giao dịch tiền điện tử",
@@ -104,10 +107,6 @@
                 "FLOOR_PRICE": "Giá sàn (Thấp nhất 24h)",
                 "AVERAGE_PRICE": "Giá trung bình (24h)",
                 "CEILING_PRICE": "Giá trần (Cao nhất 24h)"
-            },
-            "ORDER_TYPE": {
-                "BUY": "Mua",
-                "SELL": "Bán"
             },
             "FIELDS": {
                 "TOKEN": "Mã Token",

@@ -24,17 +24,19 @@ export class MiniChartCurrencyComponent {
   }
 
   getCandlestick() {
-    this.candleService.getHistoryMarkets(this.symbol(), "1D", 100).subscribe((resp) => {
-      this.vol.set(
-        resp.volumes.map((v) => ({
-          value: v.value,
-          // color: v.color,
-          time: v.time,
-        }))
-      );
-      this.isPriceUp.set(
-        resp.volumes[resp.volumes.length - 1].value > resp.volumes[0].value
-      );
-    });
+    this.candleService
+      .getHistoryMarkets(this.symbol(), '1D', 300)
+      .subscribe((resp) => {
+        this.vol.set(
+          resp.volumes.map((v) => ({
+            value: v.value,
+            // color: v.color,
+            time: v.time,
+          }))
+        );
+        this.isPriceUp.set(
+          resp.volumes[resp.volumes.length - 1].value > resp.volumes[0].value
+        );
+      });
   }
 }

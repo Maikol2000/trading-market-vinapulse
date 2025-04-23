@@ -99,7 +99,7 @@ export class FinancialChartComponent {
           this.selectedTimeframe()
         );
         this.candlestickService.connectWebSocket();
-        this.candlestickService.setTimer(500);
+        // this.candlestickService.setTimer(100);
       }
     });
   }

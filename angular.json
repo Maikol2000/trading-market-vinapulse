@@ -46,8 +46,7 @@
               "angular-2-local-storage",
               "angular-in-memory-web-api",
               "angularx-social-login",
-              "angularx-social-login/google",
-              "highcharts"
+              "angularx-social-login/google"
             ]
           },
           "configurations": {

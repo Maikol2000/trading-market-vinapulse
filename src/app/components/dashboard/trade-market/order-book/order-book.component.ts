@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -20,9 +19,9 @@ import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { OrderBookService } from '@app/core/services/order-book.service';
+import { LanguageService } from '@app/shared/services';
 import { TranslateModule } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs/operators';
-import { LanguageService } from '@app/shared/services';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
