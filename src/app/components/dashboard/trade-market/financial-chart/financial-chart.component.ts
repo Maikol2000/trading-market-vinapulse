@@ -256,8 +256,6 @@ export class FinancialChartComponent {
   private initChart(): void {
     const container = this.chartContainer.nativeElement;
     const options: DeepPartial<ChartOptions> = {
-      width: container.width,
-      height: container.height,
       layout: {
         background: {
           color: '#0f0f0f',

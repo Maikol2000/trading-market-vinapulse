@@ -1,7 +1,7 @@
 .ngx-gauge-meter {
     display: block;
-};
+}
 
-.ngx-gauge-meter .reading-label {
+::ng-deep .ngx-gauge-meter .reading-label {
     display: block;
 }
