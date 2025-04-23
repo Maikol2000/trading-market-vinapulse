@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CryptoSearchComponent } from './crypto-search.component';
+import { MobileMenuComponent } from './mobile-menu.component';
 
-describe('CryptoSearchComponent', () => {
-  let component: CryptoSearchComponent;
-  let fixture: ComponentFixture<CryptoSearchComponent>;
+describe('MobileMenuComponent', () => {
+  let component: MobileMenuComponent;
+  let fixture: ComponentFixture<MobileMenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CryptoSearchComponent]
+      imports: [MobileMenuComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CryptoSearchComponent);
+    fixture = TestBed.createComponent(MobileMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

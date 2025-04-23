@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectLangComponent } from '@app/shared/components';
 import { ClickOutsideDirective } from '@app/shared/directives';
 import { TranslateModule } from '@ngx-translate/core';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 
 @Component({
   selector: 'app-topbar',
@@ -15,6 +16,7 @@ import { SideBarComponent } from '../side-bar/side-bar.component';
     SelectLangComponent,
     ClickOutsideDirective,
     SideBarComponent,
+    MobileMenuComponent,
   ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
@@ -22,7 +24,36 @@ import { SideBarComponent } from '../side-bar/side-bar.component';
 export class TopbarComponent {
   isDropdownOpen = false;
 
-  constructor() {}
+  isMenuOpen = signal(false);
+  isMobile = false;
+
+  constructor() {
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 768;
+    if (!this.isMobile) {
+      this.isMenuOpen.set(false);
+    }
+  }
+
+  openMenu() {
+    this.isMenuOpen.set(true);
+  }
+
+  // Đóng menu khi click bên ngoài
+  closeMenu() {
+    if (this.isMenuOpen()) {
+      this.isMenuOpen.set(false);
+      document.body.classList.remove('overflow-hidden');
+    }
+  }
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;

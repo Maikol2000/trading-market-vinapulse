@@ -85,6 +85,7 @@
             "BASIC_INFO": "Basic Information",
             "PRICE_INFO": "Price Information (24h)",
             "TECHNICAL_VIEW": "Technical Analysis",
+            "TECHNICAL_INDICATOR": "Technical indicators",
             "FIELDS": {
                 "MARKET_CAP": "Market Cap",
                 "CURRENT_RATE": "Current Rate",

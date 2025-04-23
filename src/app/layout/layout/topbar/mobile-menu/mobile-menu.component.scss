@@ -1,0 +1,64 @@
+.mobile-drawer-item {
+    transition: all 300ms ease-in-out;
+}
+
+/* Custom drawer handle - optional */
+.drawer-handle {
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px 0 0 4px;
+}
+
+/* Prevent scroll when drawer is open */
+:host ::ng-deep body.overflow-hidden {
+    overflow: hidden;
+}
+
+/* Animation for links */
+a {
+    transition: all 0.2s ease;
+}
+
+/* Ripple effect for mobile taps */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 1s;
+}
+
+.ripple:active:after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+.open {
+    transform: translateX(0);
+    opacity: 1
+}
+
+.closed {
+    transform: translateX(100%);
+    opacity: 0
+}

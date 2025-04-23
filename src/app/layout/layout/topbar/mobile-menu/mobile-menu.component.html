@@ -1,0 +1,63 @@
+<div
+  class="absolute inset-0 bg-black/50 transition-opacity ng-tns-c1069046663-1 bg-opacity-50"
+  [ngClass]="isMenuOpen() ? '' : 'hidden'"
+  (click)="onClose()"
+></div>
+<div
+  class="fixed top-0 right-0 h-full w-64 bg-gray-800 shadow-lg md:hidden z-40 transition duration-200 ease-in-out"
+  [ngClass]="isMenuOpen() ? 'open' : 'closed'"
+>
+  <div>
+    <!-- Close button -->
+    <div class="flex justify-between items-center p-4">
+      <app-select-lang></app-select-lang>
+      <button
+        (click)="onClose()"
+        class="text-white hover:text-blue-200 focus:outline-none"
+      >
+        <svg
+          class="h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      @for (item of menuItems; track $index) {
+      <a
+        [routerLink]="item.route"
+        (click)="onClose()"
+        routerLinkActive="bg-gray-700"
+        class="text-white hover:bg-blue-700 block px-3 py-2 rounded-md text-base font-medium mobile-drawer-item ripple"
+        >{{ item.label | translate }}</a
+      >
+      }
+    </div>
+    <!-- Mobile profile section -->
+    <div class="pt-4 pb-3 border-t border-blue-700">
+      <div class="flex items-center px-5">
+        <div class="flex-shrink-0">
+          <img
+            class="h-10 w-10 rounded-full"
+            src="assets/avatar.jpg"
+            alt="User avatar"
+          />
+        </div>
+        <div class="ml-3">
+          <div class="text-base font-medium text-white">User Name</div>
+          <div class="text-sm font-medium text-blue-300">{{`AFDSD`}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

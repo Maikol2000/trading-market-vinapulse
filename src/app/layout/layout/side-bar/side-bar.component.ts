@@ -1,20 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { LanguageService } from '@app/shared/services';
-import { AppRouter } from '@app/utils/routers';
+import { AppMenu } from '@app/utils/menu';
 import {
   FaIconLibrary,
   FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
-import {
-  faBitcoinSign,
-  faCoins,
-  faHome,
-  faMoneyBillTrendUp,
-  faMoneyCheckDollar,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -24,39 +15,9 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './side-bar.component.scss',
 })
 export class SideBarComponent {
-  menuItems = [
-    { icon: faHome, label: 'SIDEBAR.HOME', route: AppRouter.Dashboard.Home },
-    {
-      icon: faMoneyBillTrendUp,
-      label: 'SIDEBAR.STOCK_RATE',
-      route: '/products',
-    },
-    {
-      icon: faCoins,
-      label: 'SIDEBAR.COIN_RATE',
-      route: AppRouter.Dashboard.TradeMarket('BTC-USDT'),
-    },
-    {
-      icon: faBitcoinSign,
-      label: 'SIDEBAR.DETAIL_INFO',
-      route: AppRouter.Dashboard.InfoDetail('BTC-USDT'),
-    },
-    {
-      icon: faMoneyCheckDollar,
-      label: 'SIDEBAR.PLACE_ORDER',
-      route: AppRouter.Dashboard.OrderForm('BTC-USDT'),
-    },
-    { icon: faUser, label: 'SIDEBAR.AI_PREDICT', route: '/customers' },
-    { icon: faUser, label: 'SIDEBAR.AI_TRADING_BOT', route: '/customers' },
-    { icon: faUser, label: 'SIDEBAR.AI_CHAT_BOT', route: '/customers' },
-    { icon: faUser, label: 'SIDEBAR.NEWS', route: '/customers' },
-  ];
+  menuItems = AppMenu;
 
-  constructor(
-    private router: Router,
-    library: FaIconLibrary,
-    private translate: LanguageService
-  ) {
+  constructor(private router: Router, library: FaIconLibrary) {
     library.addIcons();
   }
 

@@ -38,10 +38,10 @@ export class TechnicalGaugeChartComponent {
   thresholds: NgxThresholds = {
     '0': {
       color: '#DF5353',
-      label: 'COMMONS.SELL',
+      label: 'SELL',
     }, // Red for Sell
-    '30': { color: '#DDDF0D', label: 'COMMONS.NEUTRAL' }, // Yellow for Neutral
-    '70': { color: '#55BF3B', label: 'COMMONS.BUY' }, // Green for Buy
+    '30': { color: '#DDDF0D', label: 'NEUTRAL' }, // Yellow for Neutral
+    '70': { color: '#55BF3B', label: 'BUY' }, // Green for Buy
   };
 
   indicators = [

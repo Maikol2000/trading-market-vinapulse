@@ -84,6 +84,7 @@
             "BASIC_INFO": "Thông tin cơ bản",
             "PRICE_INFO": "Thông tin giá (24h)",
             "TECHNICAL_VIEW": "Góc nhìn kỹ thuật",
+            "TECHNICAL_INDICATOR": "Chỉ số kỹ thuật",
             "FIELDS": {
                 "MARKET_CAP": "Vốn hóa thị trường",
                 "CURRENT_RATE": "Tỷ giá hiện tại",
