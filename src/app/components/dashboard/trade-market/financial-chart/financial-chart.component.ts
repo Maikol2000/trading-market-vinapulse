@@ -98,7 +98,7 @@ export class FinancialChartComponent {
           this.symbol(),
           this.selectedTimeframe()
         );
-        this.candlestickService.connectWebSocket();
+        // this.candlestickService.connectWebSocket();
         // this.candlestickService.setTimer(100);
       }
     });
@@ -485,7 +485,8 @@ export class FinancialChartComponent {
   ngOnDestroy(): void {
     this.candlestickService.clearTimer();
     this.subscription?.unsubscribe();
-
+    this.candlestickService.disconnect();
+    this.symbol.set('');
     if (this.chart) {
       this.chart.remove();
       this.chart = null;

@@ -7,11 +7,12 @@
     <ng-container *ngFor="let item of menuItems">
       <a
         [routerLink]="item.route"
-        routerLinkActive="border-b-1 border-blue-500 text-blue-500"
-        class="flex items-center px-2 py-3 text-gray-600 transition delay-150 duration-300 ease-in-out hover:border-b-1 hover:text-blue-300 border-blue-300"
+        class="flex items-center px-2 py-3 hover:border-b-1 hover:text-blue-300 text-gray-400 border-blue-300"
+        [routerLinkActive]="'border-b-1 border-blue-500 text-blue-500'"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
         <!-- <fa-icon [icon]="item.icon"></fa-icon> -->
-        <span>{{ item.label | translate }}</span>
+        {{ item.label | translate }}
       </a>
     </ng-container>
   </div>

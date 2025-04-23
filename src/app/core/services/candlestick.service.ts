@@ -103,6 +103,7 @@ export class CandlestickService {
   setSubcribe(symbol: string, timeframe: subscribeChannelsCandleType = '1m') {
     this.symbol = symbol;
     this.timeframe = timeframe;
+    this.connectWebSocket();
   }
 
   setTimer(interval: number) {
