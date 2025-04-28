@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ResponseData } from '@app/shared/models';
-import { ApiService } from '@app/shared/services';
+import { ApiService, CookiesService } from '@app/shared/services';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable } from 'rxjs';
 import { ILoginRequest } from '../models';
@@ -9,16 +9,11 @@ import { ILoginRequest } from '../models';
   providedIn: 'root',
 })
 export class AuthService {
-  private isLoggedIn: boolean = false;
-
   constructor(
     private service: ApiService,
-    private deviceService: DeviceDetectorService
-  ) {
-    // Kiểm tra token trong localStorage khi service được khởi tạo
-    const token = localStorage.getItem('token');
-    this.isLoggedIn = !!token;
-  }
+    private deviceService: DeviceDetectorService,
+    private cookieService: CookiesService
+  ) {}
 
   login(credentials: ILoginRequest): Observable<ResponseData<string>> {
     let deviceInfo = this.deviceService.getDeviceInfo();
@@ -40,12 +35,11 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.isLoggedIn = false;
+    // localStorage.removeItem('token');
   }
 
   isAuthenticated(): boolean {
-    return this.isLoggedIn;
+    return this.cookieService.hasCookie('auth_token');
   }
 
   getToken(): string | null {

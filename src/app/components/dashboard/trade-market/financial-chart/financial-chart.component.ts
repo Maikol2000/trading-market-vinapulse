@@ -106,7 +106,7 @@ export class FinancialChartComponent {
 
   ngOnInit(): void {
     this.initChart();
-    this.subscribeDefaultSeries();
+    this.subscribeCurrentCandle();
     this.subIndChartCrosshairMove();
   }
 
@@ -131,7 +131,7 @@ export class FinancialChartComponent {
       });
   }
 
-  private subscribeDefaultSeries() {
+  private subscribeCurrentCandle() {
     this.subscription = this.candlestickService.serries$.subscribe((data) => {
       if (data && this.candleSeries && this.volumeSeries) {
         const serCandle = this.candleSeries.data();

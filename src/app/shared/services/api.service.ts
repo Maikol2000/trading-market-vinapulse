@@ -19,7 +19,10 @@ export class ApiService {
    */
   public get<T>(endpoint: string, requireAuth: boolean = true): Observable<T> {
     const headers = this.getHeaders(requireAuth);
-    return this.http.get<T>(`${this.baseUrl}${endpoint}`, { headers });
+    return this.http.get<T>(`${this.baseUrl}${endpoint}`, {
+      headers,
+      withCredentials: true,
+    });
   }
 
   /**
@@ -34,7 +37,10 @@ export class ApiService {
     requireAuth: boolean = false
   ): Observable<T> {
     const headers = this.getHeaders(requireAuth);
-    return this.http.post<T>(`${this.baseUrl}${endpoint}`, body, { headers });
+    return this.http.post<T>(`${this.baseUrl}${endpoint}`, body, {
+      headers,
+      withCredentials: true,
+    });
   }
 
   /**
@@ -49,7 +55,10 @@ export class ApiService {
     requireAuth: boolean = true
   ): Observable<T> {
     const headers = this.getHeaders(requireAuth);
-    return this.http.put<T>(`${this.baseUrl}${endpoint}`, body, { headers });
+    return this.http.put<T>(`${this.baseUrl}${endpoint}`, body, {
+      headers,
+      withCredentials: true,
+    });
   }
 
   /**
@@ -62,7 +71,10 @@ export class ApiService {
     requireAuth: boolean = true
   ): Observable<T> {
     const headers = this.getHeaders(requireAuth);
-    return this.http.delete<T>(`${this.baseUrl}${endpoint}`, { headers });
+    return this.http.delete<T>(`${this.baseUrl}${endpoint}`, {
+      headers,
+      withCredentials: true,
+    });
   }
 
   /**

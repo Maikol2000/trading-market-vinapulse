@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, output } from '@angular/core';
 import { IdIndicator } from '@app/shared/models';
-import { ModalService } from '@app/shared/services/modal.service';
+import { ModalService } from '@app/shared/services';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChartGantt } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';

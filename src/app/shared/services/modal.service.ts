@@ -1,4 +1,3 @@
-// modal.service.ts
 import {
   Injectable,
   ComponentRef,
@@ -23,7 +22,10 @@ export class ModalService {
    * @param props Properties to pass to the component
    * @returns A reference to the created component
    */
-  open<T extends object>(component: Type<T>, props?: Partial<T>): ComponentRef<T> {
+  open<T extends object>(
+    component: Type<T>,
+    props?: Partial<T>
+  ): ComponentRef<T> {
     // Create the component
     const componentRef = createComponent(component, {
       environmentInjector: this.injector,

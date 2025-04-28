@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -24,7 +24,11 @@ import { TranslateModule } from '@ngx-translate/core';
 export class LoginFormComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private service: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private service: AuthService,
+    private location: Location
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -36,6 +40,7 @@ export class LoginFormComponent {
       const { email, password } = this.loginForm.value;
       this.service.login({ userId: email, passId: password }).subscribe({
         next: () => {
+          this.location.back();
           // this.router.navigate([AppRouter.Dashboard.Home]);
         },
         error: (error) => {

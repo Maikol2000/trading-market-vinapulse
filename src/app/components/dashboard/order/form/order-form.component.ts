@@ -6,10 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { IOKXTicker } from '@app/core/models';
-import { OrderService } from '@app/core/services';
+import { CandlestickService } from '@app/core/services';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-form',
@@ -18,92 +16,41 @@ import { Subscription } from 'rxjs';
   styleUrl: './order-form.component.scss',
 })
 export class OrderFormComponent {
-  orderForm: FormGroup;
-  tickerData: IOKXTicker | null = null;
-  currentPrice: number = 0;
-  floorPrice: number = 0;
-  ceilingPrice: number = 0;
-  averagePrice: number = 0;
-  private subscriptions = new Subscription();
+  orderForm!: FormGroup;
   selectedSymbol = 'BTC-USDT';
   orderTypes = ['market', 'limit'];
   orderSides = ['buy', 'sell'];
 
-  constructor(private fb: FormBuilder, private okxService: OrderService) {
+  constructor(
+    private fb: FormBuilder,
+    private candlestickService: CandlestickService
+  ) {}
+
+  ngOnInit(): void {
+    this.initForm();
+    this.subscribeCurrentPrice();
+  }
+
+  initForm() {
     this.orderForm = this.fb.group({
       symbol: [this.selectedSymbol, Validators.required],
       orderType: ['limit', Validators.required],
       side: ['buy', Validators.required],
-      quantity: ['', [Validators.required, Validators.min(0.0001)]],
+      quantity: ['0.001', [Validators.required, Validators.min(0.001)]],
       price: ['', Validators.required],
-      maxPrice: [''],
     });
   }
 
-  ngOnInit(): void {
-    this.connectToSymbol(this.selectedSymbol);
-
-    // Subscribe to real-time ticker updates
-    this.subscriptions.add(
-      this.okxService.ticker$.subscribe((data) => {
-        if (data) {
-          this.tickerData = data;
-          this.updatePriceInfo();
-        }
-      })
-    );
-
-    // Update price when order type changes
-    this.subscriptions.add(
-      this.orderForm.get('orderType')?.valueChanges.subscribe((type) => {
-        if (type === 'market') {
-          this.orderForm.get('price')?.disable();
-          this.orderForm.get('maxPrice')?.disable();
-        } else {
-          this.orderForm.get('price')?.enable();
-          this.orderForm.get('maxPrice')?.enable();
-        }
-      }) || new Subscription()
-    );
-
-    // Update symbol if changed
-    this.subscriptions.add(
-      this.orderForm.get('symbol')?.valueChanges.subscribe((symbol) => {
-        if (symbol && symbol !== this.selectedSymbol) {
-          this.selectedSymbol = symbol;
-          this.connectToSymbol(symbol);
-        }
-      }) || new Subscription()
-    );
-  }
-
-  connectToSymbol(symbol: string): void {
-    // First get initial data
-    this.okxService.getTickerData(symbol).subscribe((response) => {
-      if (response.data && response.data.length > 0) {
-        this.tickerData = response.data[0];
-        this.updatePriceInfo();
-
-        // Then connect WebSocket for real-time updates
-        this.okxService.connectWebSocket(symbol);
-      }
+  subscribeCurrentPrice() {
+    this.candlestickService.serries$.subscribe({
+      next: (data) => {
+        const price = data.candles?.close ?? 0;
+        this.orderForm.get('price')?.setValue(price);
+      },
+      error: (err) => {
+        console.error('Error fetching current price:', err);
+      },
     });
-  }
-
-  updatePriceInfo(): void {
-    if (this.tickerData) {
-      this.currentPrice = parseFloat(this.tickerData.last);
-      this.floorPrice = parseFloat(this.tickerData.low24h);
-      this.ceilingPrice = parseFloat(this.tickerData.high24h);
-
-      // Calculate average price (between high and low of 24h)
-      this.averagePrice = (this.floorPrice + this.ceilingPrice) / 2;
-
-      // Pre-fill the form with current price if price is empty
-      if (!this.orderForm.get('price')?.value) {
-        this.orderForm.get('price')?.setValue(this.currentPrice);
-      }
-    }
   }
 
   submitOrder(): void {
@@ -116,10 +63,5 @@ export class OrderFormComponent {
     } else {
       this.orderForm.markAllAsTouched();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-    this.okxService.disconnectWebSocket();
   }
 }
