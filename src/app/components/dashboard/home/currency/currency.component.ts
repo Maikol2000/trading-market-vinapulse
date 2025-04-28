@@ -15,7 +15,6 @@ import { MiniChartCurrencyComponent } from './mini-chart-currency/mini-chart-cur
   styleUrl: './currency.component.scss',
 })
 export class CurrencyComponent {
-  [x: string]: any;
   currenciesSignal = signal<IOKXTicker[]>([]);
   isLoading = true;
   error: string | null = null;
@@ -53,7 +52,6 @@ export class CurrencyComponent {
 
   ngOnDestroy(): void {
     if (this.subscription) {
-      console.log('Unsubscribing from currency data...');
       this.subscription.unsubscribe();
     }
     this.currencyService.disconnect();
