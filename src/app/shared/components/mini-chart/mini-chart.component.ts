@@ -22,6 +22,9 @@ import {
 export class MiniChartComponent {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
 
+  width = input<number>(100);
+  height = input<number>(50);
+
   chartData = input<LineData<Time>[]>([]);
   colorTrend = input<boolean>(true);
 
@@ -45,8 +48,8 @@ export class MiniChartComponent {
     if (!this.chartContainer) return;
 
     const options: DeepPartial<ChartOptions> = {
-      width: 100,
-      height: 50,
+      width: this.width(),
+      height: this.height(),
       layout: {
         background: { color: 'transparent' },
         textColor: 'transparent',

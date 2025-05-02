@@ -37,46 +37,47 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let currencyCrypto of currenciesSignal()"
+          *ngFor="let cp of currenciesSignal()"
           class="hover:bg-gray-700 duration-150 ease-in-out cursor-pointer hover:rounded-xl"
-          (click)="redirectToDetail(currencyCrypto.instId)"
+          (click)="redirectToDetail(cp.instId)"
         >
           <td class="px-4 py-2 font-medium">
-            {{ currencyCrypto.instId }}
+            {{ cp.instId }}
           </td>
           <td class="px-4 py-2 text-right">
-            {{ formatNumber(+currencyCrypto.high24h) }}
+            {{ formatNumber(+cp.high24h) }}
           </td>
           <td class="px-4 py-2 text-right">
-            {{ formatNumber(+currencyCrypto.low24h) }}
+            {{ formatNumber(+cp.low24h) }}
           </td>
 
           <!-- Buy trade -->
           <td class="px-2 py-2 text-right font-medium">
-            {{ formatNumber(+currencyCrypto.bidPx) }}
+            {{ formatNumber(+cp.bidPx) }}
           </td>
           <td class="px-2 py-2 text-right">
-            {{ formatNumber(+currencyCrypto.bidSz) }}
+            {{ formatNumber(+cp.bidSz) }}
           </td>
 
           <!-- Sell trade -->
           <td class="px-2 py-2 text-right font-medium">
-            {{ formatNumber(+currencyCrypto.askPx) }}
+            {{ formatNumber(+cp.askPx) }}
           </td>
           <td class="px-2 py-2 text-right">
-            {{ formatNumber(+currencyCrypto.askSz) }}
+            {{ formatNumber(+cp.askSz) }}
           </td>
 
           <!-- Matched trade -->
           <td class="px-2 py-2 text-right font-medium">
-            {{ formatNumber(+currencyCrypto.last) }}
+            {{ formatNumber(+cp.last) }}
           </td>
           <td class="px-2 py-2 text-right">
-            {{ formatNumber(+currencyCrypto.volCcy24h) }}
+            {{ formatNumber(+cp.volCcy24h) }}
           </td>
           <td class="flex justify-end px-2 py-2">
             <app-mini-chart-currency
-              [symbol]="currencyCrypto.instId"
+              [symbol]="cp.instId"
+              [isPriceUp]="(+cp.last - +cp.open24h) / +cp.open24h / 100 > 0"
             ></app-mini-chart-currency>
           </td>
         </tr>

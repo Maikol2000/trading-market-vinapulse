@@ -1,11 +1,26 @@
-<div class="block xl:flex w-full gap-6">
-  <div class="w-full xl:w-1/3">
-    <app-wathclist-ticket></app-wathclist-ticket>
+<div class="block xl:grid xl:grid-cols-12 w-full gap-6">
+  <div class="w-full xl:col-span-3">
+    <div
+      class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md text-gray-200"
+    >
+      <h1 class="text-2xl font-bold mb-4">Watchlist Ticket</h1>
+      @for (ticket of tickets(); track $index) {
+      <app-wathclist-ticket
+        [watchTicket]="ticket.instId"
+        [price]="ticket.last"
+        [open24h]="ticket.open24h"
+      ></app-wathclist-ticket>
+      }
+    </div>
   </div>
-  <div class="w-full">
+  <div class="w-full xl:col-span-6">
+    @if (!loading()) {
     <app-financial-chart></app-financial-chart>
+    } @else {
+    <app-loading></app-loading>
+    }
   </div>
-  <div class="w-full xl:w-1/3">
+  <div class="w-full xl:col-span-3">
     <!-- <app-order-book></app-order-book> -->
     <app-order-form></app-order-form>
   </div>

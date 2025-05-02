@@ -1,15 +1,26 @@
 <div
-  class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md text-gray-200"
+  class="flex items-start justify-between gap-4 p-2 hover:bg-gray-700 cursor-pointer"
+  [ngClass]="isSelected() ? 'bg-gray-800' : ''"
+  (click)="redirectToDetail()"
 >
-  <h1 class="text-2xl font-bold mb-4">Watchlist Ticket</h1>
-  <div
-    *ngFor="let item of watchlist"
-    class="grid grid-cols-3 gap-4 p-2 hover:bg-gray-700 cursor-pointer"
-  >
-    <!-- <div>{{ item.symbol }}</div>
-    <div>{{ item.price | number : "1.2-2" }}</div>
-    <div [ngClass]="item.change >= 0 ? 'text-green-500' : 'text-red-500'">
-      {{ item.change | number : "1.2-2" }}%
-    </div> -->
+  <div>{{ watchTicket() }}</div>
+  <div>
+    <app-mini-chart
+      [chartData]="currenciesSignal()"
+      [colorTrend]="percentChange() > 0"
+      [width]="150"
+    ></app-mini-chart>
+    <!-- Price and % change -->
+    <div class="flex justify-between items-center">
+      <div class="text-xl font-bold">{{ this.price() }}</div>
+      <div
+        [ngClass]="
+          this.percentChange() >= 0 ? 'text-green-400' : 'text-red-400'
+        "
+      >
+        {{ this.percentChange() >= 0 ? "▲" : "▼" }}
+        {{ this.percentChange() | number : "1.2-2" }}%
+      </div>
+    </div>
   </div>
 </div>

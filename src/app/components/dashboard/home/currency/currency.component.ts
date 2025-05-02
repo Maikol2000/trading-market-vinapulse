@@ -20,24 +20,16 @@ export class CurrencyComponent {
   error: string | null = null;
   private subscription: Subscription | null = null;
 
-  watchedInstruments: string[] = [
+  watchedInstruments = [
     'BTC-USDT',
     'ETH-USDT',
     'XRP-USDT',
     'LTC-USDT',
     'BCH-USDT',
-    'SOL-USDT',
-    'ADA-USDT',
-    'DOT-USDT',
-    'AVAX-USDT',
-    'DOGE-USDT',
-    'TRX-USDT',
-    'LINK-USDT',
   ];
 
   constructor(
     private currencyService: OKXCurrencyService,
-
     private router: Router
   ) {}
 

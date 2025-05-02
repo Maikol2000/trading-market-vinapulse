@@ -11,9 +11,9 @@ import { LineData, Time } from 'lightweight-charts';
 })
 export class MiniChartCurrencyComponent {
   symbol = input<string>('');
+  isPriceUp = input<boolean>(true);
 
   vol = signal<LineData<Time>[]>([]);
-  isPriceUp = signal<boolean>(true);
 
   constructor(private candleService: CandlestickService) {
     effect(() => {
@@ -26,16 +26,12 @@ export class MiniChartCurrencyComponent {
   getCandlestick() {
     this.candleService
       .getHistoryMarkets(this.symbol(), '1D', 300)
-      .subscribe((resp) => {
+      .subscribe(({ candles }) => {
         this.vol.set(
-          resp.volumes.map((v) => ({
-            value: v.value,
-            // color: v.color,
+          candles.map((v) => ({
+            value: v.close,
             time: v.time,
           }))
-        );
-        this.isPriceUp.set(
-          resp.volumes[resp.volumes.length - 1].value > resp.volumes[0].value
         );
       });
   }

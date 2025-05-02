@@ -1,36 +1,92 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { IOKXTicker } from '@app/core/models';
-import { OKXCurrencyService } from '@app/core/services';
-import { debounceTime, Subscription } from 'rxjs';
+import { CommonModule, NgClass } from '@angular/common';
+import {
+  Component,
+  computed,
+  effect,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { CandlestickService } from '@app/core/services';
+import { MiniChartComponent } from '@app/shared/components';
+import { AppRouter } from '@app/utils/routers';
+import { LineData, Time } from 'lightweight-charts';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-wathclist-ticket',
-  imports: [CommonModule],
+  imports: [CommonModule, MiniChartComponent, NgClass],
   templateUrl: './wathclist-ticket.component.html',
   styleUrl: './wathclist-ticket.component.scss',
 })
 export class WathclistTicketComponent implements OnInit, OnDestroy {
-  currenciesSignal = signal<IOKXTicker[]>([]);
+  watchTicket = input<string>('');
+  price = input('0');
+  open24h = input('0');
+
+  percentChange = computed(
+    () => ((+this.price() - +this.open24h()) / +this.open24h()) * 100
+  );
+
+  isSelected = computed(() => {
+    return this.watchTicket() === this.symbol();
+  });
+
+  currenciesSignal = signal<LineData<Time>[]>([]);
+  symbol = signal<string>('');
+
   private subscription: Subscription | null = null;
+  click: any;
 
-  watchlist = ['BTC-USDT', 'ETH-USDT', 'XRP-USDT', 'LTC-USDT', 'BCH-USDT'];
+  constructor(
+    private candleService: CandlestickService,
+    private router: Router
+  ) {
+    this.setSymbol();
 
-  constructor(private currencyService: OKXCurrencyService) {}
+    effect(() => {
+      if (this.watchTicket()) {
+        this.getCandlestick();
+      }
+    });
+  }
 
   ngOnInit() {
-    this.currencyService.connect(this.watchlist);
-    this.subscription = this.currencyService.currencies$
-      .pipe(debounceTime(100))
-      .subscribe((data) => {
-        this.currenciesSignal.set(data);
-      });
+    // Subscribe to the router events to update the symbol when the route changes
+    this.router.events.subscribe(() => {
+      this.setSymbol();
+    });
   }
 
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.currencyService.disconnect();
+    this.candleService.disconnect();
+  }
+
+  setSymbol() {
+    const path = this.router.url.split('/');
+    this.symbol.set(path[path.length - 1]);
+  }
+
+  getCandlestick() {
+    this.candleService
+      .getHistoryMarkets(this.watchTicket(), '1D', 300)
+      .subscribe(({ candles }) => {
+        this.currenciesSignal.set(
+          candles.map((v) => ({
+            value: v.close,
+            time: v.time,
+          }))
+        );
+      });
+  }
+
+  redirectToDetail(): void {
+    this.router.navigate([AppRouter.Dashboard.TradeMarket(this.watchTicket())]);
+    this.setSymbol();
   }
 }

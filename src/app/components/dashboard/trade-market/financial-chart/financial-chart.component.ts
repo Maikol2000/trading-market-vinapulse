@@ -98,8 +98,6 @@ export class FinancialChartComponent {
           this.symbol(),
           this.selectedTimeframe()
         );
-        // this.candlestickService.connectWebSocket();
-        // this.candlestickService.setTimer(100);
       }
     });
   }
