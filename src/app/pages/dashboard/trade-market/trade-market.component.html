@@ -1,5 +1,5 @@
-<div class="block xl:grid xl:grid-cols-12 w-full gap-6">
-  <div class="w-full xl:col-span-3">
+<div class="grid grid-cols-12 w-full gap-6">
+  <div class="col-span-12 xl:col-span-3">
     <div
       class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md text-gray-200"
     >
@@ -13,14 +13,14 @@
       }
     </div>
   </div>
-  <div class="w-full xl:col-span-6">
+  <div class="col-span-12 xl:col-span-6">
     @if (!loading()) {
     <app-financial-chart></app-financial-chart>
     } @else {
     <app-loading></app-loading>
     }
   </div>
-  <div class="w-full xl:col-span-3">
+  <div class="col-span-12 xl:col-span-3">
     <!-- <app-order-book></app-order-book> -->
     <app-order-form></app-order-form>
   </div>
