@@ -77,6 +77,24 @@
             "ASKS": "Lệnh bán",
             "DEPTH_CHART": "Độ sâu của sổ lệnh",
             "SIZE": "Khối lượng"
+        },
+        "WATCHLIST": {
+            "TITLE": "Danh sách theo dõi"
+        },
+        "ORDER_PORPOLIO": {
+            "TABLE_COLUMNS": {
+                "SYMBOL": "Mã",
+                "ORDER_TYPE": "Loại",
+                "QUANTITY": "Khối lượng/Lô",
+                "PRICE": "Giá",
+                "PROFIT": "Lãi/Lỗ, USD"
+            },
+            "TABS": {
+                "OPEN": "Mở",
+                "CLOSED": "Đã đóng",
+                "CANCELED": "Đã hủy",
+                "PEDDING": "Đang chờ"
+            }
         }
     },
     "CRYPTO": {

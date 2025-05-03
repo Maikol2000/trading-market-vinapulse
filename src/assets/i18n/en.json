@@ -78,6 +78,24 @@
             "ASKS": "Asks",
             "DEPTH_CHART": "Order Book Depth",
             "SIZE": "Size"
+        },
+        "WATCHLIST": {
+            "TITLE": "Watchlist"
+        },
+        "ORDER_PORPOLIO": {
+            "TABLE_COLUMNS": {
+                "SYMBOL": "Symbol",
+                "ORDER_TYPE": "Order Type",
+                "QUANTITY": "Quantity/Lot",
+                "PRICE": "Price (USDT)",
+                "PROFIT": "Profit/Loss (USD)"
+            },
+            "TABS": {
+                "OPEN": "Open",
+                "CLOSED": "Closed",
+                "CANCELED": "Canceled",
+                "PEDDING": "Pending"
+            }
         }
     },
     "CRYPTO": {

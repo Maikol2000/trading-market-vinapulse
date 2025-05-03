@@ -3,7 +3,9 @@
     <div
       class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md text-gray-200"
     >
-      <h1 class="text-2xl font-bold mb-4">Watchlist Ticket</h1>
+      <h2 class="mb-4">
+        {{ "TRADE.WATCHLIST.TITLE" | translate }}
+      </h2>
       @for (ticket of tickets(); track $index) {
       <app-wathclist-ticket
         [watchTicket]="ticket.instId"
@@ -23,5 +25,8 @@
   <div class="col-span-12 xl:col-span-3">
     <!-- <app-order-book></app-order-book> -->
     <app-order-form></app-order-form>
+  </div>
+  <div class="col-span-12">
+    <app-order-portfolio></app-order-portfolio>
   </div>
 </div>

@@ -4,12 +4,14 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { OrderFormComponent } from '@app/components/dashboard/order';
 import {
   FinancialChartComponent,
+  OrderPortfolioComponent,
   WathclistTicketComponent,
 } from '@app/components/dashboard/trade-market';
 import { IOKXTicker } from '@app/core/models';
 import { OKXCurrencyService } from '@app/core/services';
 import { LoadingComponent } from '@app/shared/components';
 import { LoadingService } from '@app/shared/services';
+import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, Subscription, tap } from 'rxjs';
 
 @Component({
@@ -20,9 +22,10 @@ import { debounceTime, Subscription, tap } from 'rxjs';
     WathclistTicketComponent,
     LoadingComponent,
     CommonModule,
+    TranslateModule,
+    OrderPortfolioComponent,
   ],
   templateUrl: './trade-market.component.html',
-  styleUrl: './trade-market.component.scss',
 })
 export class TradeMarketComponent {
   watchlist = ['BTC-USDT', 'ETH-USDT', 'XRP-USDT', 'LTC-USDT', 'BCH-USDT'];
