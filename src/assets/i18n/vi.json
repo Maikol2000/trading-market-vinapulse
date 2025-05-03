@@ -62,7 +62,8 @@
         "CHART": {
             "TITLE": "Biểu đồ tài chính",
             "MODAL": {
-                "TITLE": "Các chỉ báo"
+                "TITLE": "Các chỉ báo",
+                "SEARCH_PLACEHOLDER": "Tìm kiếm chỉ báo"
             }
         },
         "ORDER_BOOK": {

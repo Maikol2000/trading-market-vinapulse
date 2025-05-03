@@ -5,12 +5,13 @@ import { OrderFormComponent } from '@app/components/dashboard/order';
 import {
   FinancialChartComponent,
   OrderPortfolioComponent,
-  WathclistTicketComponent,
+  TicketModalComponent,
+  WatchlistTicketComponent,
 } from '@app/components/dashboard/trade-market';
 import { IOKXTicker } from '@app/core/models';
 import { OKXCurrencyService } from '@app/core/services';
 import { LoadingComponent } from '@app/shared/components';
-import { LoadingService } from '@app/shared/services';
+import { LoadingService, ModalService } from '@app/shared/services';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, Subscription, tap } from 'rxjs';
 
@@ -19,7 +20,7 @@ import { debounceTime, Subscription, tap } from 'rxjs';
   imports: [
     FinancialChartComponent,
     OrderFormComponent,
-    WathclistTicketComponent,
+    WatchlistTicketComponent,
     LoadingComponent,
     CommonModule,
     TranslateModule,
@@ -28,7 +29,7 @@ import { debounceTime, Subscription, tap } from 'rxjs';
   templateUrl: './trade-market.component.html',
 })
 export class TradeMarketComponent {
-  watchlist = ['BTC-USDT', 'ETH-USDT', 'XRP-USDT', 'LTC-USDT', 'BCH-USDT'];
+  watchlist = ['ETH-USDT', 'XRP-USDT', 'LTC-USDT', 'BCH-USDT'];
   subscription: Subscription | null = null;
 
   tickets = signal<IOKXTicker[]>([]);
@@ -38,7 +39,8 @@ export class TradeMarketComponent {
   constructor(
     private tickerService: OKXCurrencyService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private modalService: ModalService
   ) {
     this.getTickerSubscribe();
     this.loadingService.loading$.subscribe((l) => {
@@ -77,5 +79,20 @@ export class TradeMarketComponent {
 
   getTickerSubscribe() {
     this.tickerService.connect(this.watchlist);
+  }
+
+  openModal() {
+    const modalRef = this.modalService.open(TicketModalComponent);
+    const instance = modalRef.instance;
+
+    instance.selectInstrument.subscribe((instrument) => {
+      this.tickerService.disconnect();
+      this.watchlist.push(instrument.symbol);
+      this.tickerService.connect(this.watchlist);
+    });
+
+    instance.close.subscribe(() => {
+      this.modalService.close(modalRef);
+    });
   }
 }

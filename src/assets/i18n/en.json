@@ -63,7 +63,8 @@
         "CHART": {
             "TITLE": "Financial Chart",
             "MODAL": {
-                "TITLE": "Indicators"
+                "TITLE": "Indicators",
+                "SEARCH_PLACEHOLDER": "Search indicators"
             }
         },
         "ORDER_BOOK": {

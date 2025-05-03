@@ -16,12 +16,11 @@ import { LineData, Time } from 'lightweight-charts';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-wathclist-ticket',
+  selector: 'app-watchlist-ticket',
   imports: [CommonModule, MiniChartComponent, NgClass],
-  templateUrl: './wathclist-ticket.component.html',
-  styleUrl: './wathclist-ticket.component.scss',
+  templateUrl: './watchlist-ticket.component.html',
 })
-export class WathclistTicketComponent implements OnInit, OnDestroy {
+export class WatchlistTicketComponent implements OnInit, OnDestroy {
   watchTicket = input<string>('');
   price = input('0');
   open24h = input('0');

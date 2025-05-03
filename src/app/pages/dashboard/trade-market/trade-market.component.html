@@ -1,28 +1,50 @@
 <div class="grid grid-cols-12 w-full gap-6">
-  <div class="col-span-12 xl:col-span-3">
+  <div class="col-span-12 xl:col-span-3 h-[570px]">
     <div
-      class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md text-gray-200"
+      class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md text-gray-200 h-full"
     >
       <h2 class="mb-4">
         {{ "TRADE.WATCHLIST.TITLE" | translate }}
       </h2>
-      @for (ticket of tickets(); track $index) {
-      <app-wathclist-ticket
-        [watchTicket]="ticket.instId"
-        [price]="ticket.last"
-        [open24h]="ticket.open24h"
-      ></app-wathclist-ticket>
-      }
+      <div class="overflow-y-auto h-[410px]">
+        @for (ticket of tickets(); track $index) {
+        <app-watchlist-ticket
+          [watchTicket]="ticket.instId"
+          [price]="ticket.last"
+          [open24h]="ticket.open24h"
+        ></app-watchlist-ticket>
+        }
+      </div>
+      <div class="flex justify-center items-center">
+        <button
+          class="flex items-center gap-2 mt-4 px-3 py-1.5 text-sm font-medium rounded-md bg-neutral-800 hover:bg-neutral-700 text-gray-200 transition-colors duration-200 cursor-pointer w-fit"
+          (click)="openModal()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <p>ticket</p>
+        </button>
+      </div>
     </div>
   </div>
-  <div class="col-span-12 xl:col-span-6">
+  <div class="col-span-12 xl:col-span-6 h-[570px]">
     @if (!loading()) {
     <app-financial-chart></app-financial-chart>
     } @else {
     <app-loading></app-loading>
     }
   </div>
-  <div class="col-span-12 xl:col-span-3">
+  <div class="col-span-12 xl:col-span-3 h-[570px]">
     <!-- <app-order-book></app-order-book> -->
     <app-order-form></app-order-form>
   </div>

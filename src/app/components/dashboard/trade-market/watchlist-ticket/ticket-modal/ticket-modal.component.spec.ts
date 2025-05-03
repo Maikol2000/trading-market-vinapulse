@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WathclistTicketComponent } from './wathclist-ticket.component';
+import { TicketModalComponent } from './ticket-modal.component';
 
-describe('WathclistTicketComponent', () => {
-  let component: WathclistTicketComponent;
-  let fixture: ComponentFixture<WathclistTicketComponent>;
+describe('TicketModalComponent', () => {
+  let component: TicketModalComponent;
+  let fixture: ComponentFixture<TicketModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WathclistTicketComponent]
+      imports: [TicketModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WathclistTicketComponent);
+    fixture = TestBed.createComponent(TicketModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

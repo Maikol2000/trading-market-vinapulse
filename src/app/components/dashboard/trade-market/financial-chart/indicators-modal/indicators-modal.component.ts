@@ -25,8 +25,7 @@ import { combineLatest, map, startWith } from 'rxjs';
   styleUrl: './indicators-modal.component.scss',
 })
 export class IndicatorsModalComponent {
-  @Output() close = new EventEmitter<string | undefined>();
-  @Output() confirm = new EventEmitter<string>();
+  @Output() close = new EventEmitter<void>();
   @Output() select = new EventEmitter<IdIndicator>();
 
   faSearch = faSearch;
@@ -79,15 +78,6 @@ export class IndicatorsModalComponent {
   }
 
   onClose() {
-    this.close.emit();
-  }
-
-  onCancel() {
-    this.close.emit();
-  }
-
-  onConfirm() {
-    this.confirm.emit();
     this.close.emit();
   }
 }

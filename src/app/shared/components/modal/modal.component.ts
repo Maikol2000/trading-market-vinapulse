@@ -28,7 +28,7 @@ import {
   ],
 })
 export class ModalComponent {
-  @Input() isOpen = false;
+  @Input() isOpen = true;
   @Input() title?: string;
   @Input() showHeader = true;
   @Input() showFooter = true;

@@ -12,7 +12,7 @@
     ></app-mini-chart>
     <!-- Price and % change -->
     <div class="flex justify-between items-center">
-      <div class="text-xl font-bold">{{ this.price() }}</div>
+      <p class="text-xl font-bold">{{ this.price() }}</p>
       <div
         [ngClass]="
           this.percentChange() >= 0 ? 'text-green-400' : 'text-red-400'

@@ -28,7 +28,7 @@ export class IndicatorsSelectorComponent {
       this.selectIndicator.emit(value);
     });
 
-    instance.close.subscribe((value) => {
+    instance.close.subscribe(() => {
       this.modalService.close(modalRef);
     });
   }
