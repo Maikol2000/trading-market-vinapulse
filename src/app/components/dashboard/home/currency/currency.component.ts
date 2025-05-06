@@ -36,7 +36,7 @@ export class CurrencyComponent {
   ngOnInit(): void {
     this.currencyService.connect(this.watchedInstruments);
     this.subscription = this.currencyService.currencies$
-      .pipe(debounceTime(100))
+      .pipe(debounceTime(200))
       .subscribe((data) => {
         this.currenciesSignal.set(data);
       });

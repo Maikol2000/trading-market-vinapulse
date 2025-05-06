@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '@app/core/services';
 import { SelectLangComponent } from '@app/shared/components';
 import { ClickOutsideDirective } from '@app/shared/directives';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,7 +28,7 @@ export class TopbarComponent {
   isMenuOpen = signal(false);
   isMobile = false;
 
-  constructor() {
+  constructor(private service: AuthService) {
     this.checkScreenSize();
   }
 
@@ -64,6 +65,8 @@ export class TopbarComponent {
   }
 
   logout(): void {
-    // Implement logout logic here
+    this.service.logout().subscribe(() => {
+      this.service.checkAuth();
+    });
   }
 }

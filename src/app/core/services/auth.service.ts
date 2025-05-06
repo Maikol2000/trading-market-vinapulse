@@ -1,48 +1,54 @@
 import { Injectable } from '@angular/core';
 import { ResponseData } from '@app/shared/models';
-import { ApiService, CookiesService } from '@app/shared/services';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { Observable } from 'rxjs';
+import { ApiService } from '@app/shared/services';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { ILoginRequest } from '../models';
+import { Router } from '@angular/router';
+import { AppRouter } from '@app/utils/routers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
-    private service: ApiService,
-    private deviceService: DeviceDetectorService,
-    private cookieService: CookiesService
-  ) {}
+  private authState$ = new BehaviorSubject<boolean>(false);
 
-  login(credentials: ILoginRequest): Observable<ResponseData<string>> {
-    let deviceInfo = this.deviceService.getDeviceInfo();
-    const { device, deviceType, os, os_version } = deviceInfo; // Log device information
+  constructor(private service: ApiService, private router: Router) {
+    this.checkAuth();
+  }
+
+  login(login: ILoginRequest): Observable<ResponseData<string>> {
+    // let deviceInfo = this.deviceService.getDeviceInfo();
+    // const { device, deviceType, os, os_version } = deviceInfo; // Log device information
     return this.service.post<ResponseData<string>>('/auth/login', {
-      ...credentials,
-      deviceName: device,
-      deviceType,
-      deviceOs: os,
-      versionOs: os_version,
+      ...login,
     });
-    // .pipe(
-    //   tap((response) => {
-    //     if (response) {
-    //       this.isLoggedIn = true;
-    //     }
-    //   })
-    // );
   }
 
-  logout(): void {
-    // localStorage.removeItem('token');
+  logout() {
+    return this.service.post<ResponseData<boolean>>('/auth/logout');
   }
 
-  isAuthenticated(): boolean {
-    return this.cookieService.hasCookie('auth_token');
+  checkAuth() {
+    return this.service
+      .get<ResponseData<boolean>>('/auth/auth-check')
+      .pipe(
+        map((response) => {
+          this.authState$.next(response.value);
+          if (response.value) {
+            this.router.navigate([AppRouter.Dashboard.Home]);
+          } else {
+            this.router.navigate([AppRouter.Auth.Login]);
+          }
+        }),
+        catchError(() => {
+          this.authState$.next(false);
+          return of(false);
+        })
+      )
+      .subscribe();
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  isAuthenticated() {
+    return this.authState$.asObservable();
   }
 }

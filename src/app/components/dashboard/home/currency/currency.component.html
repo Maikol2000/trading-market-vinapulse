@@ -1,92 +1,98 @@
 <div class="bg-neutral-900 p-4 sm:p-6 lg:px-8 rounded-lg shadow-md">
   <h2 class="mb-4">{{ "HOME.CRYPTO_TRADE_DATA" | translate }}</h2>
 
-  <div class="overflow-x-auto">
-    <table class="min-w-full">
-      <thead>
-        <tr class="bg-gray-800">
-          <th class="px-4 py-1 border-b">{{ "HOME.SYMBOL" | translate }}</th>
-          <th class="px-4 py-1 border-b text-right">
-            {{ "HOME.HIGH" | translate }}
-          </th>
-          <th class="px-4 py-1 border-b text-right">
-            {{ "HOME.LOW" | translate }}
-          </th>
-          <th class="px-2 py-1 border-b text-right">
-            {{ "HOME.BUY_PRICE" | translate }}
-          </th>
-          <th class="px-2 py-1 border-b text-right">
-            {{ "HOME.BUY_VOLUME" | translate }}
-          </th>
-          <th class="px-2 py-1 border-b text-right">
-            {{ "HOME.SELL_PRICE" | translate }}
-          </th>
-          <th class="px-2 py-1 border-b text-right">
-            {{ "HOME.SELL_VOLUME" | translate }}
-          </th>
-          <th class="px-2 py-1 border-b text-right">
-            {{ "HOME.MATCHED_PRICE" | translate }}
-          </th>
-          <th class="px-2 py-1 border-b text-right">
-            {{ "HOME.MATCHED_VOLUME" | translate }}
-          </th>
-          <th class="px-2 py-1 border-b text-right">
-            {{ "HOME.TRENDING" | translate }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let cp of currenciesSignal()"
-          class="hover:bg-gray-700 duration-150 ease-in-out cursor-pointer hover:rounded-xl"
-          (click)="redirectToDetail(cp.instId)"
-        >
-          <td class="px-4 py-2 font-medium">
-            {{ cp.instId }}
-          </td>
-          <td class="px-4 py-2 text-right">
-            {{ formatNumber(+cp.high24h) }}
-          </td>
-          <td class="px-4 py-2 text-right">
-            {{ formatNumber(+cp.low24h) }}
-          </td>
+  <table class="min-w-full">
+    <thead>
+      <tr class="bg-gray-800">
+        <th class="px-4 py-1 border-b">{{ "HOME.SYMBOL" | translate }}</th>
+        <th class="px-4 py-1 border-b text-right">
+          {{ "HOME.HIGH" | translate }}
+        </th>
+        <th class="px-4 py-1 border-b text-right">
+          {{ "HOME.LOW" | translate }}
+        </th>
+        <th class="px-2 py-1 border-b text-right">
+          {{ "HOME.BUY_PRICE" | translate }}
+        </th>
+        <th class="px-2 py-1 border-b text-right">
+          {{ "HOME.BUY_VOLUME" | translate }}
+        </th>
+        <th class="px-2 py-1 border-b text-right">
+          {{ "HOME.SELL_PRICE" | translate }}
+        </th>
+        <th class="px-2 py-1 border-b text-right">
+          {{ "HOME.SELL_VOLUME" | translate }}
+        </th>
+        <th class="px-2 py-1 border-b text-right">
+          {{ "HOME.MATCHED_PRICE" | translate }}
+        </th>
+        <th class="px-2 py-1 border-b text-right">
+          {{ "HOME.MATCHED_VOLUME" | translate }}
+        </th>
+        <th class="px-2 py-1 border-b text-right">
+          {{ "HOME.TRENDING" | translate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let cp of currenciesSignal()"
+        class="hover:bg-gray-700 duration-150 ease-in-out cursor-pointer hover:rounded-xl"
+        (click)="redirectToDetail(cp.instId)"
+      >
+        <td class="px-4 py-2 font-medium">
+          {{ cp.instId }}
+        </td>
+        <td class="px-4 py-2 text-right">
+          {{ formatNumber(+cp.high24h) }}
+        </td>
+        <td class="px-4 py-2 text-right">
+          {{ formatNumber(+cp.low24h) }}
+        </td>
 
-          <!-- Buy trade -->
-          <td class="px-2 py-2 text-right font-medium">
-            {{ formatNumber(+cp.bidPx) }}
-          </td>
-          <td class="px-2 py-2 text-right">
-            {{ formatNumber(+cp.bidSz) }}
-          </td>
+        <!-- Buy trade -->
+        <td class="px-2 py-2 text-right font-medium">
+          {{ formatNumber(+cp.bidPx) }}
+        </td>
+        <td class="px-2 py-2 text-right">
+          {{ formatNumber(+cp.bidSz) }}
+        </td>
 
-          <!-- Sell trade -->
-          <td class="px-2 py-2 text-right font-medium">
-            {{ formatNumber(+cp.askPx) }}
-          </td>
-          <td class="px-2 py-2 text-right">
-            {{ formatNumber(+cp.askSz) }}
-          </td>
+        <!-- Sell trade -->
+        <td class="px-2 py-2 text-right font-medium">
+          {{ formatNumber(+cp.askPx) }}
+        </td>
+        <td class="px-2 py-2 text-right">
+          {{ formatNumber(+cp.askSz) }}
+        </td>
 
-          <!-- Matched trade -->
-          <td class="px-2 py-2 text-right font-medium">
-            {{ formatNumber(+cp.last) }}
-          </td>
-          <td class="px-2 py-2 text-right">
-            {{ formatNumber(+cp.volCcy24h) }}
-          </td>
-          <td class="flex justify-end px-2 py-2">
+        <!-- Matched trade -->
+        <td class="px-2 py-2 text-right font-medium">
+          {{ formatNumber(+cp.last) }}
+        </td>
+        <td class="px-2 py-2 text-right">
+          {{ formatNumber(+cp.volCcy24h) }}
+        </td>
+        <td class="flex justify-end px-2 py-2 h-[50px]">
+          <div class="w-26">
+            @defer {
             <app-mini-chart-currency
               [symbol]="cp.instId"
               [isPriceUp]="(+cp.last - +cp.open24h) / +cp.open24h / 100 > 0"
             ></app-mini-chart-currency>
-          </td>
-        </tr>
-        <tr *ngIf="currenciesSignal().length === 0">
-          <td colspan="12" class="text-center font-bold pt-4">
-            {{ "COMMONS.NO_DATA" | translate }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            } @loading {
+            <div
+              class="w-8 h-8 animate-spin rounded-full border-4 border-t-4 border-t-transparent border-gray-600"
+            ></div>
+            }
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="currenciesSignal().length === 0">
+        <td colspan="12" class="text-center font-bold pt-4">
+          {{ "COMMONS.NO_DATA" | translate }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

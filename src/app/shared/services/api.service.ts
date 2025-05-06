@@ -33,7 +33,7 @@ export class ApiService {
    */
   public post<T>(
     endpoint: string,
-    body: any,
+    body?: any,
     requireAuth: boolean = false
   ): Observable<T> {
     const headers = this.getHeaders(requireAuth);

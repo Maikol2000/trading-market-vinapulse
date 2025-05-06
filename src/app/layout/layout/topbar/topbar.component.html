@@ -9,7 +9,7 @@
           <div class="ml-3 relative" #toogleBar>
             <div
               (click)="toggleDropdown()"
-              class="flex items-center space-x-2 text-gray-200 hover:text-gray-300"
+              class="flex items-center space-x-2 text-gray-200 hover:text-gray-300 cursor-pointer"
               [clickOutsideExceptions]="[toogleBar]"
               appClickOutside
               (clickOutside)="onClose()"
@@ -25,19 +25,23 @@
             <!-- Dropdown Menu -->
             <div
               *ngIf="isDropdownOpen"
-              class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-neutral-800 ring-1 ring-black ring-opacity-5"
+              class="absolute right-0 mt-2 w-max rounded-md shadow-lg bg-neutral-800 ring-1 ring-black ring-opacity-5"
             >
-              <div class="py-1" role="menu">
+              <div role="menu">
                 <!-- Language Toggle -->
-                <div class="px-4 py-2 text-sm text-gray-200">
-                  <span class="block text-xs text-gray-400">{{
-                    "COMMONS.LANGUAGE" | translate
-                  }}</span>
+                <div class="px-2 py-1 text-sm text-gray-200">
                   <div class="flex items-center space-x-2 mt-1">
                     <app-select-lang></app-select-lang>
                   </div>
                 </div>
-                <!-- Other menu items -->
+                <div class="px-2 py-1 text-sm text-gray-200">
+                  <button
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-200 bg-neutral-800 rounded-md hover:bg-neutral-700 focus:outline-none"
+                    (click)="logout()"
+                  >
+                    {{ "AUTH.LOGOUT" | translate }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

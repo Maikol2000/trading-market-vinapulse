@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -9,6 +9,7 @@ import {
 import { AuthService } from '@app/core/services';
 import { SelectLangComponent } from '@app/shared/components';
 import { TranslateModule } from '@ngx-translate/core';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -24,11 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class LoginFormComponent {
   loginForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private service: AuthService,
-    private location: Location
-  ) {
+  constructor(private fb: FormBuilder, private service: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -38,15 +35,17 @@ export class LoginFormComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      this.service.login({ userId: email, passId: password }).subscribe({
-        next: () => {
-          this.location.back();
-          // this.router.navigate([AppRouter.Dashboard.Home]);
-        },
-        error: (error) => {
-          console.error('Login failed', error);
-        },
-      });
+      this.service
+        .login({ userId: email, passId: password })
+        .pipe(debounceTime(100))
+        .subscribe({
+          next: () => {
+            this.service.checkAuth();
+          },
+          error: (error) => {
+            console.error('Login failed', error);
+          },
+        });
     }
   }
 }
