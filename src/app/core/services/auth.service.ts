@@ -5,6 +5,7 @@ import { ApiService } from '@app/shared/services';
 import { AppRouter } from '@app/utils/routers';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { ILoginRequest, IRegisterRequest } from '../models';
+import { LocalStorageKey } from '@app/shared/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -13,15 +14,23 @@ export class AuthService {
   private authState$ = new BehaviorSubject<boolean>(false);
 
   routerAuth = [
-    AppRouter.Auth.AuthLayout,
-    AppRouter.Auth.Login,
-    AppRouter.Auth.Register,
+    '/' + AppRouter.Auth.AuthLayout,
+    '/' + AppRouter.Auth.Login,
+    '/' + AppRouter.Auth.Register,
     // AppRouter.Auth.ForgotPassword,
     // AppRouter.Auth.ResetPassword,
   ];
 
   constructor(private service: ApiService, private router: Router) {
     this.checkAuth();
+    this.router.events.subscribe(() => {
+      if (
+        !this.routerAuth.includes(this.router.url) &&
+        this.router.url !== '/'
+      ) {
+        localStorage.setItem(LocalStorageKey.LAST_URL, this.router.url);
+      }
+    });
   }
 
   login(login: ILoginRequest): Observable<ResponseData<string>> {
@@ -42,8 +51,11 @@ export class AuthService {
       .pipe(
         map((response) => {
           this.authState$.next(response.value);
-          if (response.value) {
-            this.router.navigate([AppRouter.Dashboard.Home]);
+          if (response.value && this.router.url !== AppRouter.Auth.AuthLayout) {
+            const url =
+              localStorage.getItem(LocalStorageKey.LAST_URL) ??
+              AppRouter.Dashboard.Home;
+            this.router.navigate([url]);
           } else if (this.routerAuth.includes(this.router.url)) {
             this.router.navigate([AppRouter.Auth.AuthLayout]);
           }
