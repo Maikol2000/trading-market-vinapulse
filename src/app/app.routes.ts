@@ -5,7 +5,7 @@ import { AppRouter } from './utils/routers';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: AppRouter.Auth.Login,
+    redirectTo: AppRouter.Dashboard.Home,
     pathMatch: 'full',
   },
   {
@@ -15,7 +15,7 @@ export const routes: Routes = [
   },
   {
     path: AppRouter.Auth.AuthLayout,
-    redirectTo: AppRouter.Dashboard.Home,
+    redirectTo: AppRouter.Auth.Login,
     pathMatch: 'full',
   },
   {
@@ -25,6 +25,11 @@ export const routes: Routes = [
       {
         path: AppRouter.Auth.Login,
         loadComponent: AppRouter.Auth.loginComponent,
+        canActivate: [NonAuthGuard],
+      },
+      {
+        path: AppRouter.Auth.Register,
+        loadComponent: AppRouter.Auth.registerComponent,
         canActivate: [NonAuthGuard],
       },
     ],

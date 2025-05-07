@@ -12,4 +12,11 @@ export class authRoute {
     import('@app/pages/auth/login/login.component').then(
       (m) => m.LoginComponent
     );
+
+  //register
+  Register = this.AuthLayout + '/register';
+  registerComponent = () =>
+    import('@app/pages/auth/register/register.component').then(
+      (m) => m.RegisterComponent
+    );
 }

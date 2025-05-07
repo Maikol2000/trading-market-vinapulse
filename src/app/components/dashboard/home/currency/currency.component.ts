@@ -59,6 +59,6 @@ export class CurrencyComponent {
   }
 
   redirectToDetail(instrument: string): void {
-    this.router.navigate([AppRouter.Dashboard.TradeMarket(instrument)]);
+    this.router.navigate(['app/trade-market', instrument]);
   }
 }
