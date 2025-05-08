@@ -136,17 +136,6 @@ export class TechnicalGaugeChartComponent {
 
   updateGauge(value: number) {
     this.gaugeValue.set(value);
-
-    // if (value < 30) {
-    //   this.gaugeLabel.set(this.thresholds['0']?.label ?? '');
-    //   this.gaugeForegroundColor.set(this.thresholds['0']?.color ?? '');
-    // } else if (value < 70) {
-    //   this.gaugeLabel.set(this.thresholds['30']?.label ?? '');
-    //   this.gaugeForegroundColor.set(this.thresholds['30']?.color ?? '');
-    // } else {
-    //   this.gaugeLabel.set(this.thresholds['70']?.label ?? '');
-    //   this.gaugeForegroundColor.set(this.thresholds['70']?.color ?? '');
-    // }
   }
 
   setThresholds() {

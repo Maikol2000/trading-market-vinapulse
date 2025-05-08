@@ -1,6 +1,6 @@
 <div>
   <div class="text-center font-semibold text-xl text-blue-600 mt-2"></div>
-  <div class="flex justify-center py-2 bg-white">
+  <div class="flex justify-center py-2">
     <dx-circular-gauge
       [value]="gaugeValue()"
       [loadingIndicator]="{ show: true }"
@@ -24,7 +24,7 @@
 
       <!-- Title Configuration -->
       <dxo-title text="RSI Technical Analysis">
-        <dxo-font [size]="28"></dxo-font>
+        <dxo-font [size]="28" color="white"></dxo-font>
       </dxo-title>
 
       <!-- Needle -->
