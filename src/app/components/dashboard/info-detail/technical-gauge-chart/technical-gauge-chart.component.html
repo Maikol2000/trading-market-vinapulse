@@ -1,20 +1,36 @@
 <div>
   <div class="text-center font-semibold text-xl text-blue-600 mt-2"></div>
   <div class="flex justify-center py-2 bg-white">
-    <ngx-gauge
+    <dx-circular-gauge
       [value]="gaugeValue()"
-      [label]="gaugeLabel()"
-      [append]="gaugeAppendText"
-      [thick]="gaugeThick"
-      [size]="gaugeSize"
-      [animate]="gaugeOptions.animation"
-      [duration]="gaugeOptions.animationDuration"
-      class="text-gray-400 p-2"
-      [type]="gaugeType"
-      [foregroundColor]="gaugeForegroundColor()"
-      [markers]="thresholds"
+      [loadingIndicator]="{ show: true }"
+      [subvalues]="[]"
     >
-    </ngx-gauge>
+      <!-- Scale Configuration -->
+      <dxo-scale [startValue]="0" [endValue]="100" [tickInterval]="10">
+        <dxo-label [customizeText]="customizeText">
+          <dxo-font [size]="14"></dxo-font>
+        </dxo-label>
+      </dxo-scale>
+      <!-- Range Container -->
+      <dxo-range-container>
+        <dxi-range [startValue]="0" [endValue]="30" color="#DF5353">
+        </dxi-range>
+        <dxi-range [startValue]="30" [endValue]="70" color="#DDDF0D">
+        </dxi-range>
+        <dxi-range [startValue]="70" [endValue]="100" color="#55BF3B">
+        </dxi-range>
+      </dxo-range-container>
+
+      <!-- Title Configuration -->
+      <dxo-title text="RSI Technical Analysis">
+        <dxo-font [size]="28"></dxo-font>
+      </dxo-title>
+
+      <!-- Needle -->
+      <dxo-value-indicator type="triangleNeedle" color="#9b9b9b">
+      </dxo-value-indicator>
+    </dx-circular-gauge>
   </div>
 
   <div class="mt-6">

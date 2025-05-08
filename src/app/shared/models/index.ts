@@ -1,3 +1,4 @@
+export * from './bolliner-band';
 export * from './headers';
 export * from './indicator';
 export * from './list-subscribed-channels-candle';

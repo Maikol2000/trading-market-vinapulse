@@ -1,4 +1,4 @@
-export interface ResponseData<T> {
+export interface IResponse<T> {
   code: string;
   message: string;
   value: T;

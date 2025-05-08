@@ -8,7 +8,7 @@ import { IOrderBook, OrderBookLevel } from '../models';
 @Injectable({
   providedIn: 'root',
 })
-export class OrderBookService {
+export class OrderBookWSService {
   private readonly OKX_API_URL = environment.okxAPI + '/market/books';
   private readonly MAX_LEVELS = 10; // Number of price levels to display
   private readonly REFRESH_INTERVAL = 5000; // Refresh every second

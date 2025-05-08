@@ -37,11 +37,6 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "ngx-bootstrap",
-              "ngx-toastr",
-              "ngx-color-picker",
-              "ng2-charts",
-              "chart.js",
               "ng2-file-upload",
               "angular-2-local-storage",
               "angular-in-memory-web-api",

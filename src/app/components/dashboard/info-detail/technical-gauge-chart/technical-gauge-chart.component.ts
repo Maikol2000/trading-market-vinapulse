@@ -3,8 +3,7 @@ import { Component, signal } from '@angular/core';
 import { CandlestickService } from '@app/core/services';
 import { LanguageService } from '@app/shared/services';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxGaugeModule } from 'ngx-gauge';
-import { NgxGaugeCap, NgxGaugeType } from 'node_modules/ngx-gauge/gauge/gauge';
+import { DxCircularGaugeModule, DxRangeSliderModule } from 'devextreme-angular';
 
 type NgxThresholds = {
   [key in 0 | 30 | 70]: {
@@ -15,7 +14,12 @@ type NgxThresholds = {
 
 @Component({
   selector: 'app-technical-gauge-chart',
-  imports: [CommonModule, TranslateModule, NgxGaugeModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    DxCircularGaugeModule,
+    DxRangeSliderModule,
+  ],
   templateUrl: './technical-gauge-chart.component.html',
   styleUrl: './technical-gauge-chart.component.scss',
 })
@@ -26,13 +30,49 @@ export class TechnicalGaugeChartComponent {
   gaugeAppendText = '%';
   gaugeThick = 40;
   gaugeSize = 400;
-
-  gaugeType: NgxGaugeType = 'semi';
-  gaugeCap: NgxGaugeCap = 'round';
-
+  customizeText = (arg: { value: number }) => {
+    return `${arg.value}%`;
+  };
   gaugeOptions = {
-    animation: true,
-    animationDuration: 1000,
+    scale: {
+      startValue: 0,
+      endValue: 100,
+      tick: {
+        color: '#9b9b9b',
+      },
+      label: {
+        customizeText: this.customizeText,
+      },
+    },
+    rangeContainer: {
+      palette: 'pastel',
+      ranges: [
+        {
+          startValue: 0,
+          endValue: 30,
+          color: '#DF5353',
+        },
+        {
+          startValue: 30,
+          endValue: 70,
+          color: '#DDDF0D',
+        },
+        {
+          startValue: 70,
+          endValue: 100,
+          color: '#55BF3B',
+        },
+      ],
+    },
+    title: {
+      text: 'Technical Analysis',
+      font: { size: 28 },
+    },
+    valueIndicator: {
+      type: 'triangleNeedle',
+      color: '#9b9b9b',
+    },
+    subvalues: [],
   };
 
   thresholds: NgxThresholds = {
@@ -97,16 +137,16 @@ export class TechnicalGaugeChartComponent {
   updateGauge(value: number) {
     this.gaugeValue.set(value);
 
-    if (value < 30) {
-      this.gaugeLabel.set(this.thresholds['0']?.label ?? '');
-      this.gaugeForegroundColor.set(this.thresholds['0']?.color ?? '');
-    } else if (value < 70) {
-      this.gaugeLabel.set(this.thresholds['30']?.label ?? '');
-      this.gaugeForegroundColor.set(this.thresholds['30']?.color ?? '');
-    } else {
-      this.gaugeLabel.set(this.thresholds['70']?.label ?? '');
-      this.gaugeForegroundColor.set(this.thresholds['70']?.color ?? '');
-    }
+    // if (value < 30) {
+    //   this.gaugeLabel.set(this.thresholds['0']?.label ?? '');
+    //   this.gaugeForegroundColor.set(this.thresholds['0']?.color ?? '');
+    // } else if (value < 70) {
+    //   this.gaugeLabel.set(this.thresholds['30']?.label ?? '');
+    //   this.gaugeForegroundColor.set(this.thresholds['30']?.color ?? '');
+    // } else {
+    //   this.gaugeLabel.set(this.thresholds['70']?.label ?? '');
+    //   this.gaugeForegroundColor.set(this.thresholds['70']?.color ?? '');
+    // }
   }
 
   setThresholds() {

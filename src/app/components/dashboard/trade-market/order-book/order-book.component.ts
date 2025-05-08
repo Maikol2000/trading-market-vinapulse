@@ -1,56 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexDataLabels,
-  ApexFill,
-  ApexGrid,
-  ApexOptions,
-  ApexStroke,
-  ApexTooltip,
-  ApexXAxis,
-  ApexYAxis,
-  NgApexchartsModule,
-} from 'ng-apexcharts';
 
 import { IOrderBook } from '@app/core/models';
 import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
-import { OrderBookService } from '@app/core/services/order-book.service';
+import { OrderBookWSService } from '@app/core/services';
 import { LanguageService } from '@app/shared/services';
 import { TranslateModule } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs/operators';
 
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  dataLabels: ApexDataLabels;
-  grid: ApexGrid;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  fill: ApexFill;
-};
-
 @Component({
   selector: 'app-order-book',
-  imports: [CommonModule, NgApexchartsModule, TranslateModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './order-book.component.html',
   styleUrls: ['./order-book.component.scss'],
 })
 export class OrderBookComponent implements OnInit {
   public orderBook: IOrderBook | null = null;
-  public chartOptions: Partial<ApexOptions> | null = null;
+  public chartOptions: Partial<any> | null = null;
 
   private destroy$ = new Subject<void>();
 
   public symbol = signal<string>('BTC-USDT');
 
   constructor(
-    private orderBookService: OrderBookService,
+    private orderBookService: OrderBookWSService,
     private router: Router,
     private translate: LanguageService
   ) {}

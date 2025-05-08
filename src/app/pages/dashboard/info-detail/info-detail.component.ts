@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TechnicalGaugeChartComponent } from '@app/components/dashboard/info-detail';
 import { ICrypto } from '@app/core/models';
-import { OrderService } from '@app/core/services';
+import { OrderWSOKXService } from '@app/core/services';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, Subscription } from 'rxjs';
 
@@ -21,7 +21,7 @@ export class InfoDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private ticketService: OrderService
+    private ticketService: OrderWSOKXService
   ) {}
 
   ngOnInit(): void {
