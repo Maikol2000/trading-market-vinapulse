@@ -9,11 +9,15 @@ import { IOrder } from '../models';
 export class OrderService {
   constructor(private service: ApiService) {}
 
-  getOrders(userId: string) {
-    return this.service.get<IResponse<IOrder>>(`/orders` + `/${userId}`);
+  getOrders() {
+    return this.service.get<IResponse<IOrder[]>>(`/orders`);
   }
 
-  createOrder(order: Partial<IOrder>) {
+  addOrder(order: Partial<IOrder>) {
     return this.service.post<IResponse<IOrder>>('/add-orders', order);
+  }
+
+  updateOrder(order: Partial<IOrder>) {
+    return this.service.post<IResponse<IOrder>>('/update-order', order);
   }
 }

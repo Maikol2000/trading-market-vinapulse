@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -22,6 +22,7 @@ import { debounceTime } from 'rxjs';
     SelectLangComponent,
     RouterModule,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })

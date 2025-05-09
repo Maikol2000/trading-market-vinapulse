@@ -1,5 +1,4 @@
 export interface IOrder {
-  orderId: string;
   accountId: string;
   symbol: string;
   type: string;
