@@ -6,13 +6,11 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { OrderStatusEnum, OrderSideEnum } from '@app/constants/enums';
 import { IOrder } from '@app/core/models';
-import { OrderService } from '@app/core/services';
 import { OrderStore } from '@app/core/stores';
 import { IHeader } from '@app/shared/models';
 import { TranslateModule } from '@ngx-translate/core';
-
-type OrderStatus = 'open' | 'closed' | 'pending';
 
 @Component({
   selector: 'app-order-portfolio',
@@ -23,6 +21,9 @@ type OrderStatus = 'open' | 'closed' | 'pending';
 })
 export class OrderPortfolioComponent {
   store = inject(OrderStore);
+
+  orderStatus = OrderStatusEnum;
+  orderSide = OrderSideEnum;
 
   headers: IHeader[] = [
     {
@@ -44,10 +45,10 @@ export class OrderPortfolioComponent {
 
   orders = this.store.orders();
 
-  activeTab = signal<OrderStatus>('open');
+  activeTab = signal<OrderStatusEnum>(this.orderStatus.ClOSED);
   filteredOrders: IOrder[] = [];
 
-  constructor(private orderService: OrderService) {
+  constructor() {
     effect(() => {
       if (this.activeTab()) {
         this.filterOrders();
@@ -60,13 +61,7 @@ export class OrderPortfolioComponent {
     this.filterOrders();
   }
 
-  getOrders() {
-    this.orderService.getOrders().subscribe((res) => {
-      console.log(res);
-    });
-  }
-
-  setActiveTab(tab: OrderStatus): void {
+  setActiveTab(tab: OrderStatusEnum): void {
     this.activeTab.set(tab);
   }
 

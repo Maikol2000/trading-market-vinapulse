@@ -10,11 +10,11 @@ export class OrderService {
   constructor(private service: ApiService) {}
 
   getOrders() {
-    return this.service.get<IResponse<IOrder[]>>(`/orders`);
+    return this.service.get<IResponse<IOrder[]>>(`/order/list`);
   }
 
   addOrder(order: Partial<IOrder>) {
-    return this.service.post<IResponse<IOrder>>('/add-orders', order);
+    return this.service.post<IResponse<IOrder>>('/order/create', order);
   }
 
   updateOrder(order: Partial<IOrder>) {

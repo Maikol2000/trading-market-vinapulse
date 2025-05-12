@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { OrderStatusEnum, OrderSideEnum } from '@app/constants/enums';
 import { CandlestickService } from '@app/core/services';
+import { OrderStore } from '@app/core/stores';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -16,10 +18,13 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './order-form.component.scss',
 })
 export class OrderFormComponent {
+  private store = inject(OrderStore);
+
   orderForm!: FormGroup;
   selectedSymbol = 'BTC-USDT';
-  orderTypes = ['market', 'limit'];
-  orderSides = ['buy', 'sell'];
+
+  orderStatus = OrderStatusEnum;
+  orderSide = OrderSideEnum;
 
   constructor(
     private fb: FormBuilder,
@@ -34,10 +39,10 @@ export class OrderFormComponent {
   initForm() {
     this.orderForm = this.fb.group({
       symbol: [this.selectedSymbol, Validators.required],
-      orderType: ['limit', Validators.required],
-      side: ['buy', Validators.required],
+      side: [OrderSideEnum.BUY, Validators.required],
       quantity: ['0.001', [Validators.required, Validators.min(0.001)]],
       price: ['', Validators.required],
+      status: [OrderStatusEnum.OPEN, Validators.required],
     });
   }
 
@@ -56,10 +61,7 @@ export class OrderFormComponent {
   submitOrder(): void {
     if (this.orderForm.valid) {
       const orderData = this.orderForm.value;
-      console.log('Order submitted:', orderData);
-      // Here you would send the order to the OKX API
-      // For demo purposes, we're just logging it
-      alert('Order submitted! Check console for details.');
+      this.store.addOrder(orderData);
     } else {
       this.orderForm.markAllAsTouched();
     }

@@ -1,14 +1,15 @@
+import { OrderStatusEnum, OrderSideEnum } from '@app/constants/enums';
+
 export interface IOrder {
-  accountId: string;
+  orderId: string;
   symbol: string;
-  type: string;
-  status: string;
-  side: string;
+  status: OrderStatusEnum;
+  side: OrderSideEnum;
   openPrice: string;
   closePrice: string;
   openAt: string;
   closeAt: string;
   takeProfit: string;
   stopLoss: string;
-  amount: string;
+  quantity: number;
 }

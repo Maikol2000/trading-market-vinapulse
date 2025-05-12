@@ -7,28 +7,28 @@
   <div class="flex justify-between mb-4">
     <div class="flex space-x-4">
       <button
-        (click)="setActiveTab('open')"
-        [class.bg-yellow-500]="activeTab() === 'open'"
-        [class.text-black]="activeTab() === 'open'"
-        [class.bg-gray-700]="activeTab() !== 'open'"
+        (click)="setActiveTab(orderStatus.OPEN)"
+        [class.bg-yellow-500]="activeTab() === orderStatus.OPEN"
+        [class.text-black]="activeTab() === orderStatus.OPEN"
+        [class.bg-gray-700]="activeTab() !== orderStatus.OPEN"
         class="px-4 py-2 rounded"
       >
         Mở
       </button>
       <button
-        (click)="setActiveTab('closed')"
-        [class.bg-yellow-500]="activeTab() === 'closed'"
-        [class.text-black]="activeTab() === 'closed'"
-        [class.bg-gray-700]="activeTab() !== 'closed'"
+        (click)="setActiveTab(orderStatus.ClOSED)"
+        [class.bg-yellow-500]="activeTab() === orderStatus.ClOSED"
+        [class.text-black]="activeTab() === orderStatus.ClOSED"
+        [class.bg-gray-700]="activeTab() !== orderStatus.ClOSED"
         class="px-4 py-2 rounded"
       >
         Đã đóng
       </button>
       <button
-        (click)="setActiveTab('pending')"
-        [class.bg-yellow-500]="activeTab() === 'pending'"
-        [class.text-black]="activeTab() === 'pending'"
-        [class.bg-gray-700]="activeTab() !== 'pending'"
+        (click)="setActiveTab(orderStatus.PENDING)"
+        [class.bg-yellow-500]="activeTab() === orderStatus.PENDING"
+        [class.text-black]="activeTab() === orderStatus.PENDING"
+        [class.bg-gray-700]="activeTab() !== orderStatus.PENDING"
         class="px-4 py-2 rounded"
       >
         Đang chờ
@@ -57,11 +57,11 @@
           <td class="p-2">
             <span
               [ngClass]="{
-                'text-red-500': order.type === 'Sell',
-                'text-blue-500': order.type === 'Buy'
+                'text-red-500': order.side === orderSide.SELL,
+                'text-blue-500': order.side === orderSide.BUY
               }"
             >
-              {{ order.type }}
+              {{ order.side }}
             </span>
           </td>
           <td class="p-2 text-left">{{ order.openPrice }}</td>

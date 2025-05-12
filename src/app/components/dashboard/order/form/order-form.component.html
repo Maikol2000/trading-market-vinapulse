@@ -4,54 +4,59 @@
   <!-- Order Form -->
   <form [formGroup]="orderForm" (ngSubmit)="submitOrder()" class="space-y-4">
     <!-- Order Side (Buy/Sell) - Switch Button -->
-    <div>
-      <!-- <label
-        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-        >Side</label
-      > -->
-      <div class="flex w-full rounded-lg overflow-hidden">
-        <button
-          type="button"
-          [ngClass]="{
-            'bg-green-500 text-white': orderForm.get('side')?.value === 'buy',
-            'bg-gray-600 text-gray-400 ': orderForm.get('side')?.value !== 'buy'
-          }"
-          class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
-          (click)="orderForm.get('side')?.setValue('buy')"
-        >
-          {{ "COMMONS.BUY" | translate }}
-        </button>
-        <button
-          type="button"
-          [ngClass]="{
-            'bg-red-500 text-white': orderForm.get('side')?.value === 'sell',
-            'bg-gray-600 text-gray-400 ':
-              orderForm.get('side')?.value !== 'sell'
-          }"
-          class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
-          (click)="orderForm.get('side')?.setValue('sell')"
-        >
-          {{ "COMMONS.SELL" | translate }}
-        </button>
-      </div>
+    <div class="flex w-full rounded-lg overflow-hidden">
+      <button
+        type="button"
+        [ngClass]="{
+          'bg-green-500 text-white':
+            orderForm.get('side')?.value === orderSide.BUY,
+          'bg-gray-600 text-gray-400':
+            orderForm.get('side')?.value !== orderSide.BUY
+        }"
+        class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
+        (click)="orderForm.get('side')?.setValue(orderSide.BUY)"
+      >
+        {{ "COMMONS.BUY" | translate }}
+      </button>
+      <button
+        type="button"
+        [ngClass]="{
+          'bg-red-500 text-white':
+            orderForm.get('side')?.value === orderSide.SELL,
+          'bg-gray-600 text-gray-400 ':
+            orderForm.get('side')?.value !== orderSide.SELL
+        }"
+        class="flex-1 py-3 font-medium transition-colors duration-200 ease-in-out focus:outline-none"
+        (click)="orderForm.get('side')?.setValue(orderSide.SELL)"
+      >
+        {{ "COMMONS.SELL" | translate }}
+      </button>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Order Type -->
-      <!-- <div>
-        <label
-          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >{{ "ORDER.FORM.FIELDS.ORDER_TYPE" | translate }}</label
-        >
-        <select
-          formControlName="orderType"
-          class="w-full px-3 bg-white py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option *ngFor="let type of orderTypes" [value]="type">
-            {{ type | titlecase }}
-          </option>
-        </select>
-      </div> -->
 
+    <div class="flex w-full rounded-lg overflow-hidden text-white bg-gray-600">
+      <button
+        type="button"
+        class="flex-1 px-4 py-2 text-white transition-colors duration-200 ease-in-out focus:outline-none"
+        [ngClass]="{
+          'bg-blue-500': orderForm.get('status')?.value === orderStatus.OPEN
+        }"
+        (click)="orderForm.get('status')?.setValue(orderStatus.OPEN)"
+      >
+        Thị trường
+      </button>
+      <button
+        type="button"
+        class="flex-1 px-4 py-2 text-white transition-colors duration-200 ease-in-out focus:outline-none"
+        [ngClass]="{
+          'bg-blue-500': orderForm.get('status')?.value === orderStatus.PENDING
+        }"
+        (click)="orderForm.get('status')?.setValue(orderStatus.PENDING)"
+      >
+        Đang chờ
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- Quantity -->
       <div>
         <label
@@ -121,13 +126,15 @@
       [disabled]="orderForm.invalid"
       [ngClass]="{
         'bg-green-600 hover:bg-green-700':
-          orderForm.get('side')?.value === 'buy',
-        'bg-red-600 hover:bg-red-700': orderForm.get('side')?.value === 'sell'
+          orderForm.get('side')?.value === orderSide.BUY,
+        'bg-red-600 hover:bg-red-700':
+          orderForm.get('side')?.value === orderSide.SELL
       }"
       class="w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200"
     >
       {{
-        "COMMONS." + (orderForm.get("side")?.value === "buy" ? "BUY" : "SELL")
+        "COMMONS." +
+          (orderForm.get("side")?.value === orderSide.BUY ? "BUY" : "SELL")
           | translate
       }}
       {{ selectedSymbol.split("-")[0] }}
