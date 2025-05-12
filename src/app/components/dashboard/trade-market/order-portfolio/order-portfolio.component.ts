@@ -48,7 +48,6 @@ export class OrderPortfolioComponent {
   constructor() {
     effect(() => {
       if (this.store.orders) {
-        console.log(this.store.orders());
         this.orders.set(this.store.orders());
       }
     });

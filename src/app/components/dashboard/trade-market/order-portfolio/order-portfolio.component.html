@@ -64,10 +64,10 @@
               {{ order.side }}
             </span>
           </td>
-          <td class="p-2 text-left">{{ order.openPrice }}</td>
+          <td class="p-2 text-left">{{ order.quantity }}</td>
 
           <td class="p-2">
-            {{ order.closePrice ? (order.closePrice | number : "1.2-2") : "-" }}
+            {{ order.openPrice ? (order.openPrice | number : "1.2-2") : "-" }}
           </td>
           <td
             class="p-2"
