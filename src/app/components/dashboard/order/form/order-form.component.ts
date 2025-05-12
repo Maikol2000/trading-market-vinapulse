@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { OrderStatusEnum, OrderSideEnum } from '@app/constants/enums';
+import { Router } from '@angular/router';
+import { OrderSideEnum, OrderStatusEnum } from '@app/constants/enums';
 import { CandlestickService } from '@app/core/services';
 import { OrderStore } from '@app/core/stores';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,28 +21,40 @@ import { TranslateModule } from '@ngx-translate/core';
 export class OrderFormComponent {
   private store = inject(OrderStore);
 
+  selectedSymbol = signal('BTC-USDT');
+
   orderForm!: FormGroup;
-  selectedSymbol = 'BTC-USDT';
 
   orderStatus = OrderStatusEnum;
   orderSide = OrderSideEnum;
 
   constructor(
     private fb: FormBuilder,
-    private candlestickService: CandlestickService
-  ) {}
+    private candlestickService: CandlestickService,
+    private router: Router
+  ) {
+    this.setRouter();
+    this.router.events.subscribe(() => {
+      this.setRouter();
+    });
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.subscribeCurrentPrice();
   }
 
+  setRouter() {
+    const urls = this.router.url.split('/');
+    this.selectedSymbol.set(urls[urls.length - 1]);
+  }
+
   initForm() {
     this.orderForm = this.fb.group({
-      symbol: [this.selectedSymbol, Validators.required],
+      symbol: [this.selectedSymbol(), Validators.required],
       side: [OrderSideEnum.BUY, Validators.required],
       quantity: ['0.001', [Validators.required, Validators.min(0.001)]],
-      price: ['', Validators.required],
+      openPrice: ['', Validators.required],
       status: [OrderStatusEnum.OPEN, Validators.required],
     });
   }
@@ -50,7 +63,7 @@ export class OrderFormComponent {
     this.candlestickService.serries$.subscribe({
       next: (data) => {
         const price = data.candles?.close ?? 0;
-        this.orderForm.get('price')?.setValue(price);
+        this.orderForm.get('openPrice')?.setValue(price.toString());
       },
       error: (err) => {
         console.error('Error fetching current price:', err);
@@ -60,7 +73,7 @@ export class OrderFormComponent {
 
   submitOrder(): void {
     if (this.orderForm.valid) {
-      const orderData = this.orderForm.value;
+      const orderData = { ...this.orderForm.value };
       this.store.addOrder(orderData);
     } else {
       this.orderForm.markAllAsTouched();

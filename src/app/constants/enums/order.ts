@@ -1,6 +1,6 @@
 export enum OrderSideEnum {
-  BUY = 1,
-  SELL = 2,
+  BUY = 'BUY',
+  SELL = 'SELL',
 }
 
 export enum OrderStatusEnum {

@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
-import { OrderStatusEnum, OrderSideEnum } from '@app/constants/enums';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { OrderSideEnum, OrderStatusEnum } from '@app/constants/enums';
 import { IOrder } from '@app/core/models';
 import { OrderStore } from '@app/core/stores';
 import { IHeader } from '@app/shared/models';
@@ -16,8 +10,6 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-order-portfolio',
   imports: [CommonModule, TranslateModule],
   templateUrl: './order-portfolio.component.html',
-  providers: [OrderStore],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderPortfolioComponent {
   store = inject(OrderStore);
@@ -43,31 +35,30 @@ export class OrderPortfolioComponent {
     },
   ];
 
-  orders = this.store.orders();
+  orders = signal<IOrder[]>([]);
 
-  activeTab = signal<OrderStatusEnum>(this.orderStatus.ClOSED);
-  filteredOrders: IOrder[] = [];
+  activeTab = signal<OrderStatusEnum>(this.orderStatus.OPEN);
+
+  filteredOrders = computed(() => {
+    return this.activeTab() && this.orders()?.length
+      ? this.orders().filter((order) => order.status === this.activeTab())
+      : [];
+  });
 
   constructor() {
     effect(() => {
-      if (this.activeTab()) {
-        this.filterOrders();
+      if (this.store.orders) {
+        console.log(this.store.orders());
+        this.orders.set(this.store.orders());
       }
     });
+
     this.store.loadOrders();
   }
 
-  ngOnInit(): void {
-    this.filterOrders();
-  }
+  ngOnInit(): void {}
 
   setActiveTab(tab: OrderStatusEnum): void {
     this.activeTab.set(tab);
-  }
-
-  filterOrders(): void {
-    this.filteredOrders = this.orders.filter(
-      (order) => order.status === this.activeTab()
-    );
   }
 }

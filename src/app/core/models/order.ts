@@ -11,5 +11,5 @@ export interface IOrder {
   closeAt: string;
   takeProfit: string;
   stopLoss: string;
-  quantity: number;
+  quantity: string;
 }
