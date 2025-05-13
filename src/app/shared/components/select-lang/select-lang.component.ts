@@ -39,7 +39,7 @@ export class SelectLangComponent {
     this.currentLang = langCode;
     this.translate.changeLanguage(langCode);
     this.isOpen = false;
-    localStorage.setItem('preferredLanguage', langCode);
+    localStorage.setItem(LocalStorageKey.LANG, langCode);
   }
 
   getCurrentLangLabel(): string {

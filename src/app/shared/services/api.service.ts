@@ -15,10 +15,9 @@ export class ApiService {
    * Generic GET request
    * @param endpoint API endpoint
    * @param params Optional query parameters
-   * @param requireAuth Whether the request requires authentication
    */
-  public get<T>(endpoint: string, requireAuth: boolean = true): Observable<T> {
-    const headers = this.getHeaders(requireAuth);
+  public get<T>(endpoint: string): Observable<T> {
+    const headers = this.getHeaders();
     return this.http.get<T>(`${this.baseUrl}${endpoint}`, {
       headers,
       withCredentials: true,
@@ -31,12 +30,8 @@ export class ApiService {
    * @param body Request body
    * @param requireAuth Whether the request requires authentication
    */
-  public post<T>(
-    endpoint: string,
-    body?: any,
-    requireAuth: boolean = false
-  ): Observable<T> {
-    const headers = this.getHeaders(requireAuth);
+  public post<T>(endpoint: string, body?: any): Observable<T> {
+    const headers = this.getHeaders();
     return this.http.post<T>(`${this.baseUrl}${endpoint}`, body, {
       headers,
       withCredentials: true,
@@ -49,12 +44,8 @@ export class ApiService {
    * @param body Request body
    * @param requireAuth Whether the request requires authentication
    */
-  public put<T>(
-    endpoint: string,
-    body: any,
-    requireAuth: boolean = true
-  ): Observable<T> {
-    const headers = this.getHeaders(requireAuth);
+  public put<T>(endpoint: string, body: any): Observable<T> {
+    const headers = this.getHeaders();
     return this.http.put<T>(`${this.baseUrl}${endpoint}`, body, {
       headers,
       withCredentials: true,
@@ -66,11 +57,8 @@ export class ApiService {
    * @param endpoint API endpoint
    * @param requireAuth Whether the request requires authentication
    */
-  public delete<T>(
-    endpoint: string,
-    requireAuth: boolean = true
-  ): Observable<T> {
-    const headers = this.getHeaders(requireAuth);
+  public delete<T>(endpoint: string): Observable<T> {
+    const headers = this.getHeaders();
     return this.http.delete<T>(`${this.baseUrl}${endpoint}`, {
       headers,
       withCredentials: true,
@@ -80,18 +68,10 @@ export class ApiService {
   /**
    * Configure request options including headers and params
    */
-  private getHeaders(needAuth: boolean = false): HttpHeaders {
+  private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
-
-    if (needAuth) {
-      const timestamp = new Date().toISOString();
-      headers = headers
-        .set('OK-ACCESS-KEY', environment.okxAPI)
-        .set('OK-ACCESS-TIMESTAMP', timestamp)
-        .set('OK-ACCESS-PASSPHRASE', environment.passphrase);
-    }
 
     return headers;
   }

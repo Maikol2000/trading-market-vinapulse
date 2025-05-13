@@ -32,7 +32,6 @@ export class LanguageService {
     this.translate.use(lang);
     localStorage.setItem(LocalStorageKey.LANG, lang);
     this.currentLang.next(lang);
-    this.translate.use(lang);
   }
 
   getCurrentLang(): string {
