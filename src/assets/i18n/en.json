@@ -88,7 +88,7 @@
                 "SYMBOL": "Symbol",
                 "ORDER_TYPE": "Order Type",
                 "QUANTITY": "Quantity/Lot",
-                "PRICE": "Price (USDT)",
+                "PRICE": "Price",
                 "PROFIT": "Profit/Loss (USD)"
             },
             "TABS": {
@@ -134,9 +134,9 @@
                 "ORDER_TYPE": "Order Type",
                 "QUANTITY": "Quantity",
                 "QUANTITY_ERROR": "Quantity is required",
-                "PRICE": "Price (USDT)",
+                "PRICE": "Take profit",
                 "PRICE_ERROR": "Price is required",
-                "MAX_PRICE": "Max Price (USDT)",
+                "STOP_LOSS": "Stop loss",
                 "TOTAL_FEE": "Total Fee"
             }
         }

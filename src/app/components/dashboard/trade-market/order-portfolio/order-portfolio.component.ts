@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { OrderSideEnum, OrderStatusEnum } from '@app/constants/enums';
-import { IOrder } from '@app/core/models';
+import { ICloseOrderRequest, IOrder } from '@app/core/models';
 import { OrderStore } from '@app/core/stores';
 import { IHeader } from '@app/shared/models';
+import { ModalService } from '@app/shared/services';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faEdit, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { UpdateOrderModalComponent } from './update-order-modal/update-order-modal.component';
 @Component({
   selector: 'app-order-portfolio',
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, FontAwesomeModule],
   templateUrl: './order-portfolio.component.html',
 })
 export class OrderPortfolioComponent {
@@ -16,6 +19,9 @@ export class OrderPortfolioComponent {
 
   orderStatus = OrderStatusEnum;
   orderSide = OrderSideEnum;
+
+  editIcon = faEdit;
+  xMarkCircleIcon = faXmarkCircle;
 
   headers: IHeader[] = [
     {
@@ -45,7 +51,7 @@ export class OrderPortfolioComponent {
       : [];
   });
 
-  constructor() {
+  constructor(private modalService: ModalService) {
     effect(() => {
       if (this.store.orders) {
         this.orders.set(this.store.orders());
@@ -59,5 +65,38 @@ export class OrderPortfolioComponent {
 
   setActiveTab(tab: OrderStatusEnum): void {
     this.activeTab.set(tab);
+  }
+
+  onUpdateOrder(
+    symbol: string,
+    volume: number,
+    currency: string = '$',
+    stopLoss: number,
+    takeProfit: number
+  ) {
+    const modalRef = this.modalService.open(UpdateOrderModalComponent, {
+      order: {
+        symbol,
+        volume,
+        currency,
+        openPrice: 0,
+        // currentPrice: 0,
+        stopLoss,
+        takeProfit,
+      },
+    });
+    const instance = modalRef.instance;
+
+    instance.close.subscribe(() => {
+      console.log('run close');
+    });
+  }
+
+  onCloseOrder(orderId: string, closePrice: string) {
+    const close: ICloseOrderRequest = {
+      closePrice,
+      orderId,
+    };
+    this.store.closeOrder(close);
   }
 }

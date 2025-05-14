@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { IOrder } from '@app/core/models';
+import { ICloseOrderRequest, IOrder } from '@app/core/models';
 import { OrderService } from '@app/core/services';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { catchError, debounceTime, distinctUntilChanged, of, tap } from 'rxjs';
@@ -41,7 +41,9 @@ export const OrderStore = signalStore(
             tap((response) => {
               patchState(store, (state) => ({
                 loading: false,
-                orders: [...state.orders, response.value],
+                orders: state.orders.length
+                  ? [...state.orders, response.value]
+                  : [response.value],
               }));
             }),
             catchError((error) => {
@@ -62,9 +64,31 @@ export const OrderStore = signalStore(
               patchState(store, (state) => ({
                 loading: false,
                 orders: state.orders.map((item) =>
-                  item.orderId === order.orderId
-                    ? { ...item, ...response.value }
-                    : item
+                  item.orderId === order.orderId ? response.value : item
+                ),
+              }));
+            }),
+            catchError((error) => {
+              patchState(store, {
+                loading: false,
+                error: error.message,
+              });
+              return of(null);
+            })
+          )
+          .subscribe();
+      },
+      closeOrder(closeOd: ICloseOrderRequest) {
+        service
+          .closeOrder(closeOd)
+          .pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            tap((response) => {
+              patchState(store, (state) => ({
+                loading: false,
+                orders: state.orders.map((item) =>
+                  item.orderId === closeOd.orderId ? response.value : item
                 ),
               }));
             }),

@@ -56,69 +56,79 @@
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Quantity -->
-      <div>
-        <label
-          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >{{ "ORDER.FORM.FIELDS.QUANTITY" | translate }}</label
-        >
-        <input
-          type="number"
-          formControlName="quantity"
-          step="0.0001"
-          min="0.0001"
-          class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        />
-        <div
-          *ngIf="
-            orderForm.get('quantity')?.invalid &&
-            orderForm.get('quantity')?.touched
-          "
-          class="text-red-500 text-sm mt-1"
-        >
-          {{ "ORDER.FORM.FIELDS.QUANTITY_ERROR" | translate }}
-        </div>
-      </div>
+    <!-- Quantity/Volume -->
+    <label
+      class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      >{{ "ORDER.FORM.FIELDS.QUANTITY" | translate }}</label
+    >
+    <input
+      type="number"
+      formControlName="quantity"
+      step="0.0001"
+      min="0.0001"
+      class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    />
+    <div
+      *ngIf="
+        orderForm.get('quantity')?.invalid && orderForm.get('quantity')?.touched
+      "
+      class="text-red-500 text-sm mt-1"
+    >
+      {{ "ORDER.FORM.FIELDS.QUANTITY_ERROR" | translate }}
+    </div>
 
-      <!-- Price -->
-      <div>
-        <label
-          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-        >
-          {{ "ORDER.FORM.FIELDS.PRICE" | translate }}</label
-        >
-        <input
-          type="number"
-          formControlName="openPrice"
-          step="0.01"
-          min="0"
-          class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        />
-        <div
-          *ngIf="
-            orderForm.get('openPrice')?.invalid &&
-            orderForm.get('openPrice')?.touched
-          "
-          class="text-red-500 text-sm mt-1"
-        >
-          {{ "ORDER.FORM.FIELDS.PRICE_ERROR" | translate }}
-        </div>
-      </div>
-      <!-- Order Total (calculated) -->
-      <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-        <div class="flex justify-between items-center">
-          <span class="text-gray-300">{{
-            "ORDER.FORM.FIELDS.TOTAL_FEE" | translate
-          }}</span>
-          <span class="text-lg font-bold text-gray-900 dark:text-white">
-            {{
-              orderForm.get("quantity")?.value *
-                orderForm.get("openPrice")?.value
-                | currency : "USD" : "symbol" : "1.2-2"
-            }}
-          </span>
-        </div>
+    <!-- Take Profit -->
+    <label
+      class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+    >
+      {{ "ORDER.FORM.FIELDS.PRICE" | translate }}</label
+    >
+    <input
+      type="number"
+      formControlName="tp"
+      step="0.01"
+      min="0"
+      class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    />
+    <div
+      *ngIf="orderForm.get('tp')?.invalid && orderForm.get('tp')?.touched"
+      class="text-red-500 text-sm mt-1"
+    >
+      {{ "ORDER.FORM.FIELDS.PRICE_ERROR" | translate }}
+    </div>
+
+    <!-- Stop Loss -->
+    <label
+      class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+    >
+      {{ "ORDER.FORM.FIELDS.STOP_LOSS" | translate }}</label
+    >
+    <input
+      type="number"
+      formControlName="sl"
+      step="0.01"
+      min="0"
+      class="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    />
+    <div
+      *ngIf="orderForm.get('sl')?.invalid && orderForm.get('sl')?.touched"
+      class="text-red-500 text-sm mt-1"
+    >
+      {{ "ORDER.FORM.FIELDS.PRICE_ERROR" | translate }}
+    </div>
+
+    <!-- Order Total (calculated) -->
+    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+      <div class="flex justify-between items-center">
+        <span class="text-gray-300">{{
+          "ORDER.FORM.FIELDS.TOTAL_FEE" | translate
+        }}</span>
+        <span class="text-lg font-bold text-gray-900 dark:text-white">
+          {{
+            orderForm.get("quantity")?.value * orderForm.get("tp")?.value
+              | currency : "USD" : "symbol" : "1.2-2"
+          }}
+        </span>
       </div>
     </div>
 

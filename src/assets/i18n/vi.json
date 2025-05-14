@@ -133,9 +133,9 @@
                 "ORDER_TYPE": "Loại đơn hàng",
                 "QUANTITY": "Số Lượng",
                 "QUANTITY_ERROR": "Số lượng là bắt buộc",
-                "PRICE": "Giá (USDT)",
+                "PRICE": "Chốt lời",
                 "PRICE_ERROR": "Giá là bắt buộc",
-                "MAX_PRICE": "Giá tối đa (USDT)",
+                "STOP_LOSS": "Cắt lỗ",
                 "TOTAL_FEE": "Tổng phí"
             }
         }

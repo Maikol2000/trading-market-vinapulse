@@ -36,9 +36,9 @@
     </div>
   </div>
   <div class="overflow-x-auto">
-    <table class="min-w-full">
+    <table class="min-w-full table-auto">
       <thead>
-        <tr class="bg-gray-800">
+        <tr class="border-b border-gray-500">
           @for (header of headers; track $index) {
           <th class="p-2 text-left">
             {{ header.label | translate }}
@@ -77,8 +77,34 @@
             }"
           >
             {{ +order.stopLoss >= 0 ? "+" : ""
-            }}{{ +order.takeProfit | number : "1.2-2" }}
+            }}{{ +order.profit | number : "1.2-2" }}
           </td>
+          @if(activeTab() == orderStatus.OPEN) {
+          <td class="w-32">
+            <div class="flex items-center gap-1 w-32">
+              <button
+                class="px-2 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 transition-colors duration-200 w-fit"
+                (click)="
+                  onUpdateOrder(
+                    order.symbol,
+                    +order.quantity,
+                    '',
+                    +order.stopLoss,
+                    +order.takeProfit
+                  )
+                "
+              >
+                <fa-icon [icon]="editIcon"></fa-icon>
+              </button>
+              <button
+                class="px-2 py-1.5 rounded-md bg-neutral-800 hover:bg-neutral-700 transition-colors duration-200 w-fit"
+                (click)="onCloseOrder(order.orderId, order.closePrice)"
+              >
+                <fa-icon [icon]="xMarkCircleIcon"></fa-icon>
+              </button>
+            </div>
+          </td>
+          }
         </tr>
       </tbody>
     </table>
