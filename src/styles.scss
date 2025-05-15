@@ -1,7 +1,13 @@
 @use "tailwindcss";
 @use "./app/styles/_typography.scss";
+@plugin "tailwindcss-primeui";
 
 button,
 a {
     @apply cursor-pointer;
+}
+
+input {
+    color: black;
+    background-color: whitesmoke;
 }

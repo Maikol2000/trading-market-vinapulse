@@ -67,16 +67,16 @@
           <td class="p-2 text-left">{{ order.quantity }}</td>
 
           <td class="p-2">
-            {{ order.openPrice ? (order.openPrice | number : "1.2-2") : "-" }}
+            {{ order.closePrice ? (order.closePrice | number : "1.2-2") : "-" }}
           </td>
           <td
             class="p-2"
             [ngClass]="{
-              'text-green-500': +order.stopLoss >= 0,
-              'text-red-500': +order.takeProfit < 0
+              'text-green-500': +order.profit >= 0,
+              'text-red-500': +order.profit < 0
             }"
           >
-            {{ +order.stopLoss >= 0 ? "+" : ""
+            {{ +order.profit >= 0 ? "+" : ""
             }}{{ +order.profit | number : "1.2-2" }}
           </td>
           @if(activeTab() == orderStatus.OPEN) {

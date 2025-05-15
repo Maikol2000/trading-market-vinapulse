@@ -4,8 +4,12 @@
       <div class="hidden xl:flex items-center justify-between w-full">
         <app-side-bar></app-side-bar>
         <!-- Right side navigation items -->
-        <div class="flex items-center">
-          <!-- User Profile with Dropdown -->
+        <!-- User Profile with Dropdown -->
+        <div class="flex items-center gap-2">
+          <div class="relative">
+            <app-badge-notification></app-badge-notification>
+            <div></div>
+          </div>
           <div class="ml-3 relative" #toogleBar>
             <div
               (click)="toggleDropdown()"

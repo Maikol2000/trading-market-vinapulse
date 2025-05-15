@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { CurrencyComponent } from '@app/components/dashboard/home';
+import { CurrencyComponent, SystemNotificationComponent } from '@app/components/dashboard/home';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, CurrencyComponent],
+  imports: [CommonModule, CurrencyComponent, SystemNotificationComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

@@ -6,6 +6,7 @@ import { SelectLangComponent } from '@app/shared/components';
 import { ClickOutsideDirective } from '@app/shared/directives';
 import { TranslateModule } from '@ngx-translate/core';
 import { SideBarComponent } from '../side-bar/side-bar.component';
+import { BadgeNotificationComponent } from './badge-notification/badge-notification.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 
 @Component({
@@ -18,6 +19,7 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
     ClickOutsideDirective,
     SideBarComponent,
     MobileMenuComponent,
+    BadgeNotificationComponent,
   ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',

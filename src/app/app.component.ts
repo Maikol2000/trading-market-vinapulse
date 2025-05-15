@@ -1,10 +1,20 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
+import { ToastModule } from 'primeng/toast';
 import { LanguageService } from './shared/services';
-
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterModule],
+  imports: [
+    RouterOutlet,
+    RouterModule,
+    PanelModule,
+    CardModule,
+    ButtonModule,
+    ToastModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

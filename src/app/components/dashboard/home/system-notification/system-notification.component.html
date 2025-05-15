@@ -1,0 +1,53 @@
+<div
+  class="bg-neutral-900 shadow-sm rounded-xl overflow-hidden"
+>
+  <!-- Header -->
+  <div class="p-4 text-gray-200 flex justify-between items-center">
+    <h2 class="text-lg font-semibold">Thông báo hệ thống</h2>
+    <button class="text-sm text-gray-400 hover:text-gray-200 transition-colors">
+      Đánh dấu tất cả đã đọc
+    </button>
+  </div>
+
+  <!-- Notifications List -->
+  <div class="max-h-96 overflow-y-auto">
+    <div
+      *ngFor="let notification of systemNotifications"
+      class="p-4 border-b border-neutral-800 hover:bg-neutral-800 flex items-start transition-colors"
+      [ngClass]="{ 'bg-blue-900/20': !notification.isRead }"
+    >
+      <!-- Icon -->
+      <i class="pi pi-info-circle text-blue-500" style="font-size: 1.5rem"></i>
+
+      <!-- Content -->
+      <div class="flex-1">
+        <p
+          class="text-sm text-gray-200"
+          [ngClass]="{ 'font-semibold': !notification.isRead }"
+        >
+          {{ notification.message }}
+        </p>
+        <p class="text-xs text-gray-500 mt-1">
+          {{ notification.createdAt | date : "short" }}
+        </p>
+      </div>
+
+      <!-- Read Button -->
+      <button
+        *ngIf="!notification.isRead"
+        class="text-blue-400 hover:text-blue-300 text-sm transition-colors"
+      >
+        Đã đọc
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div
+      *ngIf="!systemNotifications.length"
+      class="p-8 text-center text-gray-500"
+    >
+      <i class="pi pi-bell text-4xl mb-2"></i>
+      <p>Không có thông báo hệ thống</p>
+    </div>
+  </div>
+</div>
