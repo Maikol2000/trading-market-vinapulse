@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { MessageService } from 'primeng/api';
-import { map } from 'rxjs/operators';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 
 interface Notification {
   id: string;
@@ -20,6 +22,10 @@ interface Notification {
   styleUrl: './system-notification.component.scss',
 })
 export class SystemNotificationComponent {
+  private itemsCollection: AngularFirestoreCollection<any>;
+  notifications: any[] = [];
+  message: any;
+
   systemNotifications: Notification[] = [
     {
       id: '1',
@@ -65,64 +71,36 @@ export class SystemNotificationComponent {
     },
   ];
 
-  constructor() // private firestore: AngularFirestore,
-  {}
+  constructor(
+    private firestore: AngularFirestore,
+    private angularFireMessaging: AngularFireMessaging
+  ) {
+    this.itemsCollection = this.firestore.collection<any>('items');
+    this.itemsCollection.valueChanges().subscribe((n) => {
+      this.notifications.push(n);
+    });
 
-  ngOnInit() {
-    // this.loadSystemNotifications();
+    this.requestPermission();
+    this.receiveMessage();
   }
 
-  // loadSystemNotifications() {
-  //   this.firestore
-  //     .collection<Notification>('notifications', (ref) =>
-  //       ref
-  //         .where('userId', '==', 'current_user_id') // Thay bằng userId thực tế
-  //         .where('actionCode', '==', 'SYSTEM')
-  //         .orderBy('createdAt', 'desc')
-  //     )
-  //     .snapshotChanges()
-  //     .pipe(
-  //       map((actions) =>
-  //         actions.map((a) => {
-  //           const data = a.payload.doc.data() as Notification;
-  //           const { id: _, ...rest } = data;
-  //           return { id: a.payload.doc.id, ...rest };
-  //         })
-  //       )
-  //     )
-  //     .subscribe((data) => {
-  //       this.systemNotifications = data;
-  //     });
-  // }
+  ngOnInit() {}
 
-  // markAsRead(notification: Notification) {
-  //   this.firestore
-  //     .collection('notifications')
-  //     .doc(notification.id)
-  //     .update({ isRead: true })
-  //     .then(() => {
-  //       this.messageService.add({
-  //         severity: 'success',
-  //         summary: 'Thành công',
-  //         detail: 'Đã đánh dấu thông báo là đã đọc',
-  //       });
-  //     });
-  // }
+  requestPermission() {
+    this.angularFireMessaging.requestToken.subscribe({
+      next: (token) => {
+        console.log('FCM Token:', token);
+      },
+      error: (err) => {
+        console.error('Unable to get permission:', err);
+      },
+    });
+  }
 
-  // markAllAsRead() {
-  //   const batch = this.firestore.firestore.batch();
-  //   this.systemNotifications
-  //     .filter((n) => !n.isRead)
-  //     .forEach((n) => {
-  //       const ref = this.firestore.collection('notifications').doc(n.id).ref;
-  //       batch.update(ref, { isRead: true });
-  //     });
-  //   batch.commit().then(() => {
-  //     this.messageService.add({
-  //       severity: 'success',
-  //       summary: 'Thành công',
-  //       detail: 'Đã đánh dấu tất cả là đã đọc',
-  //     });
-  //   });
-  // }
+  receiveMessage() {
+    this.angularFireMessaging.messages.subscribe((payload: any) => {
+      console.log('New message received:', payload);
+      this.notifications.push(payload);
+    });
+  }
 }

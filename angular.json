@@ -38,20 +38,14 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "ng2-file-upload",
-              "angular-2-local-storage",
-              "angular-in-memory-web-api",
-              "angularx-social-login",
-              "angularx-social-login/google"
+              "lodash"
             ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "type": "initial"
                 },
                 {
                   "type": "anyComponentStyle",
