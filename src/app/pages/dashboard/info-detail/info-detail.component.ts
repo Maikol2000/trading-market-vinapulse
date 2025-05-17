@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TechnicalGaugeChartComponent } from '@app/components/dashboard/info-detail';
-import { ICrypto } from '@app/core/models';
+import { ICrystal } from '@app/core/models';
 import { OrderWSOKXService } from '@app/core/services';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { debounceTime, Subscription } from 'rxjs';
 })
 export class InfoDetailComponent {
   symbol: string = '';
-  cryptoDetail: ICrypto | null = null;
+  cryptoDetail: ICrystal | null = null;
   websocketSubscription: Subscription | null = null;
   httpSubscription: Subscription | null = null;
 
@@ -113,7 +113,7 @@ export class InfoDetailComponent {
   /**
    * Xử lý dữ liệu từ API ticker
    */
-  processTickerData(data: any): ICrypto {
+  processTickerData(data: any): ICrystal {
     const ticker = data?.data?.[0] || {};
 
     return {

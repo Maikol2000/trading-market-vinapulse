@@ -3,12 +3,14 @@ import {
   Component,
   effect,
   ElementRef,
+  inject,
   signal,
   ViewChild,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CandlestickService } from '@app/core/services';
+import { CrystalStore } from '@app/core/stores';
 import {
   IdIndicator,
   IndicatorVisibility,
@@ -53,6 +55,8 @@ import { TimeframeSelectorComponent } from './timeframe-selector/timeframe-selec
 })
 export class FinancialChartComponent {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
+
+  private store = inject(CrystalStore);
 
   public symbol = signal<string>('');
   public selectedTimeframe = signal<subscribeChannelsCandleType>('1m');
@@ -180,6 +184,10 @@ export class FinancialChartComponent {
             if (data.volumes?.time)
               this.volumeSeries.update(data.volumes as HistogramData<Time>);
           }
+          this.store.loadOrders({
+            openPrice: data.candles?.open,
+            closePrice: data.candles?.close,
+          });
         }
         this.subscribeIndicator();
       }

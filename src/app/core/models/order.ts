@@ -12,7 +12,8 @@ export interface IOrder {
   takeProfit: string;
   stopLoss: string;
   quantity: string;
-  profit: string;
+  profit: number;
+  price: string;
 }
 
 export interface ICloseOrderRequest {

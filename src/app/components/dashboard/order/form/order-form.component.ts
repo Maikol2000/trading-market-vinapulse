@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrderSideEnum, OrderStatusEnum } from '@app/constants/enums';
-import { IOrder } from '@app/core/models';
+import { ICrystal, IOrder } from '@app/core/models';
 import { CandlestickService } from '@app/core/services';
-import { OrderStore } from '@app/core/stores';
+import { CrystalStore, OrderStore } from '@app/core/stores';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -20,7 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './order-form.component.scss',
 })
 export class OrderFormComponent {
-  private store = inject(OrderStore);
+  private orderStore = inject(OrderStore);
+  private crystalStore = inject(CrystalStore);
 
   selectedSymbol = signal('BTC-USDT');
 
@@ -28,6 +29,8 @@ export class OrderFormComponent {
 
   orderStatus = OrderStatusEnum;
   orderSide = OrderSideEnum;
+
+  crystal = signal<Partial<ICrystal>>({});
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +40,12 @@ export class OrderFormComponent {
     this.setRouter();
     this.router.events.subscribe(() => {
       this.setRouter();
+    });
+
+    effect(() => {
+      if (this.crystalStore.crystal()) {
+        this.crystal.set(this.crystalStore.crystal());
+      }
     });
   }
 
@@ -79,14 +88,15 @@ export class OrderFormComponent {
         symbol: this.orderForm.value.symbol,
         status: this.orderForm.value.status,
         side: this.orderForm.value.side,
-        openPrice: '',
-        closePrice: '',
+        openPrice: this.crystal().openPrice?.toString() ?? '0',
+        closePrice: this.crystal().closePrice?.toString() ?? '0',
         takeProfit: this.orderForm.value.tp,
-        stopLoss: this.orderForm.value.sl,
+        stopLoss: this.orderForm.value.sl.toString(),
         quantity: this.orderForm.value.quantity,
+        price: this.crystal().closePrice?.toString() ?? '0',
       };
-      this.store.addOrder(orderData);
-      this.store.loadOrders();
+      this.orderStore.addOrder(orderData);
+      this.orderStore.loadOrders();
     } else {
       this.orderForm.markAllAsTouched();
     }

@@ -1,4 +1,4 @@
-export interface ICrypto {
+export interface ICrystal {
   symbol: string;
   name: string;
   marketCap: number;
