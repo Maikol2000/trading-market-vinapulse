@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MessageService } from '@app/core/services';
+import { onMessage } from 'firebase/messaging';
 interface Notification {
   id: string;
   userId: string;
@@ -16,10 +17,7 @@ interface Notification {
   templateUrl: './system-notification.component.html',
   styleUrl: './system-notification.component.scss',
 })
-export class SystemNotificationComponent {
-  notifications: any[] = [];
-  message: any;
-
+export class SystemNotificationComponent implements OnInit {
   systemNotifications: Notification[] = [
     {
       id: '1',
@@ -65,18 +63,10 @@ export class SystemNotificationComponent {
     },
   ];
 
-  constructor(private messagingService: MessageService) {
-    this.requestPermission();
-  }
+  constructor(private messagingService: MessageService) {}
 
-  ngOnInit() {}
-
-  requestPermission() {
-    try {
-      this.messagingService.requestPermission();
-      this.messagingService.onMessageNotification();
-    } catch (error) {
-      console.error('Failed to initialize Firebase Messaging:', error);
-    }
+  ngOnInit() {
+    this.messagingService.requestPermission();
+    this.messagingService.ngMessageNotification();
   }
 }
