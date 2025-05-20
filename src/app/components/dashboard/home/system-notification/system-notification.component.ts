@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/compat/firestore';
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
-
+import { MessageService } from '@app/core/services';
 interface Notification {
   id: string;
   userId: string;
@@ -22,7 +17,6 @@ interface Notification {
   styleUrl: './system-notification.component.scss',
 })
 export class SystemNotificationComponent {
-  private itemsCollection: AngularFirestoreCollection<any>;
   notifications: any[] = [];
   message: any;
 
@@ -71,36 +65,18 @@ export class SystemNotificationComponent {
     },
   ];
 
-  constructor(
-    private firestore: AngularFirestore,
-    private angularFireMessaging: AngularFireMessaging
-  ) {
-    this.itemsCollection = this.firestore.collection<any>('items');
-    this.itemsCollection.valueChanges().subscribe((n) => {
-      this.notifications.push(n);
-    });
-
+  constructor(private messagingService: MessageService) {
     this.requestPermission();
-    this.receiveMessage();
   }
 
   ngOnInit() {}
 
   requestPermission() {
-    this.angularFireMessaging.requestToken.subscribe({
-      next: (token) => {
-        console.log('FCM Token:', token);
-      },
-      error: (err) => {
-        console.error('Unable to get permission:', err);
-      },
-    });
-  }
-
-  receiveMessage() {
-    this.angularFireMessaging.messages.subscribe((payload: any) => {
-      console.log('New message received:', payload);
-      this.notifications.push(payload);
-    });
+    try {
+      this.messagingService.requestPermission();
+      this.messagingService.onMessageNotification();
+    } catch (error) {
+      console.error('Failed to initialize Firebase Messaging:', error);
+    }
   }
 }

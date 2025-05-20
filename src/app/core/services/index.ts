@@ -4,3 +4,6 @@ export * from './oks-currency.service';
 export * from './order-book-ws.service';
 export * from './order-ws-okx.service';
 export * from './order.service';
+
+// firebase
+export * from './firebase/message.service';

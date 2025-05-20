@@ -93,7 +93,6 @@ export class OrderFormComponent {
         takeProfit: this.orderForm.value.tp,
         stopLoss: this.orderForm.value.sl.toString(),
         quantity: this.orderForm.value.quantity,
-        price: this.crystal().closePrice?.toString() ?? '0',
       };
       this.orderStore.addOrder(orderData);
       this.orderStore.loadOrders();

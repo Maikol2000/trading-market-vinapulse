@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 import { UpdateOrderModalComponent } from './update-order-modal/update-order-modal.component';
+
 @Component({
   selector: 'app-order-portfolio',
   imports: [CommonModule, TranslateModule, FontAwesomeModule],
@@ -47,7 +48,7 @@ export class OrderPortfolioComponent {
 
   filteredOrders = computed(() => {
     return this.activeTab() && this.orders()?.length
-      ? this.orders().filter((order) => order.status === this.activeTab())
+      ? this.orders().filter((order) => order?.status === this.activeTab())
       : [];
   });
 
@@ -60,7 +61,6 @@ export class OrderPortfolioComponent {
 
     this.store.loadOrders();
   }
-
   ngOnInit(): void {}
 
   setActiveTab(tab: OrderStatusEnum): void {
