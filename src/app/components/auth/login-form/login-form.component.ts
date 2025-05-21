@@ -61,4 +61,13 @@ export class LoginFormComponent {
   navigate() {
     this.router.navigate([this.appRouter.Auth.Register]);
   }
+
+  async signInWithGoogle() {
+    try {
+      const auth = await this.service.signInWithGoogle();
+      console.log({ auth });
+    } catch (error) {
+      console.error('Lỗi đăng nhập:', error);
+    }
+  }
 }

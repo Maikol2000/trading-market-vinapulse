@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { LocalStorageKey } from '@app/shared/enums';
 import { IResponse } from '@app/shared/models';
 import { ApiService } from '@app/shared/services';
 import { AppRouter } from '@app/utils/routers';
+import firebase from 'firebase/compat/app';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { ILoginRequest, IRegisterRequest } from '../models';
-import { LocalStorageKey } from '@app/shared/enums';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private authState$ = new BehaviorSubject<boolean>(false);
+  user$: Observable<firebase.User | null>;
 
   routerAuth = [
     '/' + AppRouter.Auth.AuthLayout,
@@ -21,8 +24,13 @@ export class AuthService {
     // AppRouter.Auth.ResetPassword,
   ];
 
-  constructor(private service: ApiService, private router: Router) {
+  constructor(
+    private service: ApiService,
+    private router: Router,
+    private afAuth: AngularFireAuth
+  ) {
     this.checkAuth();
+    this.user$ = this.afAuth.authState;
     this.router.events.subscribe(() => {
       if (
         !this.routerAuth.includes(this.router.url) &&
@@ -78,5 +86,10 @@ export class AuthService {
 
   isAuthenticated() {
     return this.authState$.asObservable();
+  }
+
+  async signInWithGoogle(): Promise<firebase.auth.UserCredential> {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return this.afAuth.signInWithPopup(provider);
   }
 }
