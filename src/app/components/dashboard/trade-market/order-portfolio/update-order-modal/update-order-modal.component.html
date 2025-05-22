@@ -1,10 +1,16 @@
-<app-modal title="Quản lý lệnh giao dịch" (closed)="onClose()">
+<app-modal
+  [title]="'TRADE.UPDATE_ORDER.MANAGEMENT.TITLE' | translate"
+  (closed)="onClose()"
+>
   <div class="bg-neutral-900">
     <div class="px-4 py-3 border-b border-gray-800">
       <div class="flex items-center justify-between text-gray-400">
         <div>
           <span>BTC</span>
-          <span class="ml-1">{{ order.volume }} lô</span>
+          <span class="ml-1"
+            >{{ order.volume }}
+            {{ "TRADE.UPDATE_ORDER.MANAGEMENT.VOLUME" | translate }}</span
+          >
         </div>
         <p
           [ngClass]="
@@ -16,7 +22,11 @@
       </div>
       <div class="flex items-center justify-between text-gray-400">
         <p class="text-sm">
-          <span class="text-red-500">Bán</span> ở mức giá {{ order.openPrice }}
+          <span class="text-red-500">{{
+            "TRADE.UPDATE_ORDER.MANAGEMENT.ACTION.SELL" | translate
+          }}</span>
+          {{ "TRADE.UPDATE_ORDER.MANAGEMENT.ACTION.AT_PRICE" | translate }}
+          {{ order.openPrice }}
         </p>
         <p class="text-gray-300">{{ order.currentPrice }}</p>
       </div>
@@ -29,7 +39,7 @@
         class="px-4 py-2 text-sm font-medium text-gray-400"
         [ngClass]="activeTab === 'edit' ? 'border-b-2 border-yellow-500' : ''"
       >
-        Sửa đổi
+        {{ "TRADE.UPDATE_ORDER.TABS.EDIT" | translate }}
       </button>
       <button
         (click)="setActiveTab('closePartial')"
@@ -38,17 +48,16 @@
           activeTab === 'closePartial' ? 'border-b-2 border-yellow-500' : ''
         "
       >
-        Đóng một phần
+        {{ "TRADE.UPDATE_ORDER.TABS.CLOSE_PARTIAL" | translate }}
       </button>
     </div>
 
-    <!-- Content based on active tab -->
     <!-- Edit Form (Tab 1) -->
     <div *ngIf="activeTab === 'edit'" class="p-4 text-gray-400">
-      <!-- Chốt lời -->
+      <!-- Take Profit -->
       <div class="mb-4">
         <div class="flex justify-between text-sm mb-1">
-          <span>Chốt lời</span>
+          <span>{{ "TRADE.UPDATE_ORDER.TRADING.TAKE_PROFIT" | translate }}</span>
         </div>
 
         <div class="flex items-center">
@@ -57,7 +66,7 @@
               type="text"
               [(ngModel)]="takeProfit"
               class="bg-transparent w-full px-3 py-2 focus:outline-none"
-              placeholder="Chưa thiết lập"
+              [placeholder]="'TRADE.UPDATE_ORDER.TRADING.NOT_SET' | translate"
             />
             <button
               *ngIf="takeProfit"
@@ -67,7 +76,9 @@
               &times;
             </button>
           </div>
-          <div class="bg-gray-800 px-3 py-2">Giá</div>
+          <div class="bg-gray-800 px-3 py-2">
+            {{ "TRADE.UPDATE_ORDER.TRADING.PRICE" | translate }}
+          </div>
           <button
             (click)="adjustValue('takeProfit', false)"
             class="bg-gray-800 px-3 py-2"
@@ -83,10 +94,10 @@
         </div>
       </div>
 
-      <!-- Cắt lỗ -->
+      <!-- Stop Loss -->
       <div class="mb-4">
         <div class="flex justify-between text-sm mb-1">
-          <span>Cắt lỗ</span>
+          <span>{{ "TRADE.UPDATE_ORDER.TRADING.STOP_LOSS" | translate }}</span>
         </div>
 
         <div class="flex items-center">
@@ -94,7 +105,7 @@
             <input
               type="text"
               [(ngModel)]="stopLoss"
-              placeholder="Chưa thiết lập"
+              [placeholder]="'TRADE.UPDATE_ORDER.TRADING.NOT_SET' | translate"
               class="bg-transparent w-full px-3 py-2 text-gray-500 focus:outline-none"
             />
             <button
@@ -105,7 +116,9 @@
               &times;
             </button>
           </div>
-          <div class="bg-gray-800 px-3 py-2">Giá</div>
+          <div class="bg-gray-800 px-3 py-2">
+            {{ "TRADE.UPDATE_ORDER.TRADING.PRICE" | translate }}
+          </div>
           <button
             (click)="adjustValue('stopLoss', false)"
             class="bg-gray-800 px-3 py-2"
@@ -125,7 +138,7 @@
         (click)="updateOrder()"
         class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-4 rounded"
       >
-        Sửa đổi lệnh giao dịch
+        {{ "TRADE.UPDATE_ORDER.BUTTONS.MODIFY" | translate }}
       </button>
     </div>
 
@@ -133,7 +146,7 @@
     <div *ngIf="activeTab === 'closePartial'" class="p-4 text-gray-400">
       <div class="mb-4">
         <div class="flex justify-between text-sm mb-1">
-          <span>Khối lượng để đóng</span>
+          <span>{{ "TRADE.UPDATE_ORDER.TRADING.VOLUME_CLOSE" | translate }}</span>
         </div>
 
         <div class="flex items-center">
@@ -143,10 +156,12 @@
               [(ngModel)]="closeVolume"
               class="bg-transparent w-full px-3 py-2 focus:outline-none"
               [min]="0.01"
-              placeholder="Chưa thiết lập"
+              [placeholder]="'TRADE.UPDATE_ORDER.TRADING.NOT_SET' | translate"
             />
           </div>
-          <div class="bg-gray-800 px-3 py-2">lô</div>
+          <div class="bg-gray-800 px-3 py-2">
+            {{ "TRADE.UPDATE_ORDER.TRADING.LOT" | translate }}
+          </div>
           <button
             (click)="adjustValue('closeVolume', false)"
             class="bg-gray-800 px-3 py-2"
@@ -166,11 +181,13 @@
         (click)="closePartialOrder()"
         class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-4 rounded mb-3"
       >
-        Đóng lệnh giao dịch
+        {{ "TRADE.UPDATE_ORDER.BUTTONS.CLOSE" | translate }}
       </button>
 
       <div class="text-center">
-        <p class="text-sm">Thua lỗ ước tính:</p>
+        <p class="text-sm">
+          {{ "TRADE.UPDATE_ORDER.PROFIT.ESTIMATED_LOSS" | translate }}
+        </p>
         <p class="text-red-500">{{ estimatedProfit }} USD</p>
       </div>
     </div>

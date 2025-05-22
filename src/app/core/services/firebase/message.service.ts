@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { initializeApp } from '@angular/fire/app';
 import { getMessaging, getToken, onMessage } from '@angular/fire/messaging';
 import { environment } from '@env/environment';
+import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { environment } from '@env/environment';
 export class MessageService {
   private messaging;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     const app = initializeApp(environment.firebase);
     this.messaging = getMessaging(app);
   }
@@ -38,7 +39,14 @@ export class MessageService {
 
   ngMessageNotification() {
     onMessage(this.messaging, (payload) => {
-      console.log('Foreground message received:', payload);
+      if (payload?.data) {
+        const code = payload?.data['code'];
+        if (code === '3') {
+          this.authService.logout().subscribe(() => {
+            this.authService.checkAuth();
+          });
+        }
+      }
     });
   }
 }

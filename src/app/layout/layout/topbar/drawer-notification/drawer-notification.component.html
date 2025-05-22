@@ -4,7 +4,7 @@
     class="flex flex-col items-center justify-center h-64"
   >
     <i class="fas fa-bell text-4xl text-gray-500 mb-4"></i>
-    <p class="text-gray-500">No notifications yet</p>
+    <p class="text-gray-500">{{ "NOTIFY.ALERT" | translate }}</p>
   </div>
 
   <!-- Notification Items -->
@@ -64,6 +64,6 @@
     (click)="markAllAsRead()"
     class="w-full py-2 px-4 bg-neutral-800 hover:bg-neutral-700 text-gray-200 rounded-lg transition-colors"
   >
-    Mark all as read
+    {{ "NOTIFY.MARK_READ" | translate }}
   </button>
 </div>

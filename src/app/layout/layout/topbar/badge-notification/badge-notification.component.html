@@ -16,6 +16,10 @@
     />
   </svg>
 </button>
-<p-drawer header="Thông báo" [(visible)]="isVisible" position="right">
+<p-drawer
+  [header]="'NOTIFY.TITLE' | translate"
+  [(visible)]="isVisible"
+  position="right"
+>
   <app-drawer-notification></app-drawer-notification>
 </p-drawer>

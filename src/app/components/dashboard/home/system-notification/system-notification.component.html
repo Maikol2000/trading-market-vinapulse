@@ -1,11 +1,11 @@
-<div
-  class="bg-neutral-900 shadow-sm rounded-xl overflow-hidden"
->
+<div class="bg-neutral-900 shadow-sm rounded-xl overflow-hidden">
   <!-- Header -->
   <div class="p-4 text-gray-200 flex justify-between items-center">
-    <h2 class="text-lg font-semibold">Thông báo hệ thống</h2>
+    <h2 class="text-lg font-semibold">
+      {{ "HOME.SYSTEM_NOTIFY.TITLE" | translate }}
+    </h2>
     <button class="text-sm text-gray-400 hover:text-gray-200 transition-colors">
-      Đánh dấu tất cả đã đọc
+      {{ "HOME.SYSTEM_NOTIFY.MARK_READ" | translate }}
     </button>
   </div>
 
@@ -37,7 +37,7 @@
         *ngIf="!notification.isRead"
         class="text-blue-400 hover:text-blue-300 text-sm transition-colors"
       >
-        Đã đọc
+        {{ "HOME.SYSTEM_NOTIFY.READ" | translate }}
       </button>
     </div>
 
@@ -47,7 +47,7 @@
       class="p-8 text-center text-gray-500"
     >
       <i class="pi pi-bell text-4xl mb-2"></i>
-      <p>Không có thông báo hệ thống</p>
+      <p>{{ "HOME.SYSTEM_NOTIFY.ALERT" | translate }}</p>
     </div>
   </div>
 </div>

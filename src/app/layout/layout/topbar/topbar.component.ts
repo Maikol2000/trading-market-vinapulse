@@ -8,7 +8,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { BadgeNotificationComponent } from './badge-notification/badge-notification.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faSignOut } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-topbar',
   imports: [
@@ -20,6 +21,7 @@ import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
     SideBarComponent,
     MobileMenuComponent,
     BadgeNotificationComponent,
+    FontAwesomeModule,
   ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
@@ -29,6 +31,8 @@ export class TopbarComponent {
 
   isMenuOpen = signal(false);
   isMobile = false;
+
+  faSignOut = faSignOut;
 
   constructor(private service: AuthService) {
     this.checkScreenSize();

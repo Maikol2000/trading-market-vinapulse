@@ -33,7 +33,13 @@
         "SELL_VOLUME": "KL (Bán)",
         "MATCHED_PRICE": "Giá (Khớp lệnh)",
         "MATCHED_VOLUME": "KL (Khớp lệnh)",
-        "TRENDING": "Xu hướng"
+        "TRENDING": "Xu hướng",
+        "SYSTEM_NOTIFY": {
+            "TITLE": "Hệ thống",
+            "MARK_READ": "Tất cả đã đọc",
+            "READ": "Đã đọc",
+            "ALERT": "Không có thông báo hệ thống"
+        }
     },
     "AUTH": {
         "LOGIN": "Đăng nhập",
@@ -95,6 +101,35 @@
                 "CLOSED": "Đã đóng",
                 "CANCELED": "Đã hủy",
                 "PEDDING": "Đang chờ"
+            }
+        },
+        "UPDATE_ORDER": {
+            "MANAGEMENT": {
+                "TITLE": "Quản lý lệnh giao dịch",
+                "VOLUME": "lô",
+                "ACTION": {
+                    "SELL": "Bán",
+                    "AT_PRICE": "ở mức giá"
+                }
+            },
+            "TABS": {
+                "EDIT": "Sửa đổi",
+                "CLOSE_PARTIAL": "Đóng một phần"
+            },
+            "TRADING": {
+                "TAKE_PROFIT": "Chốt lời",
+                "STOP_LOSS": "Cắt lỗ",
+                "PRICE": "Giá",
+                "NOT_SET": "Chưa thiết lập",
+                "VOLUME_CLOSE": "Khối lượng để đóng",
+                "LOT": "lô"
+            },
+            "BUTTONS": {
+                "MODIFY": "Sửa đổi lệnh giao dịch",
+                "CLOSE": "Đóng lệnh giao dịch"
+            },
+            "PROFIT": {
+                "ESTIMATED_LOSS": "Thua lỗ ước tính:"
             }
         }
     },
@@ -169,5 +204,10 @@
         "1W": "1 tuần",
         "1M": "1 tháng",
         "3M": "3 tháng"
+    },
+    "NOTIFY": {
+        "TITLE": "Thông báo",
+        "MARK_READ": "Tất cả đã đọc",
+        "ALERT": "Không có thông báo hệ thống"
     }
 }

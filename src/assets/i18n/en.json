@@ -33,7 +33,13 @@
         "SELL_VOLUME": "Volume (Sell)",
         "MATCHED_PRICE": "Matched Price",
         "MATCHED_VOLUME": "Matched Volume",
-        "TRENDING": "Trending"
+        "TRENDING": "Trending",
+        "SYSTEM_NOTIFY": {
+            "TITLE": "System",
+            "MARK_READ": "Mark all as read",
+            "READ": "Read",
+            "ALERT": "No system notifications"
+        }
     },
     "AUTH": {
         "LOGIN": "Login",
@@ -96,6 +102,35 @@
                 "CLOSED": "Closed",
                 "CANCELED": "Canceled",
                 "PEDDING": "Pending"
+            }
+        },
+        "UPDATE_ORDER": {
+            "MANAGEMENT": {
+                "TITLE": "Order Management",
+                "VOLUME": "lot",
+                "ACTION": {
+                    "SELL": "Sell",
+                    "AT_PRICE": "at price"
+                }
+            },
+            "TABS": {
+                "EDIT": "Edit",
+                "CLOSE_PARTIAL": "Partial Close"
+            },
+            "TRADING": {
+                "TAKE_PROFIT": "Take Profit",
+                "STOP_LOSS": "Stop Loss",
+                "PRICE": "Price",
+                "NOT_SET": "Not set",
+                "VOLUME_CLOSE": "Volume to close",
+                "LOT": "lot"
+            },
+            "BUTTONS": {
+                "MODIFY": "Modify Order",
+                "CLOSE": "Close Order"
+            },
+            "PROFIT": {
+                "ESTIMATED_LOSS": "Estimated Loss"
             }
         }
     },
@@ -170,5 +205,10 @@
         "1W": "1 week",
         "1M": "1 month",
         "3M": "3 months"
+    },
+    "NOTIFY": {
+        "TITLE": "Notification",
+        "MARK_READ": "Mark all as read",
+        "ALERT": "No system notifications"
     }
 }

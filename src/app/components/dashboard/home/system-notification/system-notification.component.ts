@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '@app/core/services';
-import { onMessage } from 'firebase/messaging';
+import { TranslateModule } from '@ngx-translate/core';
+
 interface Notification {
   id: string;
   userId: string;
@@ -13,7 +14,7 @@ interface Notification {
 
 @Component({
   selector: 'app-system-notification',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './system-notification.component.html',
   styleUrl: './system-notification.component.scss',
 })
@@ -66,7 +67,7 @@ export class SystemNotificationComponent implements OnInit {
   constructor(private messagingService: MessageService) {}
 
   ngOnInit() {
-    this.messagingService.requestPermission();
+    // this.messagingService.requestPermission();
     this.messagingService.ngMessageNotification();
   }
 }
