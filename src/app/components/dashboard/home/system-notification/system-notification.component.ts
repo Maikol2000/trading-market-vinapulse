@@ -67,7 +67,7 @@ export class SystemNotificationComponent implements OnInit {
   constructor(private messagingService: MessageService) {}
 
   ngOnInit() {
-    // this.messagingService.requestPermission();
+    this.messagingService.requestPermission();
     this.messagingService.ngMessageNotification();
   }
 }
