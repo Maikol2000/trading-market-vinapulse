@@ -26,6 +26,16 @@ export class CurrencyComponent {
     'XRP-USDT',
     'LTC-USDT',
     'BCH-USDT',
+    'SOL-USDT', // Solana
+    'DOT-USDT', // Polkadot
+    'DOGE-USDT', // Dogecoin
+    'ADA-USDT', // Cardano
+    'MATIC-USDT', // Polygon
+    'LINK-USDT', // Chainlink
+    'AVAX-USDT', // Avalanche
+    'UNI-USDT', // Uniswap
+    'AAVE-USDT', // Aave
+    'FTM-USDT', // Fantom
   ];
 
   constructor(
@@ -36,7 +46,7 @@ export class CurrencyComponent {
   ngOnInit(): void {
     this.currencyService.connect(this.watchedInstruments);
     this.subscription = this.currencyService.currencies$
-      .pipe(debounceTime(200))
+      .pipe(debounceTime(100))
       .subscribe((data) => {
         this.currenciesSignal.set(data);
       });

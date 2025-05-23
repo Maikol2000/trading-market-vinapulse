@@ -21,14 +21,6 @@ export class dashboardRoute {
       (m) => m.TradeMarketComponent
     );
 
-  // order form
-  OrderForm = (instId: string) =>
-    this.Layout + `/order-form/${instId ? instId : ':instId'}`;
-  orderFormComponent = () =>
-    import('@app/pages/dashboard/order/order.component').then(
-      (m) => m.OrderComponent
-    );
-
   // Infomation detail
   InfoDetail = (instId: string) =>
     this.Layout + `/info-detail/${instId ? instId : ':instId'}`;

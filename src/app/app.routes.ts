@@ -49,11 +49,6 @@ export const routes: Routes = [
         // canActivate: [AuthGuard],
       },
       {
-        path: AppRouter.Dashboard.OrderForm(''),
-        loadComponent: AppRouter.Dashboard.orderFormComponent,
-        // canActivate: [AuthGuard],
-      },
-      {
         path: AppRouter.Dashboard.InfoDetail(''),
         loadComponent: AppRouter.Dashboard.infoDetailComponent,
         // canActivate: [AuthGuard],

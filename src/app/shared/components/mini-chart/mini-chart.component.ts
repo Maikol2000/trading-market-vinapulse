@@ -23,7 +23,7 @@ export class MiniChartComponent {
   @ViewChild('chartContainer', { static: true }) chartContainer!: ElementRef;
 
   width = input<number>(100);
-  height = input<number>(50);
+  height = input<number>(40);
 
   chartData = input<LineData<Time>[]>([]);
   colorTrend = input<boolean>(true);

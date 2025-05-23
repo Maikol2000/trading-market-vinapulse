@@ -25,11 +25,6 @@ export const AppMenu = [
     label: 'SIDEBAR.DETAIL_INFO',
     route: AppRouter.Dashboard.InfoDetail('BTC-USDT'),
   },
-  {
-    icon: faMoneyCheckDollar,
-    label: 'SIDEBAR.PLACE_ORDER',
-    route: AppRouter.Dashboard.OrderForm('BTC-USDT'),
-  },
   { icon: faUser, label: 'SIDEBAR.AI_PREDICT', route: '/customers' },
   { icon: faUser, label: 'SIDEBAR.AI_TRADING_BOT', route: '/customers' },
   { icon: faUser, label: 'SIDEBAR.AI_CHAT_BOT', route: '/customers' },

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { OrderFormComponent } from '@app/components/dashboard/order';
 import {
   FinancialChartComponent,
+  OrderFormComponent,
   OrderPortfolioComponent,
   TicketModalComponent,
   WatchlistTicketComponent,
