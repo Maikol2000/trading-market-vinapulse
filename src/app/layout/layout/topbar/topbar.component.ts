@@ -72,7 +72,7 @@ export class TopbarComponent {
 
   logout(): void {
     this.service.logout().subscribe(() => {
-      this.service.checkAuth();
+      // this.service.checkAuth();
     });
   }
 }

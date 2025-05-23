@@ -25,12 +25,12 @@ export const routes: Routes = [
       {
         path: AppRouter.Auth.Login,
         loadComponent: AppRouter.Auth.loginComponent,
-        canActivate: [NonAuthGuard],
+        // canActivate: [NonAuthGuard],
       },
       {
         path: AppRouter.Auth.Register,
         loadComponent: AppRouter.Auth.registerComponent,
-        canActivate: [NonAuthGuard],
+        // canActivate: [NonAuthGuard],
       },
     ],
   },
@@ -41,22 +41,22 @@ export const routes: Routes = [
       {
         path: AppRouter.Dashboard.Home,
         loadComponent: AppRouter.Dashboard.homeComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       {
         path: AppRouter.Dashboard.TradeMarket(''),
         loadComponent: AppRouter.Dashboard.tradeMarketComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       {
         path: AppRouter.Dashboard.OrderForm(''),
         loadComponent: AppRouter.Dashboard.orderFormComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       {
         path: AppRouter.Dashboard.InfoDetail(''),
         loadComponent: AppRouter.Dashboard.infoDetailComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
     ],
   },

@@ -49,7 +49,7 @@ export class LoginFormComponent {
         .pipe(debounceTime(100))
         .subscribe({
           next: () => {
-            this.service.checkAuth();
+            // this.service.checkAuth();
           },
           error: (error) => {
             console.error('Login failed', error);

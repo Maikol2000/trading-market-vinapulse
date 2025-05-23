@@ -43,7 +43,7 @@ export class MessageService {
         const code = payload?.data['code'];
         if (code === '3') {
           this.authService.logout().subscribe(() => {
-            this.authService.checkAuth();
+            // this.authService.checkAuth();
           });
         }
       }

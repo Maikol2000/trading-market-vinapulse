@@ -29,7 +29,7 @@ export class AuthService {
     private router: Router,
     private afAuth: AngularFireAuth
   ) {
-    this.checkAuth();
+    // this.checkAuth();
     this.user$ = this.afAuth.authState;
     this.router.events.subscribe(() => {
       if (
