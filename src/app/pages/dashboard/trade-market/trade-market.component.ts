@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { AfterViewInit, Component, signal } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {
   FinancialChartComponent,
@@ -28,7 +28,7 @@ import { debounceTime, Subscription, tap } from 'rxjs';
   ],
   templateUrl: './trade-market.component.html',
 })
-export class TradeMarketComponent {
+export class TradeMarketComponent implements AfterViewInit {
   watchlist = ['ETH-USDT', 'XRP-USDT', 'LTC-USDT', 'BCH-USDT'];
   subscription: Subscription | null = null;
 
@@ -49,6 +49,14 @@ export class TradeMarketComponent {
   }
 
   ngOnInit() {
+    this.subscription = this.tickerService.currencies$
+      .pipe(debounceTime(100))
+      .subscribe((data) => {
+        this.tickets.set(data);
+      });
+  }
+
+  ngAfterViewInit(): void {
     this.router.events
       .pipe(
         tap((event) => {
@@ -62,12 +70,6 @@ export class TradeMarketComponent {
         })
       )
       .subscribe();
-
-    this.subscription = this.tickerService.currencies$
-      .pipe(debounceTime(100))
-      .subscribe((data) => {
-        this.tickets.set(data);
-      });
   }
 
   ngOnDestroy() {

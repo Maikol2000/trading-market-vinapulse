@@ -1,0 +1,19 @@
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f100;
+}
+
+button,
+a {
+    @apply cursor-pointer;
+}
+
+input {
+    color: black;
+    background-color: whitesmoke;
+}
+
+div::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+}

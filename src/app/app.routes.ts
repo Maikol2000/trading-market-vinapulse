@@ -1,36 +1,20 @@
 import { Routes } from '@angular/router';
-import { AuthGuard, NonAuthGuard } from './core/guards';
+import { NonAuthGuard } from './core/guards';
 import { AppRouter } from './utils/routers';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: AppRouter.Dashboard.Home,
-    pathMatch: 'full',
-  },
-  {
-    path: AppRouter.Dashboard.Layout,
-    redirectTo: AppRouter.Dashboard.Home,
-    pathMatch: 'full',
-  },
-  {
-    path: AppRouter.Auth.AuthLayout,
-    redirectTo: AppRouter.Auth.Login,
-    pathMatch: 'full',
-  },
-  {
-    path: '',
     loadComponent: AppRouter.Auth.authLayoutComponent,
+    canActivateChild: [NonAuthGuard],
     children: [
       {
         path: AppRouter.Auth.Login,
         loadComponent: AppRouter.Auth.loginComponent,
-        // canActivate: [NonAuthGuard],
       },
       {
         path: AppRouter.Auth.Register,
         loadComponent: AppRouter.Auth.registerComponent,
-        // canActivate: [NonAuthGuard],
       },
     ],
   },
@@ -41,17 +25,14 @@ export const routes: Routes = [
       {
         path: AppRouter.Dashboard.Home,
         loadComponent: AppRouter.Dashboard.homeComponent,
-        // canActivate: [AuthGuard],
       },
       {
         path: AppRouter.Dashboard.TradeMarket(''),
         loadComponent: AppRouter.Dashboard.tradeMarketComponent,
-        // canActivate: [AuthGuard],
       },
       {
         path: AppRouter.Dashboard.InfoDetail(''),
         loadComponent: AppRouter.Dashboard.infoDetailComponent,
-        // canActivate: [AuthGuard],
       },
     ],
   },

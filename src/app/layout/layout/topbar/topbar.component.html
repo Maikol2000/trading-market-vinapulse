@@ -39,6 +39,7 @@
                   </div>
                 </div>
                 <div class="px-2 py-1 text-sm text-gray-200">
+                  @if (isLogin()) {
                   <button
                     class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-200 bg-neutral-800 rounded-md hover:bg-neutral-700 focus:outline-none w-full"
                     (click)="logout()"
@@ -48,6 +49,17 @@
                     </span>
                     <fa-icon [icon]="faSignOut"></fa-icon>
                   </button>
+                  } @else {
+                  <a
+                    [routerLink]="appRouter.Auth.Login"
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-200 bg-neutral-800 rounded-md hover:bg-neutral-700 focus:outline-none w-full"
+                  >
+                    <span class="mr-2">
+                      {{ "AUTH.LOGIN" | translate }}
+                    </span>
+                    <fa-icon [icon]="faSignIn"></fa-icon>
+                  </a>
+                  }
                 </div>
               </div>
             </div>

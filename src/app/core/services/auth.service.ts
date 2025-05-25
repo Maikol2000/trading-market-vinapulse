@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { LocalStorageKey } from '@app/shared/enums';
 import { IResponse } from '@app/shared/models';
 import { ApiService } from '@app/shared/services';
 import { AppRouter } from '@app/utils/routers';
@@ -26,19 +25,10 @@ export class AuthService {
 
   constructor(
     private service: ApiService,
-    private router: Router,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private router: Router
   ) {
-    // this.checkAuth();
     this.user$ = this.afAuth.authState;
-    this.router.events.subscribe(() => {
-      if (
-        !this.routerAuth.includes(this.router.url) &&
-        this.router.url !== '/'
-      ) {
-        localStorage.setItem(LocalStorageKey.LAST_URL, this.router.url);
-      }
-    });
   }
 
   login(login: ILoginRequest): Observable<IResponse<string>> {
@@ -54,20 +44,13 @@ export class AuthService {
   }
 
   checkAuth() {
-    return this.service
+    this.service
       .get<IResponse<boolean>>('/auth/auth-check')
       .pipe(
         map((response) => {
           this.authState$.next(response.value);
-          if (response.value && this.router.url !== AppRouter.Auth.AuthLayout) {
-            const url =
-              localStorage.getItem(LocalStorageKey.LAST_URL) ??
-              AppRouter.Dashboard.Home;
-            this.router.navigate([url]);
-          } else if (this.router.url !== '/') {
-            this.router.navigate([AppRouter.Auth.AuthLayout]);
-          } else if (this.routerAuth.includes(this.router.url)) {
-            this.router.navigate([AppRouter.Auth.AuthLayout]);
+          if (this.routerAuth.includes(this.router.url) && response.value) {
+            this.router.navigate([AppRouter.Dashboard.Home]);
           }
         }),
         catchError(() => {

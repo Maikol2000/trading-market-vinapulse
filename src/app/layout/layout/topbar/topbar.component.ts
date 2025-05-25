@@ -1,15 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '@app/core/services';
 import { SelectLangComponent } from '@app/shared/components';
 import { ClickOutsideDirective } from '@app/shared/directives';
+import { AppRouter } from '@app/utils/routers';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { BadgeNotificationComponent } from './badge-notification/badge-notification.component';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSignOut } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-topbar',
   imports: [
@@ -22,20 +25,28 @@ import { faSignOut } from '@fortawesome/free-solid-svg-icons';
     MobileMenuComponent,
     BadgeNotificationComponent,
     FontAwesomeModule,
+    RouterModule,
   ],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent {
   isDropdownOpen = false;
-
-  isMenuOpen = signal(false);
   isMobile = false;
 
+  isMenuOpen = signal(false);
+  isLogin = signal(false);
+
   faSignOut = faSignOut;
+  faSignIn = faSignIn;
+
+  appRouter = AppRouter;
 
   constructor(private service: AuthService) {
     this.checkScreenSize();
+    this.service.isAuthenticated().subscribe((val) => {
+      this.isLogin.set(val);
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -72,7 +83,7 @@ export class TopbarComponent {
 
   logout(): void {
     this.service.logout().subscribe(() => {
-      // this.service.checkAuth();
+      this.service.checkAuth();
     });
   }
 }

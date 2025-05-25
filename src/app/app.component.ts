@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
 import { ToastModule } from 'primeng/toast';
+import { AuthService } from './core/services';
 import { LanguageService } from './shared/services';
 @Component({
   selector: 'app-root',
@@ -19,5 +20,10 @@ import { LanguageService } from './shared/services';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  constructor(private translate: LanguageService) {}
+  constructor(
+    private translate: LanguageService,
+    private authService: AuthService
+  ) {
+    this.authService.checkAuth();
+  }
 }
