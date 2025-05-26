@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { OrderSideEnum, OrderStatusEnum } from '@app/constants/enums';
 import { ICloseOrderRequest, IOrder } from '@app/core/models';
 import { OrderStore } from '@app/core/stores';
@@ -15,7 +22,7 @@ import { UpdateOrderModalComponent } from './update-order-modal/update-order-mod
   imports: [CommonModule, TranslateModule, FontAwesomeModule],
   templateUrl: './order-portfolio.component.html',
 })
-export class OrderPortfolioComponent {
+export class OrderPortfolioComponent implements AfterViewInit {
   store = inject(OrderStore);
 
   orderStatus = OrderStatusEnum;
@@ -58,10 +65,13 @@ export class OrderPortfolioComponent {
         this.orders.set(this.store.orders());
       }
     });
+  }
 
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
     this.store.loadOrders();
   }
-  ngOnInit(): void {}
 
   setActiveTab(tab: OrderStatusEnum): void {
     this.activeTab.set(tab);
