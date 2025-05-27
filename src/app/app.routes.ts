@@ -3,11 +3,11 @@ import { NonAuthGuard } from './core/guards';
 import { AppRouter } from './utils/routers';
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: AppRouter.Dashboard.Home,
-  //   pathMatch: 'full',
-  // },
+  {
+    path: '',
+    redirectTo: AppRouter.Dashboard.Home,
+    pathMatch: 'full',
+  },
   {
     path: '',
     loadComponent: AppRouter.Auth.authLayoutComponent,
