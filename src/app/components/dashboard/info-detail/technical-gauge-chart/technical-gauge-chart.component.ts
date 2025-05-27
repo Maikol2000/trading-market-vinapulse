@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { CandlestickService } from '@app/core/services';
+import { GaugeChartComponent } from '@app/shared/components';
 import { LanguageService } from '@app/shared/services';
 import { TranslateModule } from '@ngx-translate/core';
-import { DxCircularGaugeModule, DxRangeSliderModule } from 'devextreme-angular';
 
 type NgxThresholds = {
   [key in 0 | 30 | 70]: {
@@ -14,65 +14,14 @@ type NgxThresholds = {
 
 @Component({
   selector: 'app-technical-gauge-chart',
-  imports: [
-    CommonModule,
-    TranslateModule,
-    DxCircularGaugeModule,
-    DxRangeSliderModule,
-  ],
+  imports: [CommonModule, TranslateModule, GaugeChartComponent],
   templateUrl: './technical-gauge-chart.component.html',
   styleUrl: './technical-gauge-chart.component.scss',
 })
 export class TechnicalGaugeChartComponent {
-  gaugeValue = signal(80);
-  gaugeLabel = signal('BUY');
-  gaugeForegroundColor = signal('');
-  gaugeAppendText = '%';
-  gaugeThick = 40;
-  gaugeSize = 400;
+  gaugeValue = signal(0);
   customizeText = (arg: { value: number }) => {
     return `${arg.value}%`;
-  };
-  gaugeOptions = {
-    scale: {
-      startValue: 0,
-      endValue: 100,
-      tick: {
-        color: '#9b9b9b',
-      },
-      label: {
-        customizeText: this.customizeText,
-      },
-    },
-    rangeContainer: {
-      palette: 'pastel',
-      ranges: [
-        {
-          startValue: 0,
-          endValue: 30,
-          color: '#DF5353',
-        },
-        {
-          startValue: 30,
-          endValue: 70,
-          color: '#DDDF0D',
-        },
-        {
-          startValue: 70,
-          endValue: 100,
-          color: '#55BF3B',
-        },
-      ],
-    },
-    title: {
-      text: 'Technical Analysis',
-      font: { size: 28 },
-    },
-    valueIndicator: {
-      type: 'triangleNeedle',
-      color: '#9b9b9b',
-    },
-    subvalues: [],
   };
 
   thresholds: NgxThresholds = {
