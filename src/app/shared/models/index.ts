@@ -3,6 +3,8 @@ export * from './headers';
 export * from './indicator';
 export * from './list-subscribed-channels-candle';
 export * from './modal';
+export * from './news-article';
+export * from './news-article-open-api';
 export * from './oks.models';
 export * from './response-data';
 export * from './timeframe';

@@ -6,6 +6,8 @@ export const environment = {
   apiKey: '848bb3c9-842a-4957-bce0-4f4ab296ae39',
   secretKey: '26414A549780D8D3A3529AFB76817C42',
   passphrase: '3103V!na',
+  apiKeyOpenApi:
+    '5b6fc1d04a23cfaabf4cfd5f0430e2bbc9ca840294775812772ee1cc35b57bfa',
   firebase: {
     apiKey: 'AIzaSyADTPsPJBsul0wv0suCa1j1oc6WczLFEIc',
     authDomain: 'crystaltoken-402d3.firebaseapp.com',

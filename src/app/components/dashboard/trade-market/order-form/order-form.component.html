@@ -132,6 +132,7 @@
       </div>
     </div>
 
+    @if(isAuthenticated() | async) {
     <!-- Submit Button -->
     <button
       type="submit"
@@ -151,5 +152,15 @@
       }}
       {{ selectedSymbol().split("-")[0] }}
     </button>
+    } @else {
+    <!-- Login Prompt -->
+    <button
+      type="button"
+      (click)="redirectLogin()"
+      class="block text-center w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200"
+    >
+      {{ "AUTH.LOGIN" | translate }}
+    </button>
+    }
   </form>
 </div>

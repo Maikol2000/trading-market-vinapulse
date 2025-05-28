@@ -6,16 +6,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { OrderSideEnum, OrderStatusEnum } from '@app/constants/enums';
 import { ICrystal, IOrder } from '@app/core/models';
-import { CandlestickService } from '@app/core/services';
+import { AuthService, CandlestickService } from '@app/core/services';
 import { CrystalStore, OrderStore } from '@app/core/stores';
+import { AppRouter } from '@app/utils/routers';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-form',
-  imports: [ReactiveFormsModule, CommonModule, TranslateModule],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule, RouterModule],
   templateUrl: './order-form.component.html',
   styleUrl: './order-form.component.scss',
 })
@@ -32,10 +33,15 @@ export class OrderFormComponent {
 
   crystal = signal<Partial<ICrystal>>({});
 
+  isAuthenticated = computed(() => this.authService.isAuthenticated());
+
+  appRouter = AppRouter;
+
   constructor(
     private fb: FormBuilder,
     private candlestickService: CandlestickService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.setRouter();
     this.router.events.subscribe(() => {
@@ -79,6 +85,14 @@ export class OrderFormComponent {
       error: (err) => {
         console.error('Error fetching current price:', err);
       },
+    });
+  }
+
+  redirectLogin() {
+    this.isAuthenticated().subscribe((isAuth) => {
+      if (!isAuth) {
+        this.router.navigate([AppRouter.Auth.Login]);
+      }
     });
   }
 
