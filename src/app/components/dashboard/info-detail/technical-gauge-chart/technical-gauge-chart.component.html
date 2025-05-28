@@ -9,15 +9,15 @@
       {{ "CRYPTO.DETAIL.TECHNICAL_INDICATOR" | translate }}
     </h3>
     <div
-      *ngFor="let i of indicators"
+      *ngFor="let i of indicators()"
       class="flex justify-between text-gray-400"
     >
       <p>{{ i.name }}</p>
       <p
         [ngClass]="{
-          'text-blue-600': i.signal === 'Mua',
-          'text-gray-400': i.signal === 'Trung lập',
-          'text-red-500': i.signal === 'Bán'
+          'text-blue-600': i.signal === 'BUY',
+          'text-gray-400': i.signal === 'NEUTRAL',
+          'text-red-500': i.signal === 'SELL'
         }"
       >
         {{ i.signal }}

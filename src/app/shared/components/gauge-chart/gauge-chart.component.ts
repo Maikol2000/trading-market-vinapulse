@@ -36,7 +36,6 @@ export class GaugeChartComponent {
 
   constructor() {
     effect(() => {
-      console.log(this.value());
       if (this.value()) this.calculateRotation();
     });
   }

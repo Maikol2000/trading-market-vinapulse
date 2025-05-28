@@ -57,19 +57,19 @@ export class TradeMarketComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.router.events
-    //   .pipe(
-    //     tap((event) => {
-    //       if (event instanceof NavigationStart) {
-    //         this.loadingService.loadingOn();
-    //       } else if (event instanceof NavigationEnd) {
-    //         setTimeout(() => {
-    //           this.loadingService.loadingOff();
-    //         }, 200);
-    //       }
-    //     })
-    //   )
-    //   .subscribe();
+    this.router.events
+      .pipe(
+        tap((event) => {
+          if (event instanceof NavigationStart) {
+            this.loadingService.loadingOn();
+          } else if (event instanceof NavigationEnd) {
+            setTimeout(() => {
+              this.loadingService.loadingOff();
+            }, 200);
+          }
+        })
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {

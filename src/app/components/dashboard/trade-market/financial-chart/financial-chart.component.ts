@@ -17,6 +17,7 @@ import {
   subscribeChannelsCandleType,
 } from '@app/shared/models';
 import { BollingerBands } from '@app/shared/models/bolliner-band';
+import { AppRouter } from '@app/utils/routers';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   CandlestickData,
@@ -486,6 +487,10 @@ export class FinancialChartComponent {
       this.bbSeries = null;
       this.legendBB.set({});
     }
+  }
+
+  redirectTo() {
+    this.router.navigate([AppRouter.Dashboard.InfoDetail(this.symbol())]);
   }
 
   ngOnDestroy(): void {
