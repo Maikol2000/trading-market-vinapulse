@@ -78,6 +78,7 @@ export class OrderPortfolioComponent implements AfterViewInit {
   }
 
   onUpdateOrder(
+    orderId: string,
     symbol: string,
     volume: number,
     currency: string = '$',
@@ -86,6 +87,7 @@ export class OrderPortfolioComponent implements AfterViewInit {
   ) {
     const modalRef = this.modalService.open(UpdateOrderModalComponent, {
       order: {
+        orderId,
         symbol,
         volume,
         currency,
@@ -97,8 +99,9 @@ export class OrderPortfolioComponent implements AfterViewInit {
     });
     const instance = modalRef.instance;
 
-    instance.close.subscribe(() => {
-      console.log('run close');
+    instance.close.subscribe((val) => {
+      this.modalService.close(modalRef);
+      if (val) this.store.loadOrders();
     });
   }
 

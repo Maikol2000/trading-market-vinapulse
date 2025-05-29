@@ -21,8 +21,8 @@ export class NewsOpenApiService {
   getNewsArticlesOpenApi(): Observable<Partial<NewsArticle>[]> {
     return this.http.get<RespData<NewsArticleOpenApi[]>>(this.baseUrl).pipe(
       map((resp) => resp.Data),
-      map((articles) => {
-        const article = articles.map(
+      map((articles) =>
+        articles.map(
           (article): Partial<NewsArticle> => ({
             id: article.ID,
             title: article.TITLE,
@@ -33,9 +33,8 @@ export class NewsOpenApiService {
             // tags: article.TAGS,
             // categories: article.CATEGORIES,
           })
-        );
-        return article;
-      })
+        )
+      )
     );
   }
 }

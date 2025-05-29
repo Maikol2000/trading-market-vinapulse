@@ -20,3 +20,13 @@ export interface ICloseOrderRequest {
   orderId: string;
   closePrice: string;
 }
+
+export interface IOrderUpdate {
+  orderId: string;
+  status: number;
+  openPrice: string;
+  closePrice: string;
+  takeProfit: string;
+  stopLoss: string;
+  quantity: string;
+}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IResponse } from '@app/shared/models';
 import { ApiService } from '@app/shared/services';
-import { ICloseOrderRequest, IOrder } from '../models';
+import { ICloseOrderRequest, IOrder, IOrderUpdate } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class OrderService {
     return this.service.post<IResponse<IOrder>>('/order/create', order);
   }
 
-  updateOrder(order: Partial<IOrder>) {
+  updateOrder(order: Partial<IOrderUpdate>) {
     return this.service.post<IResponse<IOrder>>('/order/update', order);
   }
 

@@ -12,13 +12,13 @@
             {{ "TRADE.UPDATE_ORDER.MANAGEMENT.VOLUME" | translate }}</span
           >
         </div>
-        <p
+        <!-- <p
           [ngClass]="
             profitLoss && profitLoss < 0 ? 'text-red-500' : 'text-green-500'
           "
         >
           {{ profitLoss }}
-        </p>
+        </p> -->
       </div>
       <div class="flex items-center justify-between text-gray-400">
         <p class="text-sm">
@@ -53,23 +53,30 @@
     </div>
 
     <!-- Edit Form (Tab 1) -->
-    <div *ngIf="activeTab === 'edit'" class="p-4 text-gray-400">
+    <form
+      [formGroup]="orderForm"
+      *ngIf="activeTab === 'edit'"
+      class="p-4 text-gray-400"
+    >
       <!-- Take Profit -->
       <div class="mb-4">
         <div class="flex justify-between text-sm mb-1">
-          <span>{{ "TRADE.UPDATE_ORDER.TRADING.TAKE_PROFIT" | translate }}</span>
+          <span>{{
+            "TRADE.UPDATE_ORDER.TRADING.TAKE_PROFIT" | translate
+          }}</span>
         </div>
 
         <div class="flex items-center">
           <div class="flex-1 bg-gray-800 rounded-l flex items-center">
             <input
               type="text"
-              [(ngModel)]="takeProfit"
+              formControlName="takeProfit"
               class="bg-transparent w-full px-3 py-2 focus:outline-none"
               [placeholder]="'TRADE.UPDATE_ORDER.TRADING.NOT_SET' | translate"
+              [min]="0.01"
             />
             <button
-              *ngIf="takeProfit"
+              *ngIf="orderForm.get('takeProfit')?.value"
               (click)="clearInput('takeProfit')"
               class="text-gray-500 px-2 text-xl"
             >
@@ -104,12 +111,13 @@
           <div class="flex-1 bg-gray-800 rounded-l flex items-center">
             <input
               type="text"
-              [(ngModel)]="stopLoss"
+              formControlName="stopLoss"
               [placeholder]="'TRADE.UPDATE_ORDER.TRADING.NOT_SET' | translate"
               class="bg-transparent w-full px-3 py-2 text-gray-500 focus:outline-none"
+              [min]="0.01"
             />
             <button
-              *ngIf="stopLoss"
+              *ngIf="orderForm.get('stopLoss')?.value"
               (click)="clearInput('stopLoss')"
               class="text-gray-500 px-2 text-xl hover:text-gray-500"
             >
@@ -140,20 +148,26 @@
       >
         {{ "TRADE.UPDATE_ORDER.BUTTONS.MODIFY" | translate }}
       </button>
-    </div>
+    </form>
 
     <!-- Close Partial Form (Tab 2) -->
-    <div *ngIf="activeTab === 'closePartial'" class="p-4 text-gray-400">
+    <form
+      [formGroup]="orderForm"
+      *ngIf="activeTab === 'closePartial'"
+      class="p-4 text-gray-400"
+    >
       <div class="mb-4">
         <div class="flex justify-between text-sm mb-1">
-          <span>{{ "TRADE.UPDATE_ORDER.TRADING.VOLUME_CLOSE" | translate }}</span>
+          <span>{{
+            "TRADE.UPDATE_ORDER.TRADING.VOLUME_CLOSE" | translate
+          }}</span>
         </div>
 
         <div class="flex items-center">
           <div class="flex-1 bg-gray-800 rounded-l flex items-center">
             <input
               type="text"
-              [(ngModel)]="closeVolume"
+              formControlName="closeVolume"
               class="bg-transparent w-full px-3 py-2 focus:outline-none"
               [min]="0.01"
               [placeholder]="'TRADE.UPDATE_ORDER.TRADING.NOT_SET' | translate"
@@ -175,6 +189,16 @@
             +
           </button>
         </div>
+        <!-- Error message -->
+        <div
+          *ngIf="
+            orderForm.get('closeVolume')?.invalid &&
+            orderForm.get('closeVolume')?.touched
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          {{ getCloseVolumeError() }}
+        </div>
       </div>
 
       <button
@@ -190,6 +214,6 @@
         </p>
         <p class="text-red-500">{{ estimatedProfit }} USD</p>
       </div>
-    </div>
+    </form>
   </div>
 </app-modal>

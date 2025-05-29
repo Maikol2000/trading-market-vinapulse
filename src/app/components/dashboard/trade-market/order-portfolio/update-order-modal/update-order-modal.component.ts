@@ -1,11 +1,26 @@
 import { CommonModule, NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { OrderSideEnum } from '@app/constants/enums';
+import { OrderService } from '@app/core/services';
 import { ModalComponent } from '@app/shared/components';
 import { TranslateModule } from '@ngx-translate/core';
 
 export interface IIptOrder {
+  orderId: string;
   symbol: string;
   volume: number;
   currency: string;
@@ -28,25 +43,46 @@ export interface IIptOrder {
   ],
   templateUrl: './update-order-modal.component.html',
   styleUrl: './update-order-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateOrderModalComponent {
-  @Output() close = new EventEmitter<void>();
+  @Output() close = new EventEmitter<boolean>(false);
   @Input() order: Partial<IIptOrder> = {};
 
-  // Giá trị chốt lời
-  takeProfit = this.order.takeProfit ?? null;
-  stopLoss = this.order.stopLoss ?? null;
-  closeVolume = this.order.volume;
-  profitLoss: number = 0;
+  orderForm!: FormGroup;
 
   // Tab đang được chọn
   activeTab: 'edit' | 'closePartial' = 'edit';
 
   // Tính toán số tiền lỗ/lãi khi đóng một phần
   estimatedProfit = -218.9;
-  constructor() {}
 
-  ngOnInit(): void {}
+  constructor(private service: OrderService, private fb: FormBuilder) {
+    this.initForm();
+  }
+
+  ngOnInit(): void {
+    this.orderForm.patchValue({
+      takeProfit: this.order.takeProfit || 0,
+      stopLoss: this.order.stopLoss || 0,
+      closeVolume: this.order.volume || 0,
+    });
+    this.orderForm
+      .get('closeVolume')
+      ?.setValidators([
+        Validators.required,
+        Validators.min(0.01),
+        Validators.max(this.order.volume || 0),
+      ]);
+  }
+
+  initForm() {
+    this.orderForm = this.fb.group({
+      takeProfit: [0],
+      stopLoss: [0],
+      closeVolume: [0],
+    });
+  }
 
   // Chuyển đổi tab
   setActiveTab(tab: 'edit' | 'closePartial'): void {
@@ -56,9 +92,11 @@ export class UpdateOrderModalComponent {
   // Xóa giá trị input
   clearInput(field: 'takeProfit' | 'stopLoss'): void {
     if (field === 'takeProfit') {
-      this.takeProfit = 0;
+      const control = this.orderForm.get('takeProfit');
+      control?.setValue(0);
     } else {
-      this.stopLoss = null;
+      const control = this.orderForm.get('stopLoss');
+      control?.setValue(0);
     }
   }
 
@@ -67,40 +105,91 @@ export class UpdateOrderModalComponent {
     field: 'takeProfit' | 'stopLoss' | 'closeVolume',
     increment: boolean
   ): void {
-    let value: number;
-    let step = 1;
+    let value: number = 0;
+    let step = 10;
+    let control: AbstractControl<any, any> | null;
 
-    if (field === 'takeProfit') {
-      value = this.takeProfit || 0;
-      this.takeProfit = increment ? value + step : value - step;
-    } else if (field === 'stopLoss') {
-      value = this.stopLoss || 0;
-      this.stopLoss = increment ? value + step : value - step;
-    } else {
-      value = this.closeVolume || 0;
-      if (value >= 0.01) {
-        this.closeVolume = increment ? value + 0.01 : value - 0.01;
-      }
+    switch (field) {
+      case 'takeProfit':
+        control = this.orderForm.get('takeProfit');
+        break;
+      case 'stopLoss':
+        control = this.orderForm.get('stopLoss');
+        break;
+      default:
+        step = 0.01;
+        control = this.orderForm.get('closeVolume');
+        break;
     }
+
+    value = +control?.value || 0;
+    control?.setValue(+(increment ? value + step : value - step).toFixed(2));
   }
 
   // Sửa đổi lệnh giao dịch
   updateOrder(): void {
-    console.log(
-      'Cập nhật lệnh với chốt lời:',
-      this.takeProfit,
-      'cắt lỗ:',
-      this.stopLoss
-    );
-    // Gọi API hoặc service để cập nhật lệnh
+    const formValues = this.orderForm.value;
+    // if (this.orderForm.invalid) {
+    //   this.markRead();
+    //   return;
+    // }
+    this.service
+      .updateOrder({
+        orderId: this.order.orderId,
+        stopLoss: formValues.stopLoss.toString(),
+        takeProfit: formValues.takeProfit.toString(),
+      })
+      .subscribe((resp) => {
+        // Xử lý sau khi đóng lệnh thành công
+        if (resp.value) {
+          this.onClose(true);
+        }
+      });
   }
 
   // Đóng một phần lệnh
   closePartialOrder(): void {
-    console.log('Đóng một phần lệnh với khối lượng:', this.closeVolume);
-    // Gọi API hoặc service để đóng một phần lệnh
+    if (this.orderForm.valid) {
+      const formValues = this.orderForm.value;
+      if (+formValues.closeVolume > (this.order.volume || 0)) {
+        return;
+      }
+
+      this.service
+        .updateOrder({
+          orderId: this.order.orderId,
+          quantity: formValues.closeVolume.toString(),
+        })
+        .subscribe((resp) => {
+          // Xử lý sau khi đóng lệnh thành công
+          if (resp.value) {
+            this.onClose(true);
+          }
+        });
+    } else {
+      this.orderForm.markAllAsTouched();
+    }
   }
-  onClose() {
-    this.close.emit();
+
+  // Helper method to get error message
+  getCloseVolumeError(): string {
+    const control = this.orderForm.get('closeVolume');
+    console.log(control?.value);
+    if (control?.errors) {
+      if (control.errors['required']) {
+        return 'Volume is required';
+      }
+      if (control.errors['min']) {
+        return 'Minimum volume is 0.01';
+      }
+      if (control.errors['max']) {
+        return `Maximum volume is ${this.order.volume}`;
+      }
+    }
+    return '';
+  }
+
+  onClose(val: boolean = false) {
+    this.close.emit(val);
   }
 }

@@ -144,10 +144,6 @@ export class TechnicalGaugeChartComponent {
 
     // Kiểm tra đủ dữ liệu cho các chỉ báo
     if (closePrices.length < 200) {
-      // Cần ít nhất 200 nến cho SMA200
-      console.warn(
-        'Không đủ dữ liệu để tính toán tất cả chỉ báo (cần ít nhất 200 nến).'
-      );
       return null;
     }
 

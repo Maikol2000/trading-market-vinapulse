@@ -69,7 +69,7 @@ export class OrderFormComponent {
     this.orderForm = this.fb.group({
       symbol: [this.selectedSymbol(), Validators.required],
       side: [OrderSideEnum.BUY, Validators.required],
-      quantity: ['0.001', [Validators.required, Validators.min(0.001)]],
+      quantity: ['0.01', [Validators.required, Validators.min(0.001)]],
       tp: ['', Validators.required],
       sl: [''],
       status: [OrderStatusEnum.OPEN, Validators.required],
