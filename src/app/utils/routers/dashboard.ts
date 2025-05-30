@@ -28,4 +28,19 @@ export class dashboardRoute {
     import('@app/pages/dashboard/info-detail/info-detail.component').then(
       (m) => m.InfoDetailComponent
     );
+
+  // News
+  News = this.Layout + '/news';
+  newsComponent = () =>
+    import('@app/pages/dashboard/news/news.component').then(
+      (m) => m.NewsComponent
+    );
+
+  // New Detail
+  NewDetail = (newsId: string) =>
+    this.Layout + `/news-detail/${newsId ? newsId : ':newsId'}`;
+  newsDetailComponent = () =>
+    import('@app/pages/dashboard/news/new-detail/new-detail.component').then(
+      (m) => m.NewDetailComponent
+    );
 }

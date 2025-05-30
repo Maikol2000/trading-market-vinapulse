@@ -174,7 +174,6 @@ export class UpdateOrderModalComponent {
   // Helper method to get error message
   getCloseVolumeError(): string {
     const control = this.orderForm.get('closeVolume');
-    console.log(control?.value);
     if (control?.errors) {
       if (control.errors['required']) {
         return 'Volume is required';

@@ -3,7 +3,6 @@ import {
   faCoins,
   faHome,
   faMoneyBillTrendUp,
-  faMoneyCheckDollar,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { AppRouter } from './routers';
@@ -28,5 +27,5 @@ export const AppMenu = [
   { icon: faUser, label: 'SIDEBAR.AI_PREDICT', route: '/customers' },
   { icon: faUser, label: 'SIDEBAR.AI_TRADING_BOT', route: '/customers' },
   { icon: faUser, label: 'SIDEBAR.AI_CHAT_BOT', route: '/customers' },
-  { icon: faUser, label: 'SIDEBAR.NEWS', route: '/customers' },
+  { icon: faUser, label: 'SIDEBAR.NEWS', route: AppRouter.Dashboard.News },
 ];

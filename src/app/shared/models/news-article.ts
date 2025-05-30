@@ -11,4 +11,5 @@ export interface NewsArticle {
   status: string;
   createdBy: number;
   updatedBy: number;
+  tags: string[];
 }

@@ -39,6 +39,14 @@ export const routes: Routes = [
         path: AppRouter.Dashboard.InfoDetail(''),
         loadComponent: AppRouter.Dashboard.infoDetailComponent,
       },
+      {
+        path: AppRouter.Dashboard.News,
+        loadComponent: AppRouter.Dashboard.newsComponent,
+      },
+      {
+        path: AppRouter.Dashboard.NewDetail(''),
+        loadComponent: AppRouter.Dashboard.newsDetailComponent,
+      },
     ],
   },
   {

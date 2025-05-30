@@ -296,9 +296,6 @@ export class TechnicalGaugeChartComponent {
 
         if (sma50 < sma200) {
           this.smaSignal.set('SELL');
-          console.log(
-            '    [SMA] SMA50 dưới SMA200 (Death Cross/Xu hướng giảm) (+1 BÁN)'
-          );
         }
       } else {
         this.smaSignal.set('NEUTRAL');
