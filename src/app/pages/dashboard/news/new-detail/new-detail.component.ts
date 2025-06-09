@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NewsOpenApiService } from '@app/core/services';
 import { LoadingComponent } from '@app/shared/components';
 import { NewsArticle } from '@app/shared/models';
+import { AppRouter } from '@app/utils/routers';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -43,14 +44,7 @@ export class NewDetailComponent {
     // });
   }
 
-  private loadRelatedArticles(categories: string[]) {
-    // this.newsService.getRelatedArticles(categories, 3).subscribe({
-    //   next: (articles) => this.relatedArticles.set(articles),
-    //   error: (error) => console.error('Error loading related articles:', error),
-    // });
-  }
-
   goBack() {
-    this.router.navigate(['/news']);
+    this.router.navigate([AppRouter.Dashboard.News]);
   }
 }

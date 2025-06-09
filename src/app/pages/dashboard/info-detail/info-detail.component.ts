@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TechnicalGaugeChartComponent } from '@app/components/dashboard/info-detail';
 import { ICrystal } from '@app/core/models';
@@ -15,7 +15,7 @@ import { debounceTime, Subscription } from 'rxjs';
 })
 export class InfoDetailComponent {
   symbol: string = '';
-  cryptoDetail: ICrystal | null = null;
+  cryptoDetail = signal<Partial<ICrystal> | null>(null);
   websocketSubscription: Subscription | null = null;
   httpSubscription: Subscription | null = null;
 
@@ -32,8 +32,11 @@ export class InfoDetailComponent {
     // Tải dữ liệu ban đầu qua HTTP
     this.loadInitialData();
 
+    // Sau khi đã có dữ liệu ban đầu, bắt đầu kết nối WebSocket
+    this.ticketService.connectWebSocket(this.symbol);
+
     this.websocketSubscription = this.ticketService.ticker$
-      .pipe(debounceTime(100))
+      .pipe(debounceTime(200))
       .subscribe({
         next: (tickerData) => {
           if (tickerData) {
@@ -64,10 +67,7 @@ export class InfoDetailComponent {
       .getTickerData(this.symbol)
       .subscribe({
         next: (data: any) => {
-          this.cryptoDetail = this.processTickerData(data);
-
-          // Sau khi đã có dữ liệu ban đầu, bắt đầu kết nối WebSocket
-          this.ticketService.connectWebSocket(this.symbol);
+          this.cryptoDetail.set(this.processTickerData(data));
         },
         error: (err: any) => {
           console.error('Error fetching initial crypto data:', err);
@@ -82,32 +82,31 @@ export class InfoDetailComponent {
     if (!this.cryptoDetail) return;
 
     // Cập nhật các thông tin giá từ dữ liệu WebSocket
-    this.cryptoDetail.price = parseFloat(
-      tickerData.last || this.cryptoDetail.price
-    );
-    this.cryptoDetail.high24h = parseFloat(
-      tickerData.high24h || this.cryptoDetail.high24h
-    );
-    this.cryptoDetail.low24h = parseFloat(
-      tickerData.low24h || this.cryptoDetail.low24h
-    );
-    this.cryptoDetail.openPrice = parseFloat(
-      tickerData.open24h || this.cryptoDetail.openPrice
-    );
-    this.cryptoDetail.closePrice = parseFloat(
-      tickerData.last || this.cryptoDetail.closePrice
-    );
-    this.cryptoDetail.volume24h = parseFloat(
-      tickerData.volCcy24h || this.cryptoDetail.volume24h
-    );
-    this.cryptoDetail.tradingVolume = parseFloat(
-      tickerData.vol24h || this.cryptoDetail.tradingVolume
-    );
-    this.cryptoDetail.priceChangePercent =
-      parseFloat(tickerData.changeRate24h || '0') * 100;
-    this.cryptoDetail.averagePrice =
-      (this.cryptoDetail.high24h + this.cryptoDetail.low24h) / 2;
-    this.cryptoDetail.lastUpdated = new Date();
+
+    this.cryptoDetail.update((v) => ({
+      ...v,
+      price: parseFloat(tickerData.last || this.cryptoDetail()?.price),
+      high24h: parseFloat(tickerData.high24h || this.cryptoDetail()?.high24h),
+      low24h: parseFloat(tickerData.low24h || this.cryptoDetail()?.low24h),
+      openPrice: parseFloat(
+        tickerData.open24h || this.cryptoDetail()?.openPrice
+      ),
+      closePrice: parseFloat(
+        tickerData.last || this.cryptoDetail()?.closePrice
+      ),
+      volume24h: parseFloat(
+        tickerData.volCcy24h || this.cryptoDetail()?.volume24h
+      ),
+      tradingVolume: parseFloat(
+        tickerData.vol24h || this.cryptoDetail()?.tradingVolume
+      ),
+      priceChangePercent: parseFloat(tickerData.changeRate24h || '0') * 100,
+      averagePrice:
+        ((this.cryptoDetail()?.high24h ?? 0) +
+          (this.cryptoDetail()?.low24h ?? 0)) /
+        2,
+      lastUpdated: new Date(),
+    }));
   }
 
   /**
