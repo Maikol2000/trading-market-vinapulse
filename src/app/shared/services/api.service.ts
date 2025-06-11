@@ -13,7 +13,7 @@ export class ApiService {
 
   /**
    * Generic GET request
-   * @param endpoint API endpoint
+   * @param endpoint API endpoint /example
    * @param params Optional query parameters
    */
   public get<T>(endpoint: string): Observable<T> {

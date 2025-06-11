@@ -1,0 +1,58 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="bg-neutral-900 text-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-4">Account details</h2>
+    <div class="space-y-4">
+      <div class="flex justify-between">
+        <div class="xs:w-36 md:w-40">
+          <p class="text-gray-400">Username</p>
+        </div>
+        <div class="flex-1">
+          <p>{{ user.name }}</p>
+        </div>
+        <div></div>
+      </div>
+      <div class="flex justify-between">
+        <div class="xs:w-36 md:w-40">
+          <p class="text-gray-400">Email</p>
+        </div>
+        <div class="flex-1">
+          <p>
+            {{ user.email }}
+          </p>
+          <span class="text-sm text-gray-400">
+            Keeping the email account registered to your account safe is the
+            single most important thing to secure your Kraken account.
+          </span>
+        </div>
+        <button class="bg-blue-600 text-white px-2 py-1 rounded ml-2">
+          Edit
+        </button>
+      </div>
+      <div class="flex justify-between">
+        <div class="xs:w-36 md:w-40">
+          <p class="text-gray-400">Passwork</p>
+        </div>
+        <div class="flex-1">
+          <p>*******</p>
+        </div>
+        <button class="bg-blue-600 text-white px-2 py-1 rounded ml-2">
+          Edit
+        </button>
+      </div>
+      <div class="flex justify-between">
+        <div class="xs:w-36 md:w-40">
+          <p class="text-gray-400">Verification</p>
+        </div>
+        <div class="flex-1">
+          <p>Not Verified</p>
+          <p class="text-sm text-gray-400">
+            Please verify your account to start depositing funds and trading.
+          </p>
+        </div>
+        <button class="bg-blue-600 text-white px-2 py-1 rounded ml-2">
+          Get verified
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

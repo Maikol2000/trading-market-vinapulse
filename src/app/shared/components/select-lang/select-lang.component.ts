@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { ClickOutsideDirective } from '@app/shared/directives';
 import { LangApp, LocalStorageKey } from '@app/shared/enums';
 import { LanguageService } from '@app/shared/services';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-select-lang',
-  imports: [CommonModule, ClickOutsideDirective],
+  imports: [CommonModule, ClickOutsideDirective, FontAwesomeModule],
   templateUrl: './select-lang.component.html',
   styleUrl: './select-lang.component.scss',
 })
@@ -24,6 +25,8 @@ export class SelectLangComponent {
       label: 'English',
     },
   ];
+
+  faGlobe = faGlobe;
 
   constructor(private translate: LanguageService) {
     this.translate.currentLang$.subscribe((lang) => {

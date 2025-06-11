@@ -1,3 +1,4 @@
+export * from './account.service';
 export * from './auth.service';
 export * from './candlestick.service';
 export * from './news-open-api.service';

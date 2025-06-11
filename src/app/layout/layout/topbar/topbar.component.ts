@@ -7,7 +7,12 @@ import { SelectLangComponent } from '@app/shared/components';
 import { ClickOutsideDirective } from '@app/shared/directives';
 import { AppRouter } from '@app/utils/routers';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircleUser,
+  faSignIn,
+  faSignOut,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { BadgeNotificationComponent } from './badge-notification/badge-notification.component';
@@ -39,6 +44,8 @@ export class TopbarComponent {
 
   faSignOut = faSignOut;
   faSignIn = faSignIn;
+  faCircleUser = faCircleUser;
+  faUser = faUser;
 
   appRouter = AppRouter;
 

@@ -97,12 +97,13 @@ export class FinancialChartComponent {
     this.symbol.set(path[path.length - 1]);
 
     effect(() => {
-      if (this.selectedTimeframe() && this.symbol()) {
+      if (this.selectedTimeframe() || this.symbol()) {
         this.getHistoryCandles(this.selectedTimeframe());
         this.candlestickService.setSubcribe(
           this.symbol(),
           this.selectedTimeframe()
         );
+        this.candlestickService.connectWebSocket();
       }
     });
   }

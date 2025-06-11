@@ -3,27 +3,21 @@
     <div class="flex justify-between h-16">
       <div class="hidden xl:flex items-center justify-between w-full">
         <app-side-bar></app-side-bar>
-        <!-- Right side navigation items -->
-        <!-- User Profile with Dropdown -->
-        <div class="flex items-center gap-2">
-          <div class="relative">
-            <app-badge-notification></app-badge-notification>
-            <div></div>
-          </div>
-          <div class="ml-3 relative" #toogleBar>
+        <div class="flex items-center">
+          <app-select-lang></app-select-lang>
+          <app-badge-notification></app-badge-notification>
+          <div class="relative" #toogleBar>
             <div
               (click)="toggleDropdown()"
-              class="flex items-center space-x-2 text-gray-200 hover:text-gray-300 cursor-pointer"
+              class="flex cursor-pointer inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-200 rounded-md hover:bg-neutral-700 focus:outline-none transition-all"
               [clickOutsideExceptions]="[toogleBar]"
               appClickOutside
               (clickOutside)="onClose()"
             >
-              <img
-                class="h-8 w-8 rounded-full"
-                src="assets/images/avatar-placeholder.png"
-                alt="User avatar"
-              />
-              <span class="font-medium">John Doe</span>
+              <fa-icon
+                [icon]="faCircleUser"
+                class="text-white text-2xl"
+              ></fa-icon>
             </div>
 
             <!-- Dropdown Menu -->
@@ -32,11 +26,14 @@
               class="absolute right-0 mt-2 w-max rounded-md shadow-lg bg-neutral-800 ring-1 ring-black ring-opacity-5"
             >
               <div role="menu">
-                <!-- Language Toggle -->
                 <div class="px-2 py-1 text-sm text-gray-200">
-                  <div class="flex items-center space-x-2 mt-1">
-                    <app-select-lang></app-select-lang>
-                  </div>
+                  <a
+                    [routerLink]="appRouter.Dashboard.Profile"
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-200 bg-neutral-800 rounded-md hover:bg-neutral-700 focus:outline-none w-full gap-2"
+                  >
+                    <p>My Account</p>
+                    <fa-icon [icon]="faUser"></fa-icon>
+                  </a>
                 </div>
                 <div class="px-2 py-1 text-sm text-gray-200">
                   @if (isLogin()) {

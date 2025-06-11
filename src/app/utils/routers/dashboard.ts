@@ -43,4 +43,11 @@ export class dashboardRoute {
     import('@app/pages/dashboard/news/new-detail/new-detail.component').then(
       (m) => m.NewDetailComponent
     );
+
+  // Profile
+  Profile = this.Layout + '/profile';
+  profileComponent = () =>
+    import('@app/pages/dashboard/profile/profile.component').then(
+      (m) => m.ProfileComponent
+    );
 }

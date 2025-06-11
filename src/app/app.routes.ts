@@ -47,6 +47,10 @@ export const routes: Routes = [
         path: AppRouter.Dashboard.NewDetail(''),
         loadComponent: AppRouter.Dashboard.newsDetailComponent,
       },
+      {
+        path: AppRouter.Dashboard.Profile,
+        loadComponent: AppRouter.Dashboard.profileComponent,
+      },
     ],
   },
   {

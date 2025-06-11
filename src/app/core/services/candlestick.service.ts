@@ -62,6 +62,7 @@ export class CandlestickService {
   updateCandlestick(candleData: string[][]) {
     if (!candleData || candleData.length === 0) return;
     const candle = candleData[0];
+
     const formattedData: CandlestickData = {
       time: (new Date(+candle[0]).getTime() / 1000) as Time,
       open: parseFloat(candle[1]),
@@ -69,6 +70,7 @@ export class CandlestickService {
       low: parseFloat(candle[3]),
       close: parseFloat(candle[4]),
     };
+
     const volumeData: HistogramData = {
       time: (new Date(+candle[0]).getTime() / 1000) as Time,
       value: parseFloat(candle[6]), // volume,
@@ -103,7 +105,6 @@ export class CandlestickService {
   setSubcribe(symbol: string, timeframe: subscribeChannelsCandleType = '1m') {
     this.symbol = symbol;
     this.timeframe = timeframe;
-    // this.connectWebSocket();
   }
 
   setTimer(interval: number) {
