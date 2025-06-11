@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@app/core/services';
 import { SelectLangComponent } from '@app/shared/components';
 import { ClickOutsideDirective } from '@app/shared/directives';
@@ -49,7 +49,7 @@ export class TopbarComponent {
 
   appRouter = AppRouter;
 
-  constructor(private service: AuthService) {
+  constructor(private service: AuthService, private router: Router) {
     this.checkScreenSize();
     this.service.isAuthenticated().subscribe((val) => {
       this.isLogin.set(val);
@@ -82,6 +82,11 @@ export class TopbarComponent {
 
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  onNavigated() {
+    this.router.navigate([this.appRouter.Dashboard.Profile]);
+    this.onClose();
   }
 
   onClose(): void {

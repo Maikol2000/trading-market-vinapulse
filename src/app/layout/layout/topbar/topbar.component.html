@@ -23,17 +23,17 @@
             <!-- Dropdown Menu -->
             <div
               *ngIf="isDropdownOpen"
-              class="absolute right-0 mt-2 w-max rounded-md shadow-lg bg-neutral-800 ring-1 ring-black ring-opacity-5"
+              class="absolute right-0 mt-2 w-max rounded-md shadow-lg bg-neutral-800"
             >
               <div role="menu">
                 <div class="px-2 py-1 text-sm text-gray-200">
-                  <a
-                    [routerLink]="appRouter.Dashboard.Profile"
+                  <button
+                    (click)="onNavigated()"
                     class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-200 bg-neutral-800 rounded-md hover:bg-neutral-700 focus:outline-none w-full gap-2"
                   >
                     <p>My Account</p>
                     <fa-icon [icon]="faUser"></fa-icon>
-                  </a>
+                  </button>
                 </div>
                 <div class="px-2 py-1 text-sm text-gray-200">
                   @if (isLogin()) {
@@ -66,7 +66,13 @@
 
       <!-- Mobile menu button -->
       <div class="xl:hidden flex items-center justify-between w-full">
-        <h1 class="text-xl font-bold text-blue-500">Logo</h1>
+        <img
+          src="assets/images/LogoVinapulse.png"
+          alt="Vina Pulse"
+          width="30"
+          height="30"
+          class="block"
+        />
         <button
           (click)="openMenu()"
           class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-blue-700 focus:outline-none"

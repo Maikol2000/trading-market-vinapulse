@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AppMenu } from '@app/utils/menu';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
+// import logoVinapulse from '@assets/images/LogoVinapulse.png';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,6 +14,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class SideBarComponent {
   menuItems = AppMenu;
+
+  // imgLogoVinaPulse = logoVinapulse;
 
   constructor(private router: Router) {}
 

@@ -17,17 +17,13 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": [
-      "ES2022",
-      "DOM"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "lib": ["ES2022", "DOM"],
+    "typeRoots": ["node_modules/@types"],
     "baseUrl": "./",
     "paths": {
       "@app/*": ["src/app/*"],
-      "@env/*": ["src/environments/*"]
+      "@env/*": ["src/environments/*"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "angularCompilerOptions": {
@@ -35,5 +31,6 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "include": ["src/**/*", "src/custom.d.ts"]
 }
