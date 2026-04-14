@@ -28,7 +28,7 @@ jobs:
         run: npm run build -- --configuration production --base-href=/${{ github.event.repository.name }}/
 
       - name: Copy index to 404 (fix reload lỗi)
-        run: cp dist/*/browser/index.html
+        run: cp dist/*/browser/index.html dist/*/browser/404.html || cp dist/*/index.html dist/*/404.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
