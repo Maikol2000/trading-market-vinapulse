@@ -27,11 +27,11 @@ jobs:
       - name: Build Angular
         run: npm run build -- --configuration production --base-href=/${{ github.event.repository.name }}/
 
-      - name: Copy index to 404 (fix reload lỗi)
-        run: cp dist/market-app-vinapulse/browser/index.html dist/market-app-vinapulse/browser/404.html || cp dist/market-app-vinapulse/index.html dist/market-app-vinapulse/404.html
+      - name: Copy index to 404
+        run: cp dist/market-app-vinapulse/index.html dist/market-app-vinapulse/404.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: main
-          folder: dist
+          folder: dist/market-app-vinapulse
