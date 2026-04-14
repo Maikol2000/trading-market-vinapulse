@@ -27,7 +27,7 @@
     "@ngx-translate/http-loader": "^16.0.1",
     "@primeng/themes": "^19.1.2",
     "@tailwindcss/postcss": "^4.0.17",
-    "devextreme": "^24.2.7",
+    "devextreme": "^25.2.6",
     "devextreme-angular": "^25.2.6",
     "firebase": "^11.7.3",
     "lightweight-charts": "^5.0.5",
