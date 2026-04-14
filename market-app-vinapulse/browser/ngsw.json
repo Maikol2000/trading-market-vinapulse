@@ -1,0 +1,135 @@
+{
+  "configVersion": 1,
+  "timestamp": 1776135730062,
+  "index": "/trading-market-vinapulse/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/trading-market-vinapulse/chunk-2S7AKH32.js",
+        "/trading-market-vinapulse/chunk-35RDY5OE.js",
+        "/trading-market-vinapulse/chunk-3SICJMHQ.js",
+        "/trading-market-vinapulse/chunk-3SPW33MT.js",
+        "/trading-market-vinapulse/chunk-4AL6SNPY.js",
+        "/trading-market-vinapulse/chunk-4BVBXDVO.js",
+        "/trading-market-vinapulse/chunk-4RCZCEDU.js",
+        "/trading-market-vinapulse/chunk-56NB3CQR.js",
+        "/trading-market-vinapulse/chunk-7BHTP3P4.js",
+        "/trading-market-vinapulse/chunk-B4CKEX7H.js",
+        "/trading-market-vinapulse/chunk-CNJIHIV6.js",
+        "/trading-market-vinapulse/chunk-CVL5VZIL.js",
+        "/trading-market-vinapulse/chunk-F2X3VGZZ.js",
+        "/trading-market-vinapulse/chunk-GGQ7LRWG.js",
+        "/trading-market-vinapulse/chunk-HLEV2LPK.js",
+        "/trading-market-vinapulse/chunk-KT3CPUTC.js",
+        "/trading-market-vinapulse/chunk-KWDI2EO5.js",
+        "/trading-market-vinapulse/chunk-NQ6HGCVG.js",
+        "/trading-market-vinapulse/chunk-PBZEB7ZE.js",
+        "/trading-market-vinapulse/chunk-Q6MH5UUU.js",
+        "/trading-market-vinapulse/chunk-RBB3F47O.js",
+        "/trading-market-vinapulse/chunk-RUBRUDPF.js",
+        "/trading-market-vinapulse/chunk-SCCHL6VE.js",
+        "/trading-market-vinapulse/chunk-SENG6M56.js",
+        "/trading-market-vinapulse/chunk-T7CTZOZQ.js",
+        "/trading-market-vinapulse/chunk-TBJQ2SUK.js",
+        "/trading-market-vinapulse/firebase-messaging-sw.js",
+        "/trading-market-vinapulse/index.html",
+        "/trading-market-vinapulse/main-FFI7D54A.js",
+        "/trading-market-vinapulse/manifest.webmanifest",
+        "/trading-market-vinapulse/polyfills-FFHMD2TL.js",
+        "/trading-market-vinapulse/styles-QYDQQBKP.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/trading-market-vinapulse/Logo Vinapulse.png",
+        "/trading-market-vinapulse/assets/images/LogoVinapulse.png",
+        "/trading-market-vinapulse/icons/icon-128x128.png",
+        "/trading-market-vinapulse/icons/icon-144x144.png",
+        "/trading-market-vinapulse/icons/icon-152x152.png",
+        "/trading-market-vinapulse/icons/icon-192x192.png",
+        "/trading-market-vinapulse/icons/icon-384x384.png",
+        "/trading-market-vinapulse/icons/icon-512x512.png",
+        "/trading-market-vinapulse/icons/icon-72x72.png",
+        "/trading-market-vinapulse/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/trading-market-vinapulse/Logo Vinapulse.png": "7f37221188c4dce49c948c0ff54ce591a1bddd11",
+    "/trading-market-vinapulse/assets/images/LogoVinapulse.png": "7f37221188c4dce49c948c0ff54ce591a1bddd11",
+    "/trading-market-vinapulse/chunk-2S7AKH32.js": "ac7bdfbd4e8c1d465e541385a7e9f0c41c2a2462",
+    "/trading-market-vinapulse/chunk-35RDY5OE.js": "5f70b219b337a9b38d04162b475341f01e466b46",
+    "/trading-market-vinapulse/chunk-3SICJMHQ.js": "c39263da1eda96abf4d51e89e50d146dbe8fcc7d",
+    "/trading-market-vinapulse/chunk-3SPW33MT.js": "e03d8cc838ae0faa691ae5ac5bb974be3ec419c1",
+    "/trading-market-vinapulse/chunk-4AL6SNPY.js": "cfd2cf65703ca647d1e284d6c50839b028b2ab57",
+    "/trading-market-vinapulse/chunk-4BVBXDVO.js": "31c81d803281f4db28b0432abb9f0cffa0b9f91b",
+    "/trading-market-vinapulse/chunk-4RCZCEDU.js": "3a167180d4bab92632b2630aaff2725014826ce9",
+    "/trading-market-vinapulse/chunk-56NB3CQR.js": "d705c2789b18eb1ff56c4b4e09c171a0bbe7b960",
+    "/trading-market-vinapulse/chunk-7BHTP3P4.js": "da8cd26e2c504efb7178ba5195be94f4d140138c",
+    "/trading-market-vinapulse/chunk-B4CKEX7H.js": "26c3f5e456c4155536161ddbda365a8d16393f9c",
+    "/trading-market-vinapulse/chunk-CNJIHIV6.js": "87d7f8f31bdbfd13165e181be80305d1232f22e8",
+    "/trading-market-vinapulse/chunk-CVL5VZIL.js": "96401f342aadb869bdc2b751feb7bbe43be1d901",
+    "/trading-market-vinapulse/chunk-F2X3VGZZ.js": "c579a1df6717c4fc81e69fe0110fd73b6d84889b",
+    "/trading-market-vinapulse/chunk-GGQ7LRWG.js": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+    "/trading-market-vinapulse/chunk-HLEV2LPK.js": "17efb47b459b8d99182c7e29cdf1d2ed721044b8",
+    "/trading-market-vinapulse/chunk-KT3CPUTC.js": "5aa31d222e4e12c6a5cfa2e5167a3ec71c6e2084",
+    "/trading-market-vinapulse/chunk-KWDI2EO5.js": "1de64660e7faaf5e71eb6fc18da2fbe6953c82fe",
+    "/trading-market-vinapulse/chunk-NQ6HGCVG.js": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+    "/trading-market-vinapulse/chunk-PBZEB7ZE.js": "9b1870f78599421454d0e2c00268dd392697177f",
+    "/trading-market-vinapulse/chunk-Q6MH5UUU.js": "2382fbcf0f9db5e0a3e071a71d37830e2345bc9b",
+    "/trading-market-vinapulse/chunk-RBB3F47O.js": "cbba6ce39c7d61d154af232053174fb8a5782914",
+    "/trading-market-vinapulse/chunk-RUBRUDPF.js": "8ea161a2c96d0dbc88d390890902d1c71de17771",
+    "/trading-market-vinapulse/chunk-SCCHL6VE.js": "7f26930c8e417691fc58c04b66b5f38fcaadb349",
+    "/trading-market-vinapulse/chunk-SENG6M56.js": "41026f766311ba293df7c84fe4fab1df68fce5c1",
+    "/trading-market-vinapulse/chunk-T7CTZOZQ.js": "e718a7f3ae0708dc462e17c686826697eb916f8e",
+    "/trading-market-vinapulse/chunk-TBJQ2SUK.js": "e17b83184e0cd670bdf4529767b9003ea3ab5905",
+    "/trading-market-vinapulse/firebase-messaging-sw.js": "88f47dd041e6e90cbc33b3beeda0f37801fbc3f1",
+    "/trading-market-vinapulse/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/trading-market-vinapulse/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/trading-market-vinapulse/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/trading-market-vinapulse/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/trading-market-vinapulse/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/trading-market-vinapulse/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/trading-market-vinapulse/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/trading-market-vinapulse/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/trading-market-vinapulse/index.html": "2a0f931c10861d3296a2a57d3c8d2258538f4f3f",
+    "/trading-market-vinapulse/main-FFI7D54A.js": "9b95a6068addf69899927072a19fb0a4c51d047f",
+    "/trading-market-vinapulse/manifest.webmanifest": "feaf7d25919a4a7a333f74d723ad4c3184ac4e56",
+    "/trading-market-vinapulse/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/trading-market-vinapulse/styles-QYDQQBKP.css": "55f14c79cc80cce5e241737dabf9cb8bb5711ccf"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
